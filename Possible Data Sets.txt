@@ -46,5 +46,14 @@ https://www.kaggle.com/datasnaek/chess
 Painting vs Photograph
 https://www.kaggle.com/iiplutocrat45ii/painting-vs-photograph-classification-dataset
 
+Wine tasting data that includes lcation and rating of wine as well as descriptions.
+https://www.kaggle.com/zynicide/wine-reviews
+
+MLB, NFL, NBA, NHL data
+https://www.kaggle.com/malayparmar/big4-sports-league-data
+
+MLB player stats 
+https://www.kaggle.com/akhilups/baseball-player-statistics
+
 
 
