@@ -23,3 +23,9 @@
 * Predict this years playoff bracket based off last 10 years of stats for each team. Final product would be to determine who would be playing in the playoffs and who is most likely to win. 
 * https://www.nhl.com/stanley-cup-playoffs
 
+
+* Website that has multiple tabs.
+1. showing predicted model of 2021 playoffs
+2. Dashboard (D3 or Leaflet) showing team stats from previous years (dropdown of teams that can be toggled through)
+
+
