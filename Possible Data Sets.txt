@@ -1,1 +1,59 @@
 
+
+Chess (King-Rook vs. King) Data Set
+https://archive.ics.uci.edu/ml/datasets/Chess+%28King-Rook+vs.+King%29
+
+ 	
+Chess (King-Rook vs. King-Knight)
+https://archive.ics.uci.edu/ml/datasets/Chess+%28King-Rook+vs.+King-Knight%29
+
+	
+Chess (King-Rook vs. King-Pawn)
+https://archive.ics.uci.edu/ml/datasets/Chess+%28King-Rook+vs.+King-Pawn%29
+
+Connect-4 Data Set
+https://archive.ics.uci.edu/ml/datasets/Connect-4
+
+Poker Hand Data Set
+Abstract: Purpose is to predict poker hands
+https://archive.ics.uci.edu/ml/datasets/Poker+Hand
+
+Tic-Tac-Toe Endgame Data Set
+Download: Data Folder, Data Set Description
+Abstract: Binary classification task on possible configurations of tic-tac-toe game
+https://archive.ics.uci.edu/ml/datasets/Tic-Tac-Toe+Endgame
+
+Bar Crawl: Detecting Heavy Drinking Data Set
+Download: Data Folder, Data Set Description
+Abstract: Accelerometer and transdermal alcohol content data from a college bar crawl. Used to predict heavy drinking episodes via mobile data.
+https://archive.ics.uci.edu/ml/datasets/Bar+Crawl%3A+Detecting+Heavy+Drinking
+
+Guitar Chords finger positions Data Set
+Download: Data Folder, Data Set Description
+Abstract: Position of the fingers for 2633 guitar chords in standard tuning (double checked with software)
+https://archive.ics.uci.edu/ml/datasets/Guitar+Chords+finger+positions
+
+As haiku data on the internet is scarce. To get a sufficient dataset, I have included some of the three-line English poems. This can train our model to have a poetry perspective as well. Haiku are generally of three lines. So the dataset contains only three-line poems only. I have included a source column in the dataset to know which one is an English haiku source or an English poem source.
+https://www.kaggle.com/hjhalani30/haiku-dataset
+
+Painter by Numbers
+Does every painter leave a fingerprint? 
+https://www.kaggle.com/c/painter-by-numbers/data
+
+Chess Game Dataset
+https://www.kaggle.com/datasnaek/chess
+
+Painting vs Photograph
+https://www.kaggle.com/iiplutocrat45ii/painting-vs-photograph-classification-dataset
+
+Wine tasting data that includes lcation and rating of wine as well as descriptions.
+https://www.kaggle.com/zynicide/wine-reviews
+
+MLB, NFL, NBA, NHL data
+https://www.kaggle.com/malayparmar/big4-sports-league-data
+
+MLB player stats 
+https://www.kaggle.com/akhilups/baseball-player-statistics
+
+
+
