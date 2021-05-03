@@ -1,7 +1,7 @@
 # Final-Project
 ## NHL Data Set ##
-https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv (Kaggle)
-https://www.quanthockey.com/nhl/team-game-logs/chicago-blackhawks-2016-17-nhl-game-log.html (QuantHockey)
+* https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv (Kaggle)
+* https://www.quanthockey.com/nhl/team-game-logs/chicago-blackhawks-2016-17-nhl-game-log.html (QuantHockey)
 ## Time Line ##
 * **Saturday 5/1** --> Each add 1-2 possible datasets to file (All)
 *  **Monday 5/3** --> Load into Database (Ben)
