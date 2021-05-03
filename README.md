@@ -1,8 +1,9 @@
 # Final-Project
 ## NHL Data Set ##
-https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv
+https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv (Kaggle)
+https://www.quanthockey.com/nhl/team-game-logs/chicago-blackhawks-2016-17-nhl-game-log.html (QuantHockey)
 ## Time Line ##
-* Saturday 5/1 --> Each add 1-2 possible datasets to file
+* **Saturday 5/1** --> Each add 1-2 possible datasets to file (All)
 *  **Monday 5/3** --> Load into Database (Ben)
 * **Monday 5/3** --> Break down Game CSV into individual teams and years. Add column for whether or not they made it to the playoffs that year. The last 10 games of each year (Andrew)
 * **Wednesday 5/5** --> Load Data into Database using Amazon AWS, SQL Server (Ben, Melissa)
@@ -19,6 +20,6 @@ https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv
 * Use CSV from Kaggle to train model. Use current Data for this year as Test data to determine what next years final teams would be.
 
 ## Goal ## 
-* Predict this years playoff bracket based off last 10 years of stats for each team. Final product would be to determine who would be playing in the playoffs adn who is most likely to win. 
+* Predict this years playoff bracket based off last 10 years of stats for each team. Final product would be to determine who would be playing in the playoffs and who is most likely to win. 
 * https://www.nhl.com/stanley-cup-playoffs
-* https://files.slack.com/files-pri/T01DC7M1XQE-F020RHV0GSW/image.png
+
