@@ -30,7 +30,8 @@
 
 
 * Website that has multiple tabs.
-1. showing predicted model of what players should play what positions using K-Means clustering. 
+1. showing predicted model of what players should play what positions using K-Means clustering. User selection to determine what features they want to use in the model
 2. Bubble graph with one x(time on ice) and multiple Y(Assists, shots, goals, +-, Block Shots). 
+3. Drop down table with player names, that show player stats when chosen...?
 
 
