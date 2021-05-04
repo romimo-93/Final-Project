@@ -1,5 +1,6 @@
 # Final-Project
 ## NHL Data Set ##
+* google Doc: https://docs.google.com/document/d/1yXzmSaR8Q2uJT9VKhv3R9BpfZTpPVWzggpWvTz5DTS4/edit
 * https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv (Kaggle)
 * https://www.quanthockey.com/nhl/team-game-logs/chicago-blackhawks-2016-17-nhl-game-log.html (QuantHockey)
 ## Time Line ##
