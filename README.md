@@ -20,7 +20,7 @@
 * Use CSV from Kaggle to train model. Use current Data for this year as Test data to determine what next years final teams would be.
 
 ## Goal ## 
-* Predict this years playoff bracket based off last 10 years of stats for each team. Final product would be to determine who would be playing in the playoffs and who is most likely to win. 
+* Try and predict what position a player should play based on K means clustering of time on ice and other features.  
 * https://www.nhl.com/stanley-cup-playoffs
 
 
