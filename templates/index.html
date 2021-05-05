@@ -1,15 +1,126 @@
-<!doctype html>
-<html>
-  <head>
-    <title>ML NHL | Machine Learning NHL</title>
-  </head>
-  <body>
-    <ul>
-      <li>This is the index page (add bootstrap template later)</li>
-      <li>Available Routes
-        <ul><a href='api/data' target="_blank">/api/data</a></ul>
-        <ul><a href='api/seasons' target="_blank">/api/seasons</a></ul>
-      </li>
-    </ul>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ML NHL | Machine Learning NHL</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">  
+  
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <!-- =======================================================
+  * Template Name: iPortfolio - v3.0.1
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/d3Style.css') }}">
+
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile" style="margin: 20px;">
+        <h1 class="text-light"><a href="/">Machine Learning NHL</a></h1>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="#scatter" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>        
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Machine Learning NHL</h2>
+          <p>loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas </p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+          </div>
+         
+          <ul>
+            <li>This is the index page (add different bootstrap template later)</li>
+            <li>Available Routes
+              <ul><a href='api/data' target="_blank">/api/data</a></ul>
+              <ul><a href='api/seasons' target="_blank">/api/seasons</a></ul>
+              <ul><a href='api/playerstats/20192020!null!100' target="_blank">/api/playerstats/20192020!player_id!limit</a></ul>
+              
+            </li>
+          </ul>
+
+            <h3>D3 Dabbler</h3>
+            <p>
+              Scatter plot created to show relationship between pairs of the data variables.
+            </p>
+
+            <div id="scatter">
+              <!-- We append our chart here. -->
+            </div>
+            
+            <h3>Observations</h3>
+            <p>
+             <ul>
+              <li></li>             
+            </ul>
+            </p>
+
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      
+    </div>
+  </footer><!-- End  Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+  <!-- Vendor JS Files -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+
+</body>
+
 </html>

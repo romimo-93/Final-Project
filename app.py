@@ -40,6 +40,25 @@ def MF_SQL(p_SQL):
     conn.close()
     return rows
 
+def MF_SQL_List(p_SQL):
+    conn = podbc.connect(config.sql_conn)
+    cursor = conn.cursor()    
+    cursor.execute(p_SQL)
+    data = cursor.fetchone()
+    rows = []
+    num_fields = len(cursor.description)
+    field_names = [i[0] for i in cursor.description]
+    print(num_fields,field_names)
+    while data:            
+        rows.append(data[0])                                                
+        data = cursor.fetchone()
+    
+    conn.close()
+    dict = {}
+    dict["list"] = rows
+    return dict
+
+
 
 
 # create route that renders index.html template
@@ -54,8 +73,31 @@ def data():
 
 @app.route("/api/seasons")
 def seasons():
-    results = MF_SQL("select distinct cast(season as numeric) from game order by cast(season as numeric) desc")
-    return jsonify(results)    
+    results = MF_SQL_List("select distinct season from game order by season desc")
+    return jsonify(results)
+
+
+@app.route("/api/playerstats/<season>!<player_id>!<limit>")
+def daterequested(season, player_id, limit):    
+    season_int = 20192020
+    limit_int = 100
+    try:
+        season_int = int(season)    
+        limit_int = int(limit)    
+    except ValueError:
+        # Handle the exception
+        "Invalid Year"    
+    results = {}
+
+    limit_string = ""
+    if limit_int > 0:
+        limit_string = "TOP " + str(limit_int) + " "
+    
+    if season_int > 0:
+        results = MF_SQL("SELECT " + limit_string + " game.season, game_skater_stats.game_id, player_id, dbo.skater_val(player_id,'Name') as PlayerName, dbo.skater_val(player_id,'Position') as Position, team_id, timeOnIce, assists, goals, shots,hits,powerPlayGoals,powerPlayAssists,penaltyMinutes, faceOffWins,faceoffTaken,takeaways,giveaways,shortHandedGoals,shortHandedAssists,blocked,plusMinus,evenTimeOnIce,shortHandedTimeOnIce,powerPlayTimeOnIce FROM game_skater_stats left join game on game_skater_stats.game_id = game.game_id where season = " + str(season_int))
+
+    return jsonify(results)          
+
 
 if __name__ == '__main__':    
     app.run(debug=True)
