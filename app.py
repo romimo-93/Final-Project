@@ -49,16 +49,13 @@ def home():
 
 @app.route("/api/data")
 def data():
-    results = MF_SQL("SELECT top 2000 player_id,goals,penaltyMinutes FROM game_skater_stats")
+    results = MF_SQL("SELECT top 2000 player_id,goals,timeOnIce,penaltyMinutes FROM game_skater_stats")
     return jsonify(results)    
 
-# @app.route("/api/cdSummary/<district>")
-# def cdSummary(district):
-#     filter= {"district":int(district)}
-
-#     results = json.loads(dumps(collection_summary.find(filter=filter)))
-
-#     return jsonify(results)
+@app.route("/api/seasons")
+def seasons():
+    results = MF_SQL("select distinct cast(season as numeric) from game order by cast(season as numeric) desc")
+    return jsonify(results)    
 
 if __name__ == '__main__':    
     app.run(debug=True)
