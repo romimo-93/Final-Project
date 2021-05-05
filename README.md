@@ -20,7 +20,11 @@
 ## Questions to Answer ##
 1. Can a players position be determined based on previous time on how successful they are while on the ice, and what theya re successful at?
 2. Do players have similarities that can be correlated to a third variable?
-3. 
+3. Can you predict player current category based on their first 5 rookie years?
+
+Data Exploration
+1. Player category/performance over time, comparison year over year 
+
 
 ## Training vs Test ##
 * Use CSV from Kaggle to train model. Use current Data for this year as Test data to determine what positions players would be most successful in.
