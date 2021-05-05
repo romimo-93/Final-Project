@@ -1,5 +1,3 @@
-# IF USING ATLAS (CLOUD) THE CONNECTION STRING IS AS FOLLOWS
-
 username="<username>"
 password="<password>"
 host="<host>"
