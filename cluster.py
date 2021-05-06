@@ -1,6 +1,7 @@
 # Import dependencies
 import matplotlib.pyplot as plt
 import mpld3
+import pandas as pd
 import numpy as np
 
 from sklearn.cluster import KMeans
@@ -24,8 +25,6 @@ def cluster(data, xaxis, yaxis):
     ax.set_title(f"Average per Game - {xaxis} vs. {yaxis}")
     ax.set_xlabel(xaxis)
     ax.set_ylabel(yaxis)
-    fig_html = mpld3.fig_to_html(fig)
-
-    print(fig_html)
+    fig_html = mpld3.fig_to_html(fig, d3_url="https://d3js.org/d3.v5.min.js")
 
     return fig_html
