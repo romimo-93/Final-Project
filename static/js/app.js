@@ -116,7 +116,7 @@ function populateDabbler() {
 
   /* data route */
   // Retrieve data from the json api and execute everything below
-  const url = "api/aggplayerstats/"
+  const url = "api/avgplayerstats/"
   console.log(url);
 
   d3.json(url).then(function(response, err) {  
