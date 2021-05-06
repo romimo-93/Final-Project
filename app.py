@@ -4,8 +4,8 @@ from src import config
 import json
 import requests
 import pyodbc as podbc
-# from flask_cors import CORS
 from cluster import cluster
+
 
 #################################################
 # Flask Setup
@@ -130,6 +130,13 @@ def aggplayerstats():
     sql = "select * from dbo.aggplayerstats"
     results = MF_SQL(sql)
     return jsonify(results)
+
+@app.route("/api/avgplayerstats/")
+def avgplayerstats():
+    sql = "select * from dbo.avgplayerstats"
+    results = MF_SQL(sql)
+    return jsonify(results)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
