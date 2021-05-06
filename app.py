@@ -101,7 +101,6 @@ def daterequested(season, player_id, limit):
 
     return jsonify(results)
 
-
 @app.route("/api/playerinfo/<player_id>")
 def playerinfo(player_id):
     results = {}
@@ -123,7 +122,6 @@ def aggplayerstats():
     sql = "select * from dbo.aggplayerstats"
     results = MF_SQL(sql)
     return jsonify(results)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
