@@ -24,8 +24,8 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Initial Params
-var chosenXAxis = "timeOnIce";
-var chosenYAxis = "goals";
+var chosenXAxis = "goals";
+var chosenYAxis = "timeOnIce";
 
 
 function xScale(data, chosenXAxis) {
@@ -111,14 +111,13 @@ function populateDabbler() {
   // Assign the value of the dropdown menu option to a variable
   //var year = CB_Year.node().value;
 
-  season = "20192020"
-  console.log(season);
+  // season = "20192020"
+  // console.log(season);
 
   /* data route */
   // Retrieve data from the json api and execute everything below
-  const url = "api/playerstats/" + season + "!null!50000"
+  const url = "api/aggplayerstats/"
   console.log(url);
-  // d3.csv("./assets/data/data.csv").then(function(data, err) {
 
   d3.json(url).then(function(response, err) {  
     if (err) throw err;    
@@ -202,20 +201,20 @@ function populateDabbler() {
       .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
     var xLabelSpacer = 25;
-    var goalsLabel = xLabelsGroup.append("text")
+    var goalsxLabel = xLabelsGroup.append("text")
       .attr("value", "goals") // value to grab for event listener
       .classed("axis-text", true)
       .classed("active", true)
       .text("Goals Scored")
       .attr("y", xLabelSpacer)
   
-    var evenTimeOnIceLabel = xLabelsGroup.append("text")
+    var evenTimeOnIcexLabel = xLabelsGroup.append("text")
       .attr("value", "evenTimeOnIce") // value to grab for event listener
       .classed("inactive", true)
       .text("Even Time on Ice (min)")
       .attr("y", xLabelSpacer * 2)
     
-    var shortHandedTimeOnIceLabel = xLabelsGroup.append("text")
+    var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
       .attr("value", "shortHandedTimeOnIce") // value to grab for event listener
       .classed("inactive", true)
       .text("Short Handed Time On Ice (min)")
@@ -227,16 +226,16 @@ function populateDabbler() {
 
     // append y axis
     var yLabelSpacer = 25;
-    var timeOnIceLabel = yLabelsGroup.append("text")
+    var timeOnIceyLabel = yLabelsGroup.append("text")
       .attr("value", "timeOnIce") // value to grab for event listener
       .attr("y", 0 - 30 - yLabelSpacer)
       // .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .classed("active", true)
       .classed("axis-text", true)
-      .text("Time On Ice (min)");
+      .text("Time on Ice (min)");
 
-    var powerPlayTimeOnIceLabel = yLabelsGroup.append("text")
+    var powerPlayTimeOnIceyLabel = yLabelsGroup.append("text")
       .attr("value", "powerPlayTimeOnIce") // value to grab for event listener
       .attr("y", 0 - 30 - yLabelSpacer*2)
       // .attr("x", 0 - (height / 2))
@@ -245,7 +244,7 @@ function populateDabbler() {
       .classed("axis-text", true)
       .text("Power Play Time On Ice (min)");          
 
-    var penaltyMinutesLabel = yLabelsGroup.append("text")
+    var penaltyMinutesyLabel = yLabelsGroup.append("text")
       .attr("value", "penaltyMinutes") // value to grab for event listener
       .attr("y", 0 - 30 - yLabelSpacer*3)
       // .attr("x", 0 - (height / 2))
@@ -278,29 +277,29 @@ function populateDabbler() {
           // updates tooltips with new info
           labelsGroup = updateText(circleLabels,xLinearScale,yLinearScale,chosenXAxis, chosenYAxis);
   
-          goalsLabel
+          goalsxLabel
             .classed("active", false)
             .classed("inactive", true);
-          evenTimeOnIceLabel
+          evenTimeOnIcexLabel
             .classed("active", false)
             .classed("inactive", true);
-          shortHandedTimeOnIceLabel
+          shortHandedTimeOnIcexLabel
             .classed("active", false)
             .classed("inactive", true);
               
           // changes classes to change bold text
           if (chosenXAxis === "goals") {
-            goalsLabel
+            goalsxLabel
               .classed("active", true)
               .classed("inactive", false);
           }
           else if (chosenXAxis === "evenTimeOnIce") {
-            evenTimeOnIceLabel
+            evenTimeOnIcexLabel
               .classed("active", true)
               .classed("inactive", false);
           }       
           else if (chosenXAxis === "shortHandedTimeOnIce") {
-            shortHandedTimeOnIceLabel
+            shortHandedTimeOnIcexLabel
               .classed("active", true)
               .classed("inactive", false);
           }      
@@ -331,29 +330,29 @@ function populateDabbler() {
          // updates tooltips with new info
          labelsGroup = updateText(circleLabels, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
  
-         powerPlayTimeOnIceLabel
+         powerPlayTimeOnIceyLabel
            .classed("active", false)
            .classed("inactive", true);
-         timeOnIceLabel
+         timeOnIceyLabel
            .classed("active", false)
            .classed("inactive", true);
-         penaltyMinutesLabel
+         penaltyMinutesyLabel
            .classed("active", false)
            .classed("inactive", true);
 
          // changes classes to change bold text
          if (chosenYAxis === "powerPlayTimeOnIce") {
-          powerPlayTimeOnIceLabel
+          powerPlayTimeOnIceyLabel
              .classed("active", true)
              .classed("inactive", false);
          }
          else if (chosenYAxis === "timeOnIce") {
-          timeOnIceLabel
+          timeOnIceyLabel
              .classed("active", true)
              .classed("inactive", false);
          }       
          else if (chosenYAxis === "penaltyMinutes") {
-          penaltyMinutesLabel
+          penaltyMinutesyLabel
              .classed("active", true)
              .classed("inactive", false);
          }         
