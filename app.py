@@ -1,11 +1,11 @@
 # import necessary libraries
-
 from flask import (Flask, render_template, jsonify, request, redirect)
 from src import config
 import json
 import requests
 import pyodbc as podbc
 # from flask_cors import CORS
+from cluster import cluster
 
 #################################################
 # Flask Setup
@@ -60,11 +60,19 @@ def MF_SQL_List(p_SQL):
 
     return dict
 
+def clusterData(xaxis, yaxis):
+    results = MF_SQL(f"SELECT * FROM dbo.avgplayerstats")
+    cluster_data = []
+    for player in results:
+        cluster_data.append([player[xaxis],player[yaxis]])
+    fig = cluster(cluster_data, xaxis, yaxis)
+    return fig
 
 # create route that renders index.html template
 @app.route("/")
 def home():
-    return render_template("index.html")
+    fig = clusterData("shots", "goals")
+    return render_template("index.html", fig=fig)
 
 
 @app.route("/api/data")
