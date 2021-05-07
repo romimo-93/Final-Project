@@ -20,6 +20,7 @@ def cluster(data, xaxis, yaxis):
     kmeans.fit(X_scaled)
     predicted_clusters = kmeans.predict(X_scaled)
     
+    # Generate plot and store as HTML
     fig, ax = plt.subplots()
     ax.scatter(X[:,0], X[:,1], c=predicted_clusters, s=5, cmap="viridis")
     ax.set_title(f"Average per Game - {xaxis} vs. {yaxis}")
