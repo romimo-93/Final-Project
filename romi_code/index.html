@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Forms</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css"
+    />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.0.0/math.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form id="form">
+            <div class="form-group">
+              <label for="patient-form">Filter By Season</label>
+              <input
+                class="form-control"
+                id="season-form-input"
+                name="season-form"
+                type="text"
+                placeholder="20152016"
+              />
+            </div>
+            <button id="button" type="button" class="btn btn-default">
+              Enter
+            </button>
+          </form>
+          <form id="teamform">
+            <div class="form-group">
+              <label for="patient-form">Filter By Team</label>
+              <input
+                class="form-control"
+                id="team-form-input"
+                name="team-form"
+                type="text"
+                placeholder="Red Wings"
+              />
+            </div>
+            <button id="teambutton" type="button" class="btn btn-default">
+              Enter
+            </button>
+          </form>
+          <form id="playerform">
+            <div class="form-group">
+              <label for="patient-form">Filter By Player</label>
+              <input
+                class="form-control"
+                id="player-form-input"
+                name="player-form"
+                type="text"
+                placeholder="Pavel Datsyuk"
+              />
+            </div>
+            <button id="playerbutton" type="button" class="btn btn-default">
+              Enter
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Filtered Data Summary</h1>
+          <table id="ufo-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th class="table-head">Season</th>
+                <th class="table-head">Assists</th>
+                <th class="table-head">Goals</th>
+                <th class="table-head">Hits</th>
+                <th class="table-head">Team Name</th>
+                <th class="table-head">Full Name</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="final_dropdown_list_3.js"></script>
+  <script src="table.js"></script>
+</html>
