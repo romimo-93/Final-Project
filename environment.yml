@@ -1,0 +1,13 @@
+name: nhl-app
+channels:
+  - javascript
+dependencies:
+  - python=3.8.5
+  - flask
+  - mpld3
+  - requests
+  - pyodbc
+  - pandas
+  - matplotlib
+  - numpy
+  - scikit-learn
