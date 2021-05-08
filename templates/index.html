@@ -1,126 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>ML NHL | Machine Learning NHL</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
-  <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">  
-  
-  <!-- Template Main CSS File -->
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-  <!-- =======================================================
-  * Template Name: iPortfolio - v3.0.1
-  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/d3Style.css') }}">
-
-</head>
-
-<body>
-
-  <!-- ======= Mobile nav toggle button ======= -->
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
-
-  <!-- ======= Header ======= -->
-  <header id="header">
-    <div class="d-flex flex-column">
-
-      <div class="profile" style="margin: 20px;">
-        <h1 class="text-light"><a href="/">Machine Learning NHL</a></h1>
-      </div>
-
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-          <li><a href="#scatter" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>        
-        </ul>
-      </nav><!-- .nav-menu -->
-    </div>
-  </header><!-- End Header -->
-
-  <main id="main">
-
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ML NHL | Machine Learning NHL</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico')}}" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/>
+    <!-- CSS -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    
+  </head>
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-
-        <div class="section-title">
-          <h2>Machine Learning NHL</h2>
-          <p>loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas loreme asldfkas </p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-          </div>
-         
-          <ul>
-            <li>This is the index page (add different bootstrap template later)</li>
-            <li>Available Routes
-              <ul><a href='api/data' target="_blank">/api/data</a></ul>
-              <ul><a href='api/seasons' target="_blank">/api/seasons</a></ul>
-              <ul><a href='api/playerstats/20192020!null!100' target="_blank">/api/playerstats/20192020!player_id!limit</a></ul>
-              <ul><a href='api/playerinfo/8444919' target="_blank">/api/playerinfo/player_id</a></ul>
-              <ul><a href='api/players' target="_blank">/api/players</a></ul>
-              <ul><a href='api/aggplayerstats' target="_blank">/api/aggplayerstats</a></ul>
-              <ul><a href='api/avgplayerstats' target="_blank">/api/avgplayerstats</a></ul>
-              <ul><a href='api/aggplayerstats/8444894' target="_blank">/api/aggplayerstats/player_id</a></ul>
-              <ul><a href='api/avgplayerstats/8444894' target="_blank">/api/avgplayerstats/player_id</a></ul>
-              <ul><a href='api/teaminfo' target="_blank">/api/teaminfo</a></ul>
-              <ul><a href='api/seasonTeamPlayers/20182019/10' target="_blank">/api/seasonTeamPlayers/season/team_id</a></ul>              
-              <ul><a href='api/seasonTeams/20182019/' target="_blank">/api/seasonTeamPlayers/season</a></ul>                            
-
-              <ul><a href='cluster' target="_blank">/cluster</a></ul>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Home</a>
+        <button
+          class="navbar-toggler navbar-toggler-right"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#dabbler">Dabbler</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#cluster">Cluster</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#player">Player</a>
             </li>
           </ul>
-
-            <h4>D3 Dabbler</h4>
-            <p>
-              Scatter plot created to show relationship between pairs of the data variables.
+        </div>
+      </div>
+    </nav>
+    <!-- Masthead-->
+    <header class="masthead">
+      <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+          <h1 class="mx-auto my-0 text-uppercase">Machine Learning NHL</h1>
+          <h2 class="text-white-50 mx-auto mt-2 mb-5">
+            INSERT TEXT HERE
+          </h2>
+          <a class="btn btn-primary js-scroll-trigger" href="#about">Get Started</a>
+        </div>
+      </div>
+    </header>
+    <!-- About-->
+    <section class="about-section text-center" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2 class="text-white mb-4">Project Overview</h2>
+            <p class="text-white-50">
+              TEXT ABOUT THE PROJECT HERE
             </p>
+            <ul>
+              <li>This is the index page (add different bootstrap template later)</li>
+              <li>Available Routes
+                <ul><a href='api/data' target="_blank">/api/data</a></ul>
+                <ul><a href='api/seasons' target="_blank">/api/seasons</a></ul>
+                <ul><a href='api/playerstats/20192020!null!100' target="_blank">/api/playerstats/20192020!player_id!limit</a></ul>
+                <ul><a href='api/playerinfo/8444919' target="_blank">/api/playerinfo/player_id</a></ul>
+                <ul><a href='api/players' target="_blank">/api/players</a></ul>
+                <ul><a href='api/aggplayerstats' target="_blank">/api/aggplayerstats</a></ul>
+                <ul><a href='api/avgplayerstats' target="_blank">/api/avgplayerstats</a></ul>
+                <ul><a href='api/aggplayerstats/8444894' target="_blank">/api/aggplayerstats/player_id</a></ul>
+                <ul><a href='api/avgplayerstats/8444894' target="_blank">/api/avgplayerstats/player_id</a></ul>
+                <ul><a href='api/teaminfo' target="_blank">/api/teaminfo</a></ul>
+                <ul><a href='api/seasonTeamPlayers/20182019/10' target="_blank">/api/seasonTeamPlayers/season/team_id</a></ul>              
+                <ul><a href='api/seasonTeams/20182019/' target="_blank">/api/seasonTeamPlayers/season</a></ul>                            
+  
+                <ul><a href='cluster' target="_blank">/cluster</a></ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Projects-->
+    <section class="projects-section bg-dark" id="dabbler">
+      <div class="container">
 
-            <h3 style="text-align: center;width: 100%;">Total Aggregated Statistics grouped by Player</h3>
+        <!-- Dabbler-->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="bg-black text-center h-100 project col-xl-4 col-lg-5">
+            <div class="project-text w-100 my-auto text-center text-lg-left">
+              <h4 class="text-white">D3 Dabbler</h4>
+              <p class="mb-0 text-white-50">
+                Scatter plot created to show relationship between pairs of the data variables.
+              </p>
+              <hr class="d-none d-lg-block mb-0 ml-0" />
+            </div>
+          </div>
+          <h3 style="text-align: center;width: 100%;">Total Aggregated Statistics grouped by Player</h3>
             <div id="scatter">
               <!-- We append our chart here. -->
             </div>
+        </div>
+      
+      </div>
+    </section>
 
+    <section class="projects-section bg-light" id="cluster">
+      <div class="container">
+
+        <!-- Cluster -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-8 col-lg-7">
             <h3>Clustering</h3>
             <div id="cluster">{{ fig|safe }}</div>
-            
-            <h3>Observations</h3>
-            <p>
-             <ul>
-              <li></li>             
-            </ul>
-            </p>
-
+          </div>
+          <div class="bg-black text-center h-100 project col-xl-4 col-lg-5">
+              <div class="project-text w-100 my-auto text-center text-lg-left">
+                <h4 class="text-white">Cluster</h4>
+                <p class="mb-0 text-white-50">
+                  TEXT ABOUT CLUSTER
+                </p>
+                <hr class="d-none d-lg-block mb-0 ml-0" />
+              </div>
+          </div>
         </div>
-
+        
       </div>
-    </section><!-- End About Section -->
+    </section>
 
-
-
-
-
-    <!-- ======= Player Section ======= -->
     <section id="player" class="player">
       <div class="container">
     
@@ -186,30 +204,73 @@
 
 
   </div>
-</section><!-- Player About Section -->
+</section>
 
+    <section class="contact-section bg-black">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-3 mb-3 mb-md-0">
+                  <div class="card py-4 h-100">
+                      <div class="card-body text-center">
+                          <i class="fas fa-lightbulb text-primary mb-2"></i>
+                          <h4 class="text-uppercase m-0">Melissa Monroe</h4>
+                          <hr class="my-4" />
+                          <div class="small text-black-50">San Diego, CA</div>
+                          <a class="mx-2" href="https://github.com/melissamonroe"><i class="fab fa-github"></i></a>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-3 mb-3 mb-md-0">
+                <div class="card py-4 h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-lightbulb text-primary mb-2"></i>
+                        <h4 class="text-uppercase m-0">Ben Galde</h4>
+                        <hr class="my-4" />
+                        <div class="small text-black-50">San Diego, CA</div>
+                        <a class="mx-2" href="https://github.com/bgalde-dev"><i class="fab fa-github"></i></a>
+                        <a class="mx-2" href="https://www.linkedin.com/in/ben-galde-910b211/"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3 mb-md-0">
+              <div class="card py-4 h-100">
+                  <div class="card-body text-center">
+                      <i class="fas fa-crown text-primary mb-2"></i>
+                      <h4 class="text-uppercase m-0">Romi Sinnigen</h4>
+                      <hr class="my-4" />
+                      <div class="small text-black-50">San Diego, CA</div>
+                      <a class="mx-2" href="https://github.com/romimo-93"><i class="fab fa-github"></i></a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-3 mb-3 mb-md-0">
+            <div class="card py-4 h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-star text-primary mb-2"></i>
+                    <h4 class="text-uppercase m-0">Andrew Baker</h4>
+                    <hr class="my-4" />
+                    <div class="small text-black-50">Baltimore, MD</div>
+                    <a class="mx-2" href="https://github.com/abaker178"><i class="fab fa-github"></i></a>
+                    <a class="mx-2" href="https://www.linkedin.com/in/abaker178/"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+          </div>
+      </div>
+  </section>
+    <!-- Footer-->
+    <footer class="footer bg-black small text-center text-white-50">
+      <div class="container">UCSD Data Bootcamp Final Project 2021</div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{{ url_for('static', filename='js/website.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
 
-
-
-    
-  </main><!-- End #main -->
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      
-    </div>
-  </footer><!-- End  Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-
-  <!-- Vendor JS Files -->
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
-
-
-</body>
-
+  </body>
 </html>
