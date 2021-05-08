@@ -156,5 +156,12 @@ def seasonTeamPlayers(season, team_id):
     results = MF_SQL(sql)
     return jsonify(results)
 
+@app.route("/api/seasonTeams/<season>")
+def seasonTeams(season):
+    sql = "select distinct team_id,dbo.team_val(team_id, 'Name') AS TeamName from game_skater_stats where game_id in (select game_id from game where season = " + season + ") order by TeamName"
+    results = MF_SQL(sql)
+    return jsonify(results)
+    
+
 if __name__ == '__main__':
     app.run(debug=True)

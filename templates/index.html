@@ -85,6 +85,8 @@
               <ul><a href='api/avgplayerstats/8444894' target="_blank">/api/avgplayerstats/player_id</a></ul>
               <ul><a href='api/teaminfo' target="_blank">/api/teaminfo</a></ul>
               <ul><a href='api/seasonTeamPlayers/20182019/10' target="_blank">/api/seasonTeamPlayers/season/team_id</a></ul>              
+              <ul><a href='api/seasonTeams/20182019/' target="_blank">/api/seasonTeamPlayers/season</a></ul>                            
+
               <ul><a href='cluster' target="_blank">/cluster</a></ul>
             </li>
           </ul>
@@ -128,24 +130,31 @@
 
     </div>
 
-    <div class="row">
-      <div id="player_headshot" class="col-lg-3" data-aos="fade-right">
-        
-      </div>
-      <div class="col-lg-9 pt-4 pt-lg-0 content" data-aos="fade-left">
+    <div class="row">   
+      <div class="col-lg-2 pt-4 pt-lg-0 content" class="col-lg-3">
+        <div id="player_headshot"></div>
+
+      </div>                 
+      <div class="col-lg-10 pt-4 pt-lg-0 content" data-aos="fade-left">
 
         <div>
-          <select id="selSeason">
-          </select>
-      
-          <select id="selTeam">
-          </select>
-      
-          <select id="selPlayer">
-          </select>
+          <p>
+            <select id="selSeason">
+            </select>
+        
+            <select id="selTeam">
+            </select>
+        
+            <select id="selPlayer">
+            </select>
+        </p>
       </div>
 
+        <div id="player_action">          
+        </div>
+        
         <h3>Player Name (name number)</h3>
+
         <p class="fst-italic">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua.
