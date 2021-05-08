@@ -1,4 +1,3 @@
-d3.selectAll("body").on("change", populateDashboard);
 d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
 d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
 
@@ -103,8 +102,18 @@ function renderYAxes(newYScale, yAxis) {
     return circleLabels;
 }
 
+let dabblerData = getDabblerData();
 
+function getDabblerData() {
+  const url = "api/aggplayerstats/null"
+  console.log(url);
 
+  var data = d3.json(url).then(function(response, err) {  
+    if (err) throw err;            
+    return response;
+  });
+  return data
+}
 
 
 function populateDabbler() {
@@ -120,12 +129,18 @@ function populateDabbler() {
 
   /* data route */
   // Retrieve data from the json api and execute everything below
-  const url = "api/aggplayerstats/null"
-  console.log(url);
 
-  d3.json(url).then(function(response, err) {  
-    if (err) throw err;    
-    const data = response;
+
+  // d3.json(url).then(function(response, err) {  
+  //   if (err) throw err;    
+  if (!dabblerData) {
+    console.log("getDabblerData")
+    getDabblerData()
+
+  }
+  dabblerData.then(function(data) {
+    console.log(data);
+
     console.log(data[0]);
     console.log([data].length);
 
@@ -210,19 +225,19 @@ function populateDabbler() {
       .attr("value", "shots") // value to grab for event listener
       .classed("axis-text", true)
       .classed("active", true)
-      .text("Shots Taken")
+      .text("Total Shots Taken")
       .attr("y", xLabelSpacer)
   
     var hitsxLabel = xLabelsGroup.append("text")
       .attr("value", "hits") // value to grab for event listener
       .classed("inactive", true)
-      .text("Hits")
+      .text("Total Hits")
       .attr("y", xLabelSpacer * 2)
     
     var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
       .attr("value", "shortHandedTimeOnIce") // value to grab for event listener
       .classed("inactive", true)
-      .text("Short Handed Time On Ice (min)")
+      .text("Total Short Handed Time On Ice (min)")
       .attr("y", xLabelSpacer * 3)  
 
      var yLabelsGroup = chartGroup.append("g")
@@ -238,7 +253,7 @@ function populateDabbler() {
     .attr("dy", "1em")
     .classed("active", true)
     .classed("axis-text", true)
-    .text("Goals Scored");          
+    .text("Total Goals Scored");          
 
     var timeOnIceyLabel = yLabelsGroup.append("text")
       .attr("value", "timeOnIce") // value to grab for event listener
@@ -246,7 +261,7 @@ function populateDabbler() {
       .attr("dy", "1em")
       .classed("inactive", true)
       .classed("axis-text", true)
-      .text("Time on Ice (min)");
+      .text("Total Time on Ice (min)");
 
 
     var penaltyMinutesyLabel = yLabelsGroup.append("text")
@@ -255,7 +270,7 @@ function populateDabbler() {
       .attr("dy", "1em")
       .classed("inactive", true)
       .classed("axis-text", true)
-      .text("Penalty Minutes");           
+      .text("Total Penalty Minutes");           
 
     //x axis labels event listener
     xLabelsGroup.selectAll("text")
@@ -361,10 +376,11 @@ function populateDabbler() {
              .classed("inactive", false);
          }         
       }
-    });     
-  }).catch(function(error) {
-    console.log(error);
-  });    
+    });  
+  });
+  // }).catch(function(error) {
+  //   console.log(error);
+  // });    
 }
 
 function populateSeasons() {
@@ -453,14 +469,11 @@ function imageExists(url, callback) {
 }
 
 
-function init() {
-  //populateDabbler();
-  //populateDashboard();
+function init() {  
+  populateDabbler();  
   populateSeasons(); 
   populateTeams(); 
 };
-function populateDashboard() {
-  //populatePlayerInfo();
-};
+
 
 init();
