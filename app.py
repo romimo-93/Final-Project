@@ -125,18 +125,36 @@ def players():
     return jsonify(results)
 
 
-@app.route("/api/aggplayerstats/")
-def aggplayerstats():
+@app.route("/api/aggplayerstats/<player_id>")
+def aggplayerstats(player_id):
     sql = "select * from dbo.aggplayerstats"
+    if player_id.isnumeric() == True:  
+        sql += " where player_id = " + player_id
     results = MF_SQL(sql)
     return jsonify(results)
 
-@app.route("/api/avgplayerstats/")
-def avgplayerstats():
+@app.route("/api/avgplayerstats/<player_id>")
+def avgplayerstats(player_id):
     sql = "select * from dbo.avgplayerstats"
+    
+    if player_id.isnumeric() == True:  
+        sql += " where player_id = " + player_id
+        
     results = MF_SQL(sql)
     return jsonify(results)
 
+
+@app.route("/api/teams")
+def teams():
+    sql = "select team_id, shortName + ' ' + teamName as team from team_info order by shortName"
+    results = MF_SQL(sql)
+    return jsonify(results)
+
+@app.route("/api/seasonTeamPlayers/<season>/<team_id>")
+def seasonTeamPlayers(season, team_id):
+    sql = "select distinct player_id,dbo.skater_Val(player_id, 'Name') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
+    results = MF_SQL(sql)
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)

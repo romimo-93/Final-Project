@@ -1,3 +1,7 @@
+d3.selectAll("body").on("change", populateDashboard);
+d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
+d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
+
 var svgWidth = 1200;
 var svgHeight = 600;
 
@@ -24,8 +28,8 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Initial Params
-var chosenXAxis = "goals";
-var chosenYAxis = "timeOnIce";
+var chosenXAxis = "shots";
+var chosenYAxis = "goals";
 
 
 function xScale(data, chosenXAxis) {
@@ -116,7 +120,7 @@ function populateDabbler() {
 
   /* data route */
   // Retrieve data from the json api and execute everything below
-  const url = "api/avgplayerstats/"
+  const url = "api/aggplayerstats/null"
   console.log(url);
 
   d3.json(url).then(function(response, err) {  
@@ -132,8 +136,9 @@ function populateDabbler() {
     // // parse data
     data.forEach(function(d) {
       data.goals = +d.goals;
+      data.shots = +d.shots;
       data.timeOnIce = +d.timeOnIce;
-      data.evenTimeOnIce = +d.evenTimeOnIce;
+      data.hits = +d.hits;
       data.shortHandedTimeOnIce = +d.shortHandedTimeOnIce;
       data.powerPlayTimeOnIce = +d.powerPlayTimeOnIce;     
       data.penaltyMinutes = +d.penaltyMinutes;     
@@ -201,17 +206,17 @@ function populateDabbler() {
       .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
     var xLabelSpacer = 25;
-    var goalsxLabel = xLabelsGroup.append("text")
-      .attr("value", "goals") // value to grab for event listener
+    var shotsxLabel = xLabelsGroup.append("text")
+      .attr("value", "shots") // value to grab for event listener
       .classed("axis-text", true)
       .classed("active", true)
-      .text("Goals Scored")
+      .text("Shots Taken")
       .attr("y", xLabelSpacer)
   
-    var evenTimeOnIcexLabel = xLabelsGroup.append("text")
-      .attr("value", "evenTimeOnIce") // value to grab for event listener
+    var hitsxLabel = xLabelsGroup.append("text")
+      .attr("value", "hits") // value to grab for event listener
       .classed("inactive", true)
-      .text("Even Time on Ice (min)")
+      .text("Hits")
       .attr("y", xLabelSpacer * 2)
     
     var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
@@ -226,28 +231,27 @@ function populateDabbler() {
 
     // append y axis
     var yLabelSpacer = 25;
+
+    var goalsyLabel = yLabelsGroup.append("text")
+    .attr("value", "goals") // value to grab for event listener
+    .attr("y", 0 - 30 - yLabelSpacer)
+    .attr("dy", "1em")
+    .classed("active", true)
+    .classed("axis-text", true)
+    .text("Goals Scored");          
+
     var timeOnIceyLabel = yLabelsGroup.append("text")
       .attr("value", "timeOnIce") // value to grab for event listener
-      .attr("y", 0 - 30 - yLabelSpacer)
-      // .attr("x", 0 - (height / 2))
-      .attr("dy", "1em")
-      .classed("active", true)
-      .classed("axis-text", true)
-      .text("Time on Ice (min)");
-
-    var powerPlayTimeOnIceyLabel = yLabelsGroup.append("text")
-      .attr("value", "powerPlayTimeOnIce") // value to grab for event listener
       .attr("y", 0 - 30 - yLabelSpacer*2)
-      // .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .classed("inactive", true)
       .classed("axis-text", true)
-      .text("Power Play Time On Ice (min)");          
+      .text("Time on Ice (min)");
+
 
     var penaltyMinutesyLabel = yLabelsGroup.append("text")
       .attr("value", "penaltyMinutes") // value to grab for event listener
       .attr("y", 0 - 30 - yLabelSpacer*3)
-      // .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .classed("inactive", true)
       .classed("axis-text", true)
@@ -277,10 +281,10 @@ function populateDabbler() {
           // updates tooltips with new info
           labelsGroup = updateText(circleLabels,xLinearScale,yLinearScale,chosenXAxis, chosenYAxis);
   
-          goalsxLabel
+          shotsxLabel
             .classed("active", false)
             .classed("inactive", true);
-          evenTimeOnIcexLabel
+          hitsxLabel
             .classed("active", false)
             .classed("inactive", true);
           shortHandedTimeOnIcexLabel
@@ -289,12 +293,12 @@ function populateDabbler() {
               
           // changes classes to change bold text
           if (chosenXAxis === "goals") {
-            goalsxLabel
+            shotsxLabel
               .classed("active", true)
               .classed("inactive", false);
           }
-          else if (chosenXAxis === "evenTimeOnIce") {
-            evenTimeOnIcexLabel
+          else if (chosenXAxis === "hits") {
+            hitsxLabel
               .classed("active", true)
               .classed("inactive", false);
           }       
@@ -330,7 +334,7 @@ function populateDabbler() {
          // updates tooltips with new info
          labelsGroup = updateText(circleLabels, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
  
-         powerPlayTimeOnIceyLabel
+         goalsyLabel
            .classed("active", false)
            .classed("inactive", true);
          timeOnIceyLabel
@@ -341,8 +345,8 @@ function populateDabbler() {
            .classed("inactive", true);
 
          // changes classes to change bold text
-         if (chosenYAxis === "powerPlayTimeOnIce") {
-          powerPlayTimeOnIceyLabel
+         if (chosenYAxis === "goals") {
+          goalsyLabel
              .classed("active", true)
              .classed("inactive", false);
          }
@@ -361,13 +365,102 @@ function populateDabbler() {
   }).catch(function(error) {
     console.log(error);
   });    
-
 }
+
+function populateSeasons() {
+  d3.select("#selSeason").html("");
+  url_seasons = "api/seasons";
+  d3.json(url_seasons).then(function(response) {
+    console.log(response)
+    var season = response.list
+    // select inputs 
+    var inputSelectSeason = d3.select("#selSeason").attr('class','select');
+
+    // auto populate available filter days and add blank option to search without date filter
+    season.forEach(s => {
+      inputSelectSeason.append('option').text(s);
+    });
+  });
+};
+function populateTeams() {
+  d3.select("#selTeam").html("");
+
+  url_teams = "api/teams";
+  d3.json(url_teams).then(function(response) {
+    console.log(response)
+    var teams = response
+
+    // select inputs 
+    var inputSelectTeam = d3.select("#selTeam").attr('class','select');
+    
+    teams.forEach(t => {
+      inputSelectTeam.append('option').text(t.team).property('value', t.team_id);           
+    });    
+  });
+  populateSeasonTeamPlayers();
+};
+function populateSeasonTeamPlayers(){
+  d3.select("#selPlayer").html("");
+  var selectedSeason = d3.select("#selSeason").node().value;    
+  var selectedTeam = d3.select("#selTeam").node().value;
+  
+  if ((selectedSeason) && (selectedTeam)) {
+    url_seasonTeamPlayers = "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
+    d3.json(url_seasonTeamPlayers).then(function(response) {
+      console.log(response)
+      var seasonTeamPlayers = response
+
+      // select inputs 
+      var inputSelectPlayer = d3.select("#selPlayer").attr('class','select');
+      
+      seasonTeamPlayers.forEach(p => {
+        inputSelectPlayer.append('option').text(p.PlayerName).property('value', p.player_id);           
+      });    
+    });
+    populatePlayerInfo();
+  }
+};
+
+
+function populatePlayerInfo() {
+  
+    // Use D3 to select the dropdown menu
+    var inputSelectPlayer = d3.select("#selPlayer");
+    d3.select("#selPlayer").append('option').text("Select Player").property('value', '');           
+
+    player_id = inputSelectPlayer.node().value;
+    if (player_id) {
+      console.log(player_id);
+
+      img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg"
+      imageExists(img_url, function(exists) {
+        console.log('RESULT: url=' + img_url + ', exists=' + exists);
+
+        if (!exists)
+          img_url = "../img/player_placeholder"
+      });
+      player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid' style='width:100%;height:100%' alt='Player Name'>";
+        
+      d3.select("#player_headshot").html(player_headshot_imageurl)  
+    }
+  }
+
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
+
 
 function init() {
-  populateDabbler();
-}
+  //populateDabbler();
+  //populateDashboard();
+  populateSeasons(); 
+  populateTeams(); 
+};
+function populateDashboard() {
+  //populatePlayerInfo();
+};
 
 init();
-
-
