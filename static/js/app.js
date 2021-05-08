@@ -1,3 +1,4 @@
+d3.selectAll("#selSeason").on("change", populateSeasonTeams);
 d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
 d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
 
@@ -398,11 +399,13 @@ function populateSeasons() {
     });
   });
 };
-function populateTeams() {
+function populateSeasonTeams() {
   d3.select("#selTeam").html("");
+  d3.select("#selTeam").append('option').text("Select Team").property('value', '');           
+  var selectedSeason = d3.select("#selSeason").node().value;   
 
-  url_teams = "api/teams";
-  d3.json(url_teams).then(function(response) {
+  url_seasonTeams = "api/seasonTeams/" + selectedSeason;
+  d3.json(url_seasonTeams).then(function(response) {
     console.log(response)
     var teams = response
 
@@ -410,11 +413,17 @@ function populateTeams() {
     var inputSelectTeam = d3.select("#selTeam").attr('class','select');
     
     teams.forEach(t => {
-      inputSelectTeam.append('option').text(t.team).property('value', t.team_id);           
+      if (t.TeamName) {
+        inputSelectTeam.append('option').text(t.TeamName).property('value', t.team_id);           
+      }
     });    
   });
+  d3.select("#player_headshot").html("")  
+  d3.select("#player_action").html("")  
   populateSeasonTeamPlayers();
 };
+
+
 function populateSeasonTeamPlayers(){
   d3.select("#selPlayer").html("");
   var selectedSeason = d3.select("#selSeason").node().value;    
@@ -433,6 +442,8 @@ function populateSeasonTeamPlayers(){
         inputSelectPlayer.append('option').text(p.PlayerName).property('value', p.player_id);           
       });    
     });
+    d3.select("#player_headshot").html("")  
+    d3.select("#player_action").html("")  
     populatePlayerInfo();
   }
 };
@@ -449,15 +460,29 @@ function populatePlayerInfo() {
       console.log(player_id);
 
       img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg"
+      img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg"     
+
       imageExists(img_url, function(exists) {
         console.log('RESULT: url=' + img_url + ', exists=' + exists);
 
-        if (!exists)
-          img_url = "../img/player_placeholder"
+        if (exists) {
+          player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;' alt='Player Name'>";        
+          d3.select("#player_headshot").html(player_headshot_imageurl)  
+        }
+        else {
+          d3.select("#player_headshot").html("<img src='https://raw.githubusercontent.com/romimo-93/Final-Project/main/static/img/player_placeholder.jpg' class='img-fluid'  style='width:100%;' alt='Player Name'>")  
+        };
       });
-      player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid' style='width:100%;height:100%' alt='Player Name'>";
-        
-      d3.select("#player_headshot").html(player_headshot_imageurl)  
+           
+      imageExists(img_url_action, function(exists) {
+        console.log('RESULT: url=' + img_url_action + ', exists=' + exists);
+
+        if (exists) {
+          player_action_imageurl = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px%' alt='Player Name'>";        
+          d3.select("#player_action").html(player_action_imageurl)  
+        };
+  
+      });
     }
   }
 
@@ -471,8 +496,7 @@ function imageExists(url, callback) {
 
 function init() {  
   populateDabbler();  
-  populateSeasons(); 
-  populateTeams(); 
+  populateSeasons();   
 };
 
 
