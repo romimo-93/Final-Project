@@ -1,15 +1,16 @@
 d3.selectAll("#selSeason").on("change", populateSeasonTeams);
 d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
 d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
+d3.select('#myselect').property('value', '20192020');
 
 var svgWidth = 1200;
-var svgHeight = 600;
+var svgHeight = 800;
 
 var margin = {
   top: 50,
   right: 50,
-  bottom: 100,
-  left: 100
+  bottom: 350,
+  left: 160
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -148,16 +149,27 @@ function populateDabbler() {
     //console.log(data);
     //console.log([data]);
 
-   
-    // // parse data
+    xAxisLabels = ["shots","goals","assists","takeaways","giveaways","hits","blocked","penaltyMinutes"]
+    yAxisLabels = ["timeOnIce","evenTimeOnIce","shortHandedTimeOnIce","powerPlayTimeOnIce"]
+
+    // parse data
     data.forEach(function(d) {
-      data.goals = +d.goals;
+      
+      // X-Axis Values
       data.shots = +d.shots;
-      data.timeOnIce = +d.timeOnIce;
-      data.hits = +d.hits;
-      data.shortHandedTimeOnIce = +d.shortHandedTimeOnIce;
-      data.powerPlayTimeOnIce = +d.powerPlayTimeOnIce;     
+      data.goals = +d.goals;
+      data.assists = +d.assists      
+      data.takeaways = +d.takeaways;
+      data.giveaways = +d.takeaways;
+      data.hits = +d.hits;      
+      data.blocked = +d.blocked;      
       data.penaltyMinutes = +d.penaltyMinutes;     
+
+      // Y-Axis Values
+      data.timeOnIce= +d.timeOnIce
+      data.evenTimeOnIce= +d.evenTimeOnIce
+      data.shortHandedTimeOnIce= +d.shortHandedTimeOnIce
+      data.powerPlayTimeOnIce= +d.powerPlayTimeOnIce
        
     });
   
@@ -221,57 +233,99 @@ function populateDabbler() {
     var xLabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(${width / 2}, ${height + 20})`);
     
-    var xLabelSpacer = 25;
-    var shotsxLabel = xLabelsGroup.append("text")
-      .attr("value", "shots") // value to grab for event listener
-      .classed("axis-text", true)
-      .classed("active", true)
-      .text("Total Shots Taken")
-      .attr("y", xLabelSpacer)
-  
-    var hitsxLabel = xLabelsGroup.append("text")
-      .attr("value", "hits") // value to grab for event listener
-      .classed("inactive", true)
-      .text("Total Hits")
-      .attr("y", xLabelSpacer * 2)
-    
-    var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
-      .attr("value", "shortHandedTimeOnIce") // value to grab for event listener
-      .classed("inactive", true)
-      .text("Total Short Handed Time On Ice (min)")
-      .attr("y", xLabelSpacer * 3)  
+    var xLabelSpacer = 25;        
 
-     var yLabelsGroup = chartGroup.append("g")
+    xLabels = []
+    xLabelIndex = 1
+
+    xAxisLabels.forEach(x => {
+      console.log(x);
+      cssclass = "inactive"
+      if (xLabelIndex === 1) {
+        cssclass = "active"
+      }
+      var xLabel = xLabelsGroup.append("text")
+        .attr("value", x) // value to grab for event listener
+        .classed("axis-text", true)
+        .classed(cssclass, true)
+        .text(x)
+        .attr("y", xLabelSpacer * xLabelIndex)
+        xLabels.push(xLabel)
+
+      xLabelIndex += 1;
+    });
+
+
+
+
+    // var shotsxLabel = xLabelsGroup.append("text")
+      // .attr("value", "shots") // value to grab for event listener
+      // .classed("axis-text", true)
+      // .classed("active", true)
+      // .text("Total Shots Taken")
+      // .attr("y", xLabelSpacer)
+  
+    // var hitsxLabel = xLabelsGroup.append("text")
+      // .attr("value", "hits") // value to grab for event listener
+      // .classed("inactive", true)
+      // .text("Total Hits")
+      // .attr("y", xLabelSpacer * 2)
+    
+    // var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
+      // .attr("value", "shortHandedTimeOnIce") // value to grab for event listener
+      // .classed("inactive", true)
+      // .text("Total Short Handed Time On Ice (min)")
+      // .attr("y", xLabelSpacer * 3)  
+
+    var yLabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(0, ${height /2}), rotate(-90)`)
       .attr("text-anchor", "middle");
 
     // append y axis
     var yLabelSpacer = 25;
+    yLabels = []
+    yLabelIndex = 1;
+    yAxisLabels.forEach(y => {
+      console.log(y);
+      cssclass = "inactive"
+      if (yLabelIndex === 1) {
+        cssclass = "active"
+      }
+      var yLabel = yLabelsGroup.append("text")
+        .attr("value", y) // value to grab for event listener
+        .attr("dy", "1em")
+        .classed("axis-text", true)
+        .classed(cssclass, true)
+        .text(y)
+        .attr("y", 0 - 30 - yLabelSpacer * yLabelIndex)
+        yLabels.push(yLabel)
+        yLabelIndex += 1;
+    });    
 
-    var goalsyLabel = yLabelsGroup.append("text")
-    .attr("value", "goals") // value to grab for event listener
-    .attr("y", 0 - 30 - yLabelSpacer)
-    .attr("dy", "1em")
-    .classed("active", true)
-    .classed("axis-text", true)
-    .text("Total Goals Scored");          
+    // var goalsyLabel = yLabelsGroup.append("text")
+    // .attr("value", "goals") // value to grab for event listener
+    // .attr("y", 0 - 30 - yLabelSpacer)
+    // .attr("dy", "1em")
+    // .classed("active", true)
+    // .classed("axis-text", true)
+    // .text("Total Goals Scored");          
 
-    var timeOnIceyLabel = yLabelsGroup.append("text")
-      .attr("value", "timeOnIce") // value to grab for event listener
-      .attr("y", 0 - 30 - yLabelSpacer*2)
-      .attr("dy", "1em")
-      .classed("inactive", true)
-      .classed("axis-text", true)
-      .text("Total Time on Ice (min)");
+    // var timeOnIceyLabel = yLabelsGroup.append("text")
+    //   .attr("value", "timeOnIce") // value to grab for event listener
+    //   .attr("y", 0 - 30 - yLabelSpacer*2)
+    //   .attr("dy", "1em")
+    //   .classed("inactive", true)
+    //   .classed("axis-text", true)
+    //   .text("Total Time on Ice (min)");
 
 
-    var penaltyMinutesyLabel = yLabelsGroup.append("text")
-      .attr("value", "penaltyMinutes") // value to grab for event listener
-      .attr("y", 0 - 30 - yLabelSpacer*3)
-      .attr("dy", "1em")
-      .classed("inactive", true)
-      .classed("axis-text", true)
-      .text("Total Penalty Minutes");           
+    // var penaltyMinutesyLabel = yLabelsGroup.append("text")
+    //   .attr("value", "penaltyMinutes") // value to grab for event listener
+    //   .attr("y", 0 - 30 - yLabelSpacer*3)
+    //   .attr("dy", "1em")
+    //   .classed("inactive", true)
+    //   .classed("axis-text", true)
+    //   .text("Total Penalty Minutes");           
 
     //x axis labels event listener
     xLabelsGroup.selectAll("text")
@@ -296,33 +350,16 @@ function populateDabbler() {
   
           // updates tooltips with new info
           labelsGroup = updateText(circleLabels,xLinearScale,yLinearScale,chosenXAxis, chosenYAxis);
-  
-          shotsxLabel
-            .classed("active", false)
-            .classed("inactive", true);
-          hitsxLabel
-            .classed("active", false)
-            .classed("inactive", true);
-          shortHandedTimeOnIcexLabel
-            .classed("active", false)
-            .classed("inactive", true);
-              
-          // changes classes to change bold text
-          if (chosenXAxis === "goals") {
-            shotsxLabel
+          
+          xLabels.forEach(x => {
+            var selectedxLabel = x;
+            selectedxLabel.classed("active", false)
+             .classed("inactive", true);
+          });
+
+          var value = d3.select(this)
               .classed("active", true)
-              .classed("inactive", false);
-          }
-          else if (chosenXAxis === "hits") {
-            hitsxLabel
-              .classed("active", true)
-              .classed("inactive", false);
-          }       
-          else if (chosenXAxis === "shortHandedTimeOnIce") {
-            shortHandedTimeOnIcexLabel
-              .classed("active", true)
-              .classed("inactive", false);
-          }      
+              .classed("inactive", false);         
        }
      });
 
@@ -350,38 +387,18 @@ function populateDabbler() {
          // updates tooltips with new info
          labelsGroup = updateText(circleLabels, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
  
-         goalsyLabel
-           .classed("active", false)
+         yLabels.forEach(x => {
+          var selectedyLabel = x;
+          selectedyLabel.classed("active", false)
            .classed("inactive", true);
-         timeOnIceyLabel
-           .classed("active", false)
-           .classed("inactive", true);
-         penaltyMinutesyLabel
-           .classed("active", false)
-           .classed("inactive", true);
+        });
 
-         // changes classes to change bold text
-         if (chosenYAxis === "goals") {
-          goalsyLabel
-             .classed("active", true)
-             .classed("inactive", false);
-         }
-         else if (chosenYAxis === "timeOnIce") {
-          timeOnIceyLabel
-             .classed("active", true)
-             .classed("inactive", false);
-         }       
-         else if (chosenYAxis === "penaltyMinutes") {
-          penaltyMinutesyLabel
-             .classed("active", true)
-             .classed("inactive", false);
-         }         
+        var value = d3.select(this)
+            .classed("active", true)
+            .classed("inactive", false);
       }
     });  
   });
-  // }).catch(function(error) {
-  //   console.log(error);
-  // });    
 }
 
 function populateSeasons() {
@@ -403,20 +420,23 @@ function populateSeasonTeams() {
   d3.select("#selTeam").html("");
   d3.select("#selTeam").append('option').text("Select Team").property('value', '');           
   var selectedSeason = d3.select("#selSeason").node().value;   
-
+  if (selectedSeason === "") {
+    selectedSeason = "20192020"
+  }
   url_seasonTeams = "api/seasonTeams/" + selectedSeason;
   d3.json(url_seasonTeams).then(function(response) {
     console.log(response)
-    var teams = response
+    var team = response
 
     // select inputs 
     var inputSelectTeam = d3.select("#selTeam").attr('class','select');
-    
-    teams.forEach(t => {
-      if (t.TeamName) {
-        inputSelectTeam.append('option').text(t.TeamName).property('value', t.team_id);           
-      }
-    });    
+
+    var len = team.length;
+    for (var i = 0; i < len; i++) {
+      if (team[i].teamName) {
+        inputSelectTeam.append('option').text(team[i].teamName).property('value', team[i].team_id);           
+      }    
+    }    
   });
   d3.select("#player_headshot").html("")  
   d3.select("#player_action").html("")  
@@ -497,6 +517,7 @@ function imageExists(url, callback) {
 function init() {  
   populateDabbler();  
   populateSeasons();   
+  populateSeasonTeams();
 };
 
 

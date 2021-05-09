@@ -11,7 +11,7 @@ from cluster import cluster
 # Flask Setup
 #################################################
 application = Flask(__name__)
-# CORS(app)
+# CORS(application)
 
 #################################################
 # Database Setup
@@ -152,13 +152,13 @@ def teams():
 
 @application.route("/api/seasonTeamPlayers/<season>/<team_id>")
 def seasonTeamPlayers(season, team_id):
-    sql = "select distinct player_id,dbo.skater_Val(player_id, 'Name') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
+    sql = "select distinct player_id,dbo.skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
     results = MF_SQL(sql)
     return jsonify(results)
 
 @application.route("/api/seasonTeams/<season>")
 def seasonTeams(season):
-    sql = "select distinct team_id,dbo.team_val(team_id, 'Name') AS TeamName from game_skater_stats where game_id in (select game_id from game where season = " + season + ") order by TeamName"
+    sql = "select team_id, teamName from season_team where season = " + season + " order by teamName"
     results = MF_SQL(sql)
     return jsonify(results)
     
