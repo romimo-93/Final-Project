@@ -133,7 +133,7 @@ function getDabblerData() {
 
 
 function populateDabbler() {
-  console.log("Poplating dabbler...")  
+  console.log("Populating dabbler...")  
    
   if (!dabblerData) {
     getDabblerData()
