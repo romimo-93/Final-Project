@@ -552,7 +552,14 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
+/***********************************************************
+ML NHL STYLE
+***********************************************************/
 
+.route-list ul {
+  list-style: none;
+
+}
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
