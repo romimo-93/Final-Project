@@ -10,7 +10,7 @@ from cluster import cluster
 #################################################
 # Flask Setup
 #################################################
-app = Flask(__name__)
+application = Flask(__name__)
 # CORS(app)
 
 #################################################
@@ -69,26 +69,26 @@ def clusterData(xaxis, yaxis):
     return fig
 
 # create route that renders index.html template
-@app.route("/")
+@application.route("/")
 def home():
     fig = clusterData("shots", "goals")
     return render_template("index.html", fig=fig)
 
 
-@app.route("/api/data")
+@application.route("/api/data")
 def data():
     results = MF_SQL(
     "SELECT top 100 player_id,goals,timeOnIce,penaltyMinutes FROM game_skater_stats")
     return jsonify(results)
 
 
-@app.route("/api/seasons")
+@application.route("/api/seasons")
 def seasons():
     results = MF_SQL_List("select distinct season from game order by season desc")
     return jsonify(results)
 
 
-@app.route("/api/playerstats/<season>!<player_id>!<limit>")
+@application.route("/api/playerstats/<season>!<player_id>!<limit>")
 def daterequested(season, player_id, limit):
     season_int = 20192020
     limit_int = 100
@@ -109,7 +109,7 @@ def daterequested(season, player_id, limit):
 
     return jsonify(results)
 
-@app.route("/api/playerinfo/<player_id>")
+@application.route("/api/playerinfo/<player_id>")
 def playerinfo(player_id):
     results = {}
     results = MF_SQL(
@@ -117,7 +117,7 @@ def playerinfo(player_id):
     return jsonify(results)
 
 
-@app.route("/api/players/")
+@application.route("/api/players/")
 def players():
     results = {}
     results = MF_SQL(
@@ -125,7 +125,7 @@ def players():
     return jsonify(results)
 
 
-@app.route("/api/aggplayerstats/<player_id>")
+@application.route("/api/aggplayerstats/<player_id>")
 def aggplayerstats(player_id):
     sql = "select * from dbo.aggplayerstats"
     if player_id.isnumeric() == True:  
@@ -133,7 +133,7 @@ def aggplayerstats(player_id):
     results = MF_SQL(sql)
     return jsonify(results)
 
-@app.route("/api/avgplayerstats/<player_id>")
+@application.route("/api/avgplayerstats/<player_id>")
 def avgplayerstats(player_id):
     sql = "select * from dbo.avgplayerstats"
     
@@ -144,19 +144,19 @@ def avgplayerstats(player_id):
     return jsonify(results)
 
 
-@app.route("/api/teams")
+@application.route("/api/teams")
 def teams():
     sql = "select team_id, shortName + ' ' + teamName as team from team_info order by shortName"
     results = MF_SQL(sql)
     return jsonify(results)
 
-@app.route("/api/seasonTeamPlayers/<season>/<team_id>")
+@application.route("/api/seasonTeamPlayers/<season>/<team_id>")
 def seasonTeamPlayers(season, team_id):
     sql = "select distinct player_id,dbo.skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
     results = MF_SQL(sql)
     return jsonify(results)
 
-@app.route("/api/seasonTeams/<season>")
+@application.route("/api/seasonTeams/<season>")
 def seasonTeams(season):
     sql = "select team_id, teamName from season_team where season = " + season + " order by teamName"
     results = MF_SQL(sql)
@@ -164,4 +164,4 @@ def seasonTeams(season):
     
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
