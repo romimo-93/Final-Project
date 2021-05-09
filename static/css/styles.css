@@ -10261,7 +10261,7 @@ body {
   padding-top: 10rem;
   padding-bottom: 10rem;
   background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0.9) 75%, rgba(0, 0, 0, 0.8) 100%);
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%), url("/static/images/about.jpg");
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%), url("/static/img/masthead3.jpg");
 }
 .about-section p {
   margin-bottom: 5rem;

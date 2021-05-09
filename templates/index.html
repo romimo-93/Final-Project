@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet"/>
     <!-- CSS -->
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/d3Style.css') }}">
     
   </head>
   <body id="page-top">
@@ -93,7 +94,7 @@
       </div>
     </section>
     <!-- Projects-->
-    <section class="projects-section bg-dark" id="dabbler">
+    <section class="projects-section bg-light" id="dabbler">
       <div class="container">
 
         <!-- Dabbler-->
@@ -116,14 +117,16 @@
       </div>
     </section>
 
-    <section class="projects-section bg-light" id="cluster">
+    <section class="projects-section bg-dark" id="cluster">
       <div class="container">
 
         <!-- Cluster -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
           <div class="col-xl-8 col-lg-7">
             <h3>Clustering</h3>
-            <div id="cluster">{{ fig|safe }}</div>
+            <div id="cluster">
+              <img id="cluster-img" src="#" alt="cluster graph image">
+            </div>
           </div>
           <div class="bg-black text-center h-100 project col-xl-4 col-lg-5">
               <div class="project-text w-100 my-auto text-center text-lg-left">
@@ -277,6 +280,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!-- Core theme JS-->
     <script src="{{ url_for('static', filename='js/website.js') }}"></script>
+    <!-- Data JS -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/cluster.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
 
   </body>
