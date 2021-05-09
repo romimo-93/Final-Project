@@ -1,3 +1,12 @@
+// await function
+function oneSecond() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 2000);
+  });
+}
+
 d3.selectAll("#selSeason").on("change", populateSeasonTeams);
 d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
 d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
@@ -30,7 +39,7 @@ var chartGroup = svg.append("g")
 
 // Initial Params
 var chosenXAxis = "shots";
-var chosenYAxis = "goals";
+var chosenYAxis = "timeOnIce";
 
 
 function xScale(data, chosenXAxis) {
@@ -108,7 +117,6 @@ let dabblerData = getDabblerData();
 
 function getDabblerData() {
   const url = "api/aggplayerstats/null"
-  console.log(url);
 
   var data = d3.json(url).then(function(response, err) {  
     if (err) throw err;            
@@ -136,16 +144,10 @@ function populateDabbler() {
   // d3.json(url).then(function(response, err) {  
   //   if (err) throw err;    
   if (!dabblerData) {
-    console.log("getDabblerData")
     getDabblerData()
 
   }
   dabblerData.then(function(data) {
-    console.log(data);
-
-    console.log(data[0]);
-    console.log([data].length);
-
     //console.log(data);
     //console.log([data]);
 
@@ -194,7 +196,9 @@ function populateDabbler() {
   
     var toolTip = d3.tip()
       .attr("class", "d3-tip")
-      .offset([60, -60])
+      .offset(function (d) {
+        return [75, -d.PlayerName.length-60];
+      })
       .html(function(d) {
           return (`${d.PlayerName}<br>
             ${chosenXAxis}: ${d[chosenXAxis]}<br>
@@ -239,7 +243,6 @@ function populateDabbler() {
     xLabelIndex = 1
 
     xAxisLabels.forEach(x => {
-      console.log(x);
       cssclass = "inactive"
       if (xLabelIndex === 1) {
         cssclass = "active"
@@ -278,7 +281,7 @@ function populateDabbler() {
       // .attr("y", xLabelSpacer * 3)  
 
     var yLabelsGroup = chartGroup.append("g")
-      .attr("transform", `translate(0, ${height /2}), rotate(-90)`)
+      .attr("transform", `translate(-15, ${height /2}), rotate(-90)`)
       .attr("text-anchor", "middle");
 
     // append y axis
@@ -286,7 +289,6 @@ function populateDabbler() {
     yLabels = []
     yLabelIndex = 1;
     yAxisLabels.forEach(y => {
-      console.log(y);
       cssclass = "inactive"
       if (yLabelIndex === 1) {
         cssclass = "active"
@@ -296,7 +298,7 @@ function populateDabbler() {
         .attr("dy", "1em")
         .classed("axis-text", true)
         .classed(cssclass, true)
-        .text(y)
+        .text(y + " (min)")
         .attr("y", 0 - 30 - yLabelSpacer * yLabelIndex)
         yLabels.push(yLabel)
         yLabelIndex += 1;
@@ -337,8 +339,6 @@ function populateDabbler() {
           // replaces chosenXAxis with value
           chosenXAxis = value;
   
-          console.log(chosenXAxis)
-  
           //updates x scale for new data
           xLinearScale = xScale(data, chosenXAxis);
   
@@ -359,21 +359,20 @@ function populateDabbler() {
 
           var value = d3.select(this)
               .classed("active", true)
-              .classed("inactive", false);         
+              .classed("inactive", false);
+          
+          updateCluster();
        }
      });
 
      yLabelsGroup.selectAll("text")
      .on("click", function() {
-       console.log("yLabelsGroup Clicked"); 
        // get value of selection
        var value = d3.select(this).attr("value");
        if (value !== chosenYAxis) {
  
          // replaces chosenXAxis with value
          chosenYAxis = value;
- 
-         console.log(chosenYAxis)
  
          // updates x scale for new data
          yLinearScale = yScale(data, chosenYAxis);
@@ -396,6 +395,8 @@ function populateDabbler() {
         var value = d3.select(this)
             .classed("active", true)
             .classed("inactive", false);
+
+        updateCluster();
       }
     });  
   });
@@ -405,7 +406,6 @@ function populateSeasons() {
   d3.select("#selSeason").html("");
   url_seasons = "api/seasons";
   d3.json(url_seasons).then(function(response) {
-    console.log(response)
     var season = response.list
     // select inputs 
     var inputSelectSeason = d3.select("#selSeason").attr('class','select');
@@ -425,7 +425,6 @@ function populateSeasonTeams() {
   }
   url_seasonTeams = "api/seasonTeams/" + selectedSeason;
   d3.json(url_seasonTeams).then(function(response) {
-    console.log(response)
     var team = response
 
     // select inputs 
@@ -452,7 +451,6 @@ function populateSeasonTeamPlayers(){
   if ((selectedSeason) && (selectedTeam)) {
     url_seasonTeamPlayers = "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
     d3.json(url_seasonTeamPlayers).then(function(response) {
-      console.log(response)
       var seasonTeamPlayers = response
 
       // select inputs 
@@ -477,13 +475,11 @@ function populatePlayerInfo() {
 
     player_id = inputSelectPlayer.node().value;
     if (player_id) {
-      console.log(player_id);
 
       img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg"
       img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg"     
 
       imageExists(img_url, function(exists) {
-        console.log('RESULT: url=' + img_url + ', exists=' + exists);
 
         if (exists) {
           player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;' alt='Player Name'>";        
@@ -495,7 +491,6 @@ function populatePlayerInfo() {
       });
            
       imageExists(img_url_action, function(exists) {
-        console.log('RESULT: url=' + img_url_action + ', exists=' + exists);
 
         if (exists) {
           player_action_imageurl = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px%' alt='Player Name'>";        
@@ -514,11 +509,18 @@ function imageExists(url, callback) {
 }
 
 
-function init() {  
+async function init() {  
   populateDabbler();  
   populateSeasons();   
   populateSeasonTeams();
+  
+  // Wait for the dabbler to load before running clusterInit
+  while (!d3.select(".axis-text")._groups[0][0]){
+    await oneSecond();
+  }
+  // From cluster.js
+  clusterInit();
 };
 
-
+// Initialize script
 init();

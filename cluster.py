@@ -1,6 +1,5 @@
 # Import dependencies
 import matplotlib.pyplot as plt
-import mpld3
 import pandas as pd
 import numpy as np
 
@@ -20,12 +19,10 @@ def cluster(data, xaxis, yaxis):
     kmeans.fit(X_scaled)
     predicted_clusters = kmeans.predict(X_scaled)
     
-    # Generate plot and store as HTML
-    fig, ax = plt.subplots()
-    ax.scatter(X[:,0], X[:,1], c=predicted_clusters, s=5, cmap="viridis")
-    ax.set_title(f"Average per Game - {xaxis} vs. {yaxis}")
-    ax.set_xlabel(xaxis)
-    ax.set_ylabel(yaxis)
-    fig_html = mpld3.fig_to_html(fig, d3_url="https://d3js.org/d3.v5.min.js")
-
-    return fig_html
+    # Clear plt and generate new plot
+    plt.clf()
+    plt.scatter(X[:,0], X[:,1], c=predicted_clusters, s=5, cmap="viridis")
+    plt.title(f"Average per Game - {xaxis} vs. {yaxis}")
+    plt.xlabel(xaxis)
+    plt.ylabel(yaxis)
+    plt.savefig(f"static/img/clusters/{xaxis}-{yaxis}.png")
