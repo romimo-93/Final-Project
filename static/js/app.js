@@ -41,6 +41,12 @@ var chartGroup = svg.append("g")
 var chosenXAxis = "shots";
 var chosenYAxis = "timeOnIce";
 
+xvalueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
+yvalueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
+
+d3.select("#x-axis-description").html("<b>X-axis Description - </b>" + xvalueDescription)
+d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + yvalueDescription)
+
 
 function xScale(data, chosenXAxis) {
     // create scales
@@ -127,29 +133,13 @@ function getDabblerData() {
 
 
 function populateDabbler() {
-  console.log("loading data...")  
-  
-  // Use D3 to select the dropdown menu
-  //var CB_Year = d3.select("#selYear");
-  // Assign the value of the dropdown menu option to a variable
-  //var year = CB_Year.node().value;
-
-  // season = "20192020"
-  // console.log(season);
-
-  /* data route */
-  // Retrieve data from the json api and execute everything below
-
-
-  // d3.json(url).then(function(response, err) {  
-  //   if (err) throw err;    
+  console.log("Poplating dabbler...")  
+   
   if (!dabblerData) {
     getDabblerData()
 
   }
   dabblerData.then(function(data) {
-    //console.log(data);
-    //console.log([data]);
 
     xAxisLabels = ["shots","goals","assists","takeaways","giveaways","hits","blocked","penaltyMinutes"]
     yAxisLabels = ["timeOnIce","evenTimeOnIce","shortHandedTimeOnIce","powerPlayTimeOnIce"]
@@ -258,28 +248,6 @@ function populateDabbler() {
       xLabelIndex += 1;
     });
 
-
-
-
-    // var shotsxLabel = xLabelsGroup.append("text")
-      // .attr("value", "shots") // value to grab for event listener
-      // .classed("axis-text", true)
-      // .classed("active", true)
-      // .text("Total Shots Taken")
-      // .attr("y", xLabelSpacer)
-  
-    // var hitsxLabel = xLabelsGroup.append("text")
-      // .attr("value", "hits") // value to grab for event listener
-      // .classed("inactive", true)
-      // .text("Total Hits")
-      // .attr("y", xLabelSpacer * 2)
-    
-    // var shortHandedTimeOnIcexLabel = xLabelsGroup.append("text")
-      // .attr("value", "shortHandedTimeOnIce") // value to grab for event listener
-      // .classed("inactive", true)
-      // .text("Total Short Handed Time On Ice (min)")
-      // .attr("y", xLabelSpacer * 3)  
-
     var yLabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(-15, ${height /2}), rotate(-90)`)
       .attr("text-anchor", "middle");
@@ -302,32 +270,7 @@ function populateDabbler() {
         .attr("y", 0 - 30 - yLabelSpacer * yLabelIndex)
         yLabels.push(yLabel)
         yLabelIndex += 1;
-    });    
-
-    // var goalsyLabel = yLabelsGroup.append("text")
-    // .attr("value", "goals") // value to grab for event listener
-    // .attr("y", 0 - 30 - yLabelSpacer)
-    // .attr("dy", "1em")
-    // .classed("active", true)
-    // .classed("axis-text", true)
-    // .text("Total Goals Scored");          
-
-    // var timeOnIceyLabel = yLabelsGroup.append("text")
-    //   .attr("value", "timeOnIce") // value to grab for event listener
-    //   .attr("y", 0 - 30 - yLabelSpacer*2)
-    //   .attr("dy", "1em")
-    //   .classed("inactive", true)
-    //   .classed("axis-text", true)
-    //   .text("Total Time on Ice (min)");
-
-
-    // var penaltyMinutesyLabel = yLabelsGroup.append("text")
-    //   .attr("value", "penaltyMinutes") // value to grab for event listener
-    //   .attr("y", 0 - 30 - yLabelSpacer*3)
-    //   .attr("dy", "1em")
-    //   .classed("inactive", true)
-    //   .classed("axis-text", true)
-    //   .text("Total Penalty Minutes");           
+    });      
 
     //x axis labels event listener
     xLabelsGroup.selectAll("text")
@@ -357,10 +300,11 @@ function populateDabbler() {
              .classed("inactive", true);
           });
 
-          var value = d3.select(this)
+          d3.select(this)
               .classed("active", true)
               .classed("inactive", false);
-          
+              
+          updateDabblerDescriptions("x",value);    
           updateCluster();
        }
      });
@@ -392,14 +336,62 @@ function populateDabbler() {
            .classed("inactive", true);
         });
 
-        var value = d3.select(this)
+        d3.select(this)
             .classed("active", true)
             .classed("inactive", false);
-
+        
+        updateDabblerDescriptions("y",value);
         updateCluster();
       }
     });  
   });
+
+  console.log("Dabbler populated.")  
+
+}
+
+function updateDabblerDescriptions(axis, value) {
+
+  valueDescription = "";
+  
+  if (axis === "x") {
+    if (value === "shots") {
+      valueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
+    } else if (value === "goals") {
+      valueDescription = "<b>Goals</b>: A goal is scored when the puck entirely crosses the goal line between the two goal posts and below the goal crossbar."    
+    } else if (value === "assists") {
+      valueDescription = "<b>Assists</b>: An assist is attributed to up to two players of the scoring team who shot, passed or deflected the puck towards the scoring teammate, or touched it in any other way which enabled the goal"
+    } else if (value === "takeaways") {
+      valueDescription = "<b>Takeaways</b>: A takeaway is a forced action taken by a defensive player to regain possession of the puck for his team."
+    } else if (value === "giveaways") {
+    valueDescription = "<b>Giveaways</b>: A giveaway is when a players own actions result in a loss of possession to the opposing team."
+    } else if (value === "hits") {
+      valueDescription = "<b>hits</b>: For a valid 'Hit' to be registered on the stat sheet, the player to be credited with the hit must a) intentionally initiate physical contact with the player possessing the puck, and b) the player sustaining the contact must lose possession of the puck as a result of the contact."
+    } else if (value === "blocked") {
+      valueDescription = "<b>Blocked</b>: A shot that is deflected wide or blocked by an opponent does not count as a shot on goal; it is recorded as a blocked shot. The player who blocks the shot is credited with a 'blocked shot', and the player who shoots the puck is credited with an 'attempt blocked'."
+    } else if (value === "penaltyMinutes") {
+      valueDescription = "<b>Penalty Minutes</b>: The cumulative total of time that a player has spent in the penalty box due to on ice infractions and is calculated by game and by season. "
+    }
+  
+    d3.select("#x-axis-description").html("<b>X-axis Description - </b>" + valueDescription)
+  } 
+  
+  if (axis === "y") { 
+    if (value === "timeOnIce") {
+      valueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
+    } else if (value === "evenTimeOnIce") {
+      valueDescription = "<b>Even time on ice</b>: Total time on ice while both teams have even number of players (no penalties).";
+    } else if (value === "shortHandedTimeOnIce") {
+      valueDescription = "<b>Short-handed time on ice</b>: Time on ice while at least on player on player's team is serving a pentalty and the opposing team has numerical advantage on the ice";
+    } else if (value === "powerPlayTimeOnIce") {
+      valueDescription = "<b>Powerplay time on ice</b>: Time on ice while at least one opposing team's player is serving a penalty, and the team has a numerical advantage on the ice";
+    }
+  
+    d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + valueDescription)
+  }
+
+  
+
 }
 
 function populateSeasons() {
@@ -482,21 +474,21 @@ function populatePlayerInfo() {
       imageExists(img_url, function(exists) {
 
         if (exists) {
-          player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;' alt='Player Name'>";        
+          player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";        
           d3.select("#player_headshot").html(player_headshot_imageurl)  
         }
         else {
-          d3.select("#player_headshot").html("<img src='https://raw.githubusercontent.com/romimo-93/Final-Project/main/static/img/player_placeholder.jpg' class='img-fluid'  style='width:100%;' alt='Player Name'>")  
+          d3.select("#player_headshot").html("<img src='https://raw.githubusercontent.com/romimo-93/Final-Project/main/static/img/player_placeholder.jpg' style='border-radius: 100%;' class='img-fluid'  style='width:100%;' alt='Player Name'>")  
         };
       });
            
       imageExists(img_url_action, function(exists) {
 
         if (exists) {
-          player_action_imageurl = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px%' alt='Player Name'>";        
-          d3.select("#player_action").html(player_action_imageurl)  
-        };
-  
+          //player_action_html = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px;z-index:-1000000000;opacity:0.15; di' alt='Player Name'>";        
+          player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";        
+          d3.select("#player-action").html(player_action_html)          
+        }  
       });
     }
   }
