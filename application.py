@@ -11,7 +11,7 @@ from cluster import cluster
 # Flask Setup
 #################################################
 application = Flask(__name__)
-# CORS(app)
+# CORS(application)
 
 #################################################
 # Database Setup
