@@ -390,10 +390,7 @@ function updateDabblerDescriptions(axis, value) {
     d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + valueDescription)
   }
 
-  
-
 }
-
 function populateSeasons() {
   d3.select("#selSeason").html("");
   url_seasons = "api/seasons";
@@ -459,6 +456,13 @@ function populateSeasonTeamPlayers(){
 };
 
 
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
+
 function populatePlayerInfo() {
   
     // Use D3 to select the dropdown menu
@@ -490,15 +494,82 @@ function populatePlayerInfo() {
           d3.select("#player-action").html(player_action_html)          
         }  
       });
+
+      populatePlayerStatsTable(player_id);
     }
   }
 
-function imageExists(url, callback) {
-  var img = new Image();
-  img.onload = function() { callback(true); };
-  img.onerror = function() { callback(false); };
-  img.src = url;
-}
+// // Complete the event handler function for the form
+function populatePlayerStatsTable(player_id) {
+    // Select the input element and get the raw HTML node for SEASONS
+    var SeasoninputElement = d3.select("#selSeason");
+    //   // Get the value property of the input element
+    var SeasoninputValue = SeasoninputElement.property("value");
+    // console.log(`This is ${inputValue} times easier!`);
+    console.log(`This is input value ${SeasoninputValue}`);
+
+    // Select the input element and get the raw HTML node for TEAMS
+    var teaminputElement = d3.select("#selTeam");
+    // Get the value property of the input element
+    var teaminputValue = teaminputElement.property("value");
+    // console.log(`This is ${inputValue} times easier!`);
+    console.log(`This is input value ${teaminputValue}`);
+    
+    // url_playerAggStats = "api/aggplayerstats/" + player_id;
+    // d3.json(url_playerAggStats).then(function(response) {
+    //   var playerAggStats = response
+    //   console.log("playerAggStats " + playerAggStats);
+    // });    
+
+    url_playerAllStats = "/api/playerstats/" + SeasoninputValue + "!"+ player_id +"!" + teaminputValue;
+    console.log(url_playerAllStats)
+
+    d3.json(url_playerAllStats).then(function(response) {      
+      console.log("playerAllStats " + response);
+      var playerAllStats = response;
+
+      // Then, select the unordered list element by class name
+      var thead = d3.select("thead");
+      thead.html("");
+      
+      var row = thead.append("tr");
+      row.append("th").text("Date");   
+      row.append("th").text("Home vs Away");            
+      row.append("th").text("Shots");            
+      row.append("th").text("Assists");
+      row.append("th").text("Goals");            
+      row.append("th").text("Blocked");
+      row.append("th").text("PlusMinus"); 
+      row.append("th").text("Takeaways");
+      row.append("th").text("Giveaways");        
+      row.append("th").text("FaceOffWins");                
+      row.append("th").text("PenaltyMin");
+                                                            
+      // First, clear out any existing data
+      var tbody = d3.select("tbody");
+      tbody.html("");
+      playerAllStats.forEach((playerstat, i) => {
+        console.log(playerstat)
+        var row = tbody.append("tr");
+          row.append("td").text(playerstat.date);  
+          row.append("td").text(playerstat.Teams);          
+          row.append("td").text(playerstat.shots);            
+          row.append("td").text(playerstat.assists);
+          row.append("td").text(playerstat.goals);            
+          row.append("td").text(playerstat.blocked);
+          row.append("td").text(playerstat.plusMinus);  
+          row.append("td").text(playerstat.takeaways);
+          row.append("td").text(playerstat.giveaways);  
+          row.append("td").text(playerstat.faceOffWins);                              
+          row.append("td").text(playerstat.penaltyMinutes);                                                          
+      }
+    );
+      
+
+    });
+        
+
+}  
 
 
 async function init() {  
