@@ -1,5 +1,5 @@
 // Store Cluster Image element
-var clusterImg = document.getElementById("cluster-img");
+var clusterImgs = document.getElementsByClassName("cluster-img");
 
 function updateCluster() {
     // Get active axes
@@ -9,11 +9,14 @@ function updateCluster() {
     activeList["y"] = _actives[1].textContent.split(" ")[0]; // gets the y axis without the units
 
     // Update Cluster Image element with corresponding image based on active Dabbler axes
-    clusterImg.src = `/static/img/clusters/${activeList["x"]}-${activeList["y"]}.png`;
+    clusterImgs[0].src = `/static/img/clusters/${activeList["x"]}-${activeList["y"]}.png`;
+    clusterImgs[1].src = `/static/img/clusters/${activeList["x"]}-${activeList["y"]}.png`;
 }
 
 // Initialize Cluster
 function clusterInit() {
     updateCluster()
+    clusterImgs[0].classList.remove("hidden");
+    clusterImgs[1].classList.remove("hidden");
 }
 

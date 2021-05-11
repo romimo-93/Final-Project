@@ -10367,3 +10367,8 @@ body {
   max-height: 600px;
   overflow: scroll;
 }
+
+/* User Defined */
+.hidden {
+  display: none;
+}

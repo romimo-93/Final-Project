@@ -12,7 +12,8 @@ d3.selectAll("#selTeam").on("change", populateSeasonTeamPlayers);
 d3.selectAll("#selPlayer").on("change", populatePlayerInfo);
 d3.select('#myselect').property('value', '20192020');
 
-var svgWidth = 1200;
+var svgWidth = d3.select('#scatter').style('width').slice(0, -2)
+// var svgWidth = 1200;
 var svgHeight = 800;
 
 var margin = {
