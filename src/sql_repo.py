@@ -98,7 +98,7 @@ def sql_list(sql_stmt):
         rows_dict["list"] = rows
         return rows_dict
     except (Exception, Error) as error:
-        logger.error("Error while connecting to PostgreSQL" + error)
+        logger.error("Error while connecting to PostgreSQL" + str(error))
     finally:
         if (connection is not None):
             cursor.close()
@@ -124,7 +124,7 @@ def sql(sql_stmt):
         cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
-        logger.info("You are connected to - " + data)
+        logger.info("You are connected to - " + str(data))
         
         rows = []
         num_fields = len(cursor.description)
@@ -143,7 +143,7 @@ def sql(sql_stmt):
         # logger.info(rows)
         return rows
     except (Exception, Error) as error:
-        logger.error("Error while connecting to PostgreSQL" + error)
+        logger.error("Error while connecting to PostgreSQL" + str(error))
     finally:
         if (connection is not None):
             cursor.close()
