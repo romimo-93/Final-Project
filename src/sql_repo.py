@@ -1,19 +1,24 @@
 import psycopg2
 from psycopg2 import Error
 import logging
-
-season = '20142015'
-team_id = '4'
-player_id = '8468309'
-
-db_user="administrator"
-db_password="hd##WWWWRY77"
-db_host="nhl-data.chuct8n1xntr.us-west-1.rds.amazonaws.com"
-db_port="5432"
-db_name="nhl_db"
+import os
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
+
+if 'RDS_HOSTNAME' in os.environ:
+    db_name=os.environ['RDS_DB_NAME']
+    db_user=os.environ['RDS_USERNAME']
+    db_password=os.environ['RDS_PASSWORD']
+    db_host=os.environ['RDS_HOSTNAME']
+    db_port= os.environ['RDS_PORT']
+else:
+    from src import config
+    db_user=config.db_user
+    db_password=config.db_password
+    db_host=config.db_host
+    db_port=config.db_port
+    db_name=config.db_name
 
 def sql_query(queryname, season = "", team_id = "", player_id = ""):   
     sql = ""
