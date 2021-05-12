@@ -63,13 +63,13 @@ function xScale(data, chosenXAxis) {
 function yScale(data, chosenYAxis) {
   // create scales
   var yLinearScale = d3.scaleLinear()
-      .domain([d3.min(data, d => +d[chosenYAxis]) * 1,
-      d3.max(data, d => +d[chosenYAxis]) * 1
-      ])
-      .range([height, 0]);
+    .domain([d3.min(data, d => +d[chosenYAxis]) * 1,
+    d3.max(data, d => +d[chosenYAxis]) * 1
+    ])
+    .range([height, 0]);
 
-  return yLinearScale;      
-  }var  
+  return yLinearScale;
+}
 
 function renderXAxes(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
@@ -397,10 +397,10 @@ function updateDabblerDescriptions(axis, value) {
 function populateSeasons() {
   d3.select("#selSeason").html("");
   var url_seasons = "api/seasons";
-  d3.json(url_seasons).then(function(response) {
+  d3.json(url_seasons).then(function (response) {
     var season = response.list
     // select inputs 
-    var inputSelectSeason = d3.select("#selSeason").attr('class','select');
+    var inputSelectSeason = d3.select("#selSeason").attr('class', 'select');
 
     // auto populate available filter days and add blank option to search without date filter
     season.forEach(s => {
@@ -458,7 +458,7 @@ function populateSeasonTeamPlayers(){
     d3.select("#player_action").html("")  
     populatePlayerInfo();
   }
-};
+}
 
 
 function imageExists(url, callback) {
