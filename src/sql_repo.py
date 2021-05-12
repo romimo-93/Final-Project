@@ -20,7 +20,7 @@ try:
 except ModuleNotFoundError:
     print('Absolute import failed')
 
-def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
+def sql_query(queryname, season = "", team_id = "", player_id = ""):
     
     sql = ""
 
@@ -60,7 +60,8 @@ def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
     return sql
 
 
-def MF_SQL_List(p_SQL):
+def sql_list(sql_stmt):
+    connection = None
     try:
         # Connect to an existing database
         connection = psycopg2.connect(user=config.db_user,
@@ -75,7 +76,7 @@ def MF_SQL_List(p_SQL):
         print("PostgreSQL server information")
         print(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
-        cursor.execute(p_SQL)
+        cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
         print("You are connected to - ", data, "\n")
@@ -89,7 +90,7 @@ def MF_SQL_List(p_SQL):
             rows.append(data[0])
             data = cursor.fetchone()
 
-        dict = {}
+        rows_dict = {}
         dict["list"] = rows
         return dict
     except (Exception, Error) as error:
@@ -100,7 +101,8 @@ def MF_SQL_List(p_SQL):
             connection.close()
             print("PostgreSQL connection is closed")
 
-def MF_SQL(p_SQL):
+def sql(sql_stmt):
+    connection = None
     try:
         # Connect to an existing database
         connection = psycopg2.connect(user=config.db_user,
@@ -115,7 +117,7 @@ def MF_SQL(p_SQL):
         print("PostgreSQL server information")
         print(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
-        cursor.execute(p_SQL)
+        cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
         print("You are connected to - ", data, "\n")
