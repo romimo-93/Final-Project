@@ -1,13 +1,26 @@
 import psycopg2
-from src import config
 from psycopg2 import Error
+import logging
+import os
 
-season = '20142015'
-team_id = '4'
-player_id = '8468309'
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
-    
+if 'RDS_HOSTNAME' in os.environ:
+    db_name=os.environ['RDS_DB_NAME']
+    db_user=os.environ['RDS_USERNAME']
+    db_password=os.environ['RDS_PASSWORD']
+    db_host=os.environ['RDS_HOSTNAME']
+    db_port= os.environ['RDS_PORT']
+else:
+    from src import config
+    db_user=config.db_user
+    db_password=config.db_password
+    db_host=config.db_host
+    db_port=config.db_port
+    db_name=config.db_name
+
+def sql_query(queryname, season = "", team_id = "", player_id = ""):   
     sql = ""
 
     if (queryname == "sql_data"):
@@ -15,7 +28,7 @@ def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
     elif (queryname == "sql_seasons"):
         sql = "select distinct season from game order by season desc;"
     elif (queryname == "sql_daterequested") & (season != "") & (team_id != "") & (player_id != ""):
-        sql = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'name') as \"Teams\",\
+        sql = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'Name') as \"Teams\",\
                 game.\"date_time_GMT\", DATE(\"game\".\"date_time_GMT\") as date \
                 , game.season, game_skater_stats.game_id, player_id, skater_val(player_id,'Name') as PlayerName, \
                 skater_val(player_id,'Position') as \"Position\", team_id, \"timeOnIce\", \"assists\", \"goals\", \"shots\",\"hits\",\"powerPlayGoals\",\"powerPlayAssists\",\"penaltyMinutes\", \
@@ -23,7 +36,7 @@ def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
                 \"powerPlayTimeOnIce\" \
                 FROM \"game_skater_stats\" \
                 left join \"game\" on \"game_skater_stats\".\"game_id\" = \"game\".\"game_id\" where \
-                \"season\"" + "::int=" + str(season) + " \
+                \"season\"::int=" + str(season) + " \
                 and \"team_id\" = " + str(team_id) + "  \
                 and \"player_id\" = " + str(player_id) + " \
                 order by \"game\".\"date_time_GMT\" desc;"
@@ -39,72 +52,74 @@ def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
     elif (queryname == "sql_teams"):
         sql = "select \"team_id\", \"shortName\" || ' ' || \"teamName\" as \"team\" from \"team_info\" order by \"shortName\";"
     elif (queryname == "seasonTeamPlayers") & (season != "") & (team_id != ""):        
-        sql = "select distinct player_id,skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + str(team_id) + " and game_id in (select game_id from game where \"season\"" + "::int=" + str(season) + ");"
+        sql = "select distinct player_id,skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + str(team_id) + " and game_id in (select game_id from game where \"season\"::int=" + str(season) + ");"
     elif (queryname == "seasonTeams") & (season != ""):        
-        sql = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\"" + "::int=" + str(season) + " order by \"teamName\";"
+        sql = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\"::int=" + str(season) + " order by \"teamName\";"
 
     return sql
 
 
-def MF_SQL_List(p_SQL):
+def sql_list(sql_stmt):
+    global connection
     try:
         # Connect to an existing database
-        connection = psycopg2.connect(user=config.db_user,
-                                    password=config.db_password,
-                                    host=config.db_host,
-                                    port=config.db_port,
-                                    database=config.db_name)
+        connection = psycopg2.connect(user=db_user,
+                                    password=db_password,
+                                    host=db_host,
+                                    port=db_port,
+                                    database=db_name)
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
         # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
+        logger.info("PostgreSQL server information")
+        logger.info(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
-        cursor.execute(p_SQL)
+        cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
-        print("You are connected to - ", data, "\n")
+        logger.info("You are connected to - ", data, "\n")
         
         rows = []
         num_fields = len(cursor.description)
         field_names = [i[0] for i in cursor.description]
 
-        print(num_fields, field_names)
+        logger.info(num_fields, field_names)
         while data:
             rows.append(data[0])
             data = cursor.fetchone()
 
-        dict = {}
-        dict["list"] = rows
-        return dict
+        rows_dict = {}
+        rows_dict["list"] = rows
+        return rows_dict
     except (Exception, Error) as error:
-        print("Error while connecting to PostgreSQL", error)
+        logger.error("Error while connecting to PostgreSQL" + str(error))
     finally:
-        if (connection):
+        if (connection is not None):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
+            logger.error("PostgreSQL connection is closed")
 
-def MF_SQL(p_SQL):
+def sql(sql_stmt):
+    global connection
     try:
         # Connect to an existing database
-        connection = psycopg2.connect(user=config.db_user,
-                                    password=config.db_password,
-                                    host=config.db_host,
-                                    port=config.db_port,
-                                    database=config.db_name)
+        connection = psycopg2.connect(user=db_user,
+                                    password=db_password,
+                                    host=db_host,
+                                    port=db_port,
+                                    database=db_name)
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
         # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
+        logger.info("PostgreSQL server information")
+        logger.info(connection.get_dsn_parameters())
         # Executing a SQL query
-        cursor.execute(p_SQL)
+        cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
-        print("You are connected to - ", data, "\n")
+        logger.info("You are connected to - " + str(data))
         
         rows = []
         num_fields = len(cursor.description)
@@ -120,12 +135,12 @@ def MF_SQL(p_SQL):
             rows.append(row_dict)
             data = cursor.fetchone()
 
-        print(rows)
+        # logger.info(rows)
         return rows
     except (Exception, Error) as error:
-        print("Error while connecting to PostgreSQL", error)
-    # finally:
-    #     if (connection):
-    #         cursor.close()
-    #         connection.close()
-    #         print("PostgreSQL connection is closed")
+        logger.error("Error while connecting to PostgreSQL" + str(error))
+    finally:
+        if (connection is not None):
+            cursor.close()
+            connection.close()
+            logger.info("PostgreSQL connection is closed")
