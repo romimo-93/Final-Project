@@ -37,18 +37,10 @@ def data():
 
 @application.route("/api/seasons")
 def seasons():
-    global seasons
-    if (seasons is None):
-        logger.error("[INFO] Setting seasons from query")
-        sql = sql_repo.sql_query("sql_seasons")
-        if (sql != ""):
-            results = sql_repo.sql_list(sql)
-            results = seasons = jsonify(results)
-    else:
-        logger.error("[INFO] seasons: " + str(seasons))
-        logger.error("[INFO] Setting seasons from cache")
-        results = str(seasons)
-    return results
+    sql = sql_repo.sql_query("sql_seasons")
+    if (sql != ""):
+        results = sql_repo.sql_list(sql)
+    return jsonify(results)
 
 
 @application.route("/api/playerstats/<season>!<player_id>!<team_id>")
