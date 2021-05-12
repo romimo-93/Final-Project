@@ -385,7 +385,7 @@ function updateDabblerDescriptions(axis, value) {
     } else if (value === "evenTimeOnIce") {
       valueDescription = "<b>Even time on ice</b>: Total time on ice while both teams have even number of players (no penalties).";
     } else if (value === "shortHandedTimeOnIce") {
-      valueDescription = "<b>Short-handed time on ice</b>: Time on ice while at least on player on player's team is serving a pentalty and the opposing team has numerical advantage on the ice";
+      valueDescription = "<b>Short-handed time on ice</b>: Time on ice while at least on player on player's team is serving a penalty and the opposing team has numerical advantage on the ice";
     } else if (value === "powerPlayTimeOnIce") {
       valueDescription = "<b>Powerplay time on ice</b>: Time on ice while at least one opposing team's player is serving a penalty, and the team has a numerical advantage on the ice";
     }
@@ -398,15 +398,28 @@ function updateDabblerDescriptions(axis, value) {
 function populateSeasons() {
   d3.select("#selSeason").html("");
   var url_seasons = "api/seasons";
-  d3.json(url_seasons).then(function (response) {
-    var season = response.list
-    // select inputs 
-    var inputSelectSeason = d3.select("#selSeason").attr('class', 'select');
+  d3.json(url_seasons).then(async function (response) {
+    let success = false;
+    let retry = 1;
+    while (!success && retry <= 10) {
+      try {
+        var season = response.list
+        // select inputs 
+        var inputSelectSeason = d3.select("#selSeason").attr('class', 'select');
 
-    // auto populate available filter days and add blank option to search without date filter
-    season.forEach(s => {
-      inputSelectSeason.append('option').text(s);
-    });
+        // auto populate available filter days and add blank option to search without date filter
+        season.forEach(s => {
+          inputSelectSeason.append('option').text(s);
+        });
+        console.log("First Try!");
+        success = true;
+      } catch (TypeError) {
+        await oneSecond();
+        console.log("try again");
+        retry+=1;
+      }
+    }
+    !success ? console.log("I give up. I'm done trying") : 1;
   });
 }
 
