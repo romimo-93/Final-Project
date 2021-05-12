@@ -16,7 +16,7 @@ application = Flask(__name__)
 #################################################
 # Cached Data
 #################################################
-global seasons
+seasons = None
 
 #################################################
 # Routes
@@ -37,6 +37,7 @@ def data():
 
 @application.route("/api/seasons")
 def seasons():
+    global seasons
     if (seasons is None):
         logger.error("[INFO] Setting seasons from query")
         sql = sql_repo.sql_query("sql_seasons")
