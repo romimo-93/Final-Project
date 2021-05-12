@@ -13,7 +13,7 @@ function updateCluster() {
     clusterImgs[1].src = `/static/img/clusters/${activeList["x"]}-${activeList["y"]}.png`;
 }
 
-// Initialize Cluster
+// Initialize Cluster and un-hide image elements
 function clusterInit() {
     updateCluster()
     clusterImgs[0].classList.remove("hidden");

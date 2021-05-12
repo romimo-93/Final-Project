@@ -82,9 +82,9 @@ def aggplayerstats(player_id):
 @application.route("/api/avgplayerstats/<player_id>")
 def avgplayerstats(player_id):
     sql = sql_repo.sql_query("sql_avgplayerstats")     
-    if (player_id.isnumeric()) == True & (sql != ""):  
+    if player_id.isnumeric() == True & sql != "":  
         sql += " where player_id = " + player_id
-    if (sql != ""):
+    if sql != "":
         results = sql_repo.sql(sql)   
     return jsonify(results)
 
