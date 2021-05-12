@@ -1,5 +1,5 @@
 import psycopg2
-from src import config
+import config
 from psycopg2 import Error
 
 season = '20142015'
