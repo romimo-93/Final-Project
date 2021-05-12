@@ -61,7 +61,7 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
 
 
 def sql_list(sql_stmt):
-    connection = None
+    global connection
     try:
         # Connect to an existing database
         connection = psycopg2.connect(user=config.db_user,
@@ -102,7 +102,7 @@ def sql_list(sql_stmt):
             print("PostgreSQL connection is closed")
 
 def sql(sql_stmt):
-    connection = None
+    global connection
     try:
         # Connect to an existing database
         connection = psycopg2.connect(user=config.db_user,
