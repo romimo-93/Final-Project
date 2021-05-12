@@ -1,7 +1,11 @@
 # import necessary libraries
 from flask import (Flask, render_template, jsonify, request, redirect)
+import logging
 from src import sql_repo
 from cluster import cluster
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 #################################################
 # Flask Setup
@@ -28,9 +32,10 @@ def data():
 
 @application.route("/api/seasons")
 def seasons():
+    logger.info("INFO: INSIDE seasons ROUTE")
     sql = sql_repo.sql_query("sql_seasons")
     if (sql != ""):
-        results = sql_repo.sqlL_List(sql)
+        results = sql_repo.sql_list(sql)
     return jsonify(results)
 
 

@@ -15,8 +15,7 @@ db_name="nhl_db"
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-def sql_query(queryname, season = "", team_id = "", player_id = ""):
-    
+def sql_query(queryname, season = "", team_id = "", player_id = ""):   
     sql = ""
 
     if (queryname == "sql_data"):
@@ -68,19 +67,19 @@ def sql_list(sql_stmt):
         # Create a cursor to perform database operations
         cursor = connection.cursor()
         # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
+        logger.info("PostgreSQL server information")
+        logger.info(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
         cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
-        print("You are connected to - ", data, "\n")
+        logger.info("You are connected to - ", data, "\n")
         
         rows = []
         num_fields = len(cursor.description)
         field_names = [i[0] for i in cursor.description]
 
-        print(num_fields, field_names)
+        logger.info(num_fields, field_names)
         while data:
             rows.append(data[0])
             data = cursor.fetchone()
