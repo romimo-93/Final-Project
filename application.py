@@ -45,8 +45,9 @@ def seasons():
             results = sql_repo.sql_list(sql)
             results = seasons = jsonify(results)
     else:
+        logger.error("[INFO] seasons: " + str(seasons))
         logger.error("[INFO] Setting seasons from cache")
-        results = seasons
+        results = str(seasons)
     return results
 
 
