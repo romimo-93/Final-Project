@@ -23,7 +23,7 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
     elif (queryname == "sql_seasons"):
         sql = "select distinct season from game order by season desc;"
     elif (queryname == "sql_daterequested") & (season != "") & (team_id != "") & (player_id != ""):
-        sql = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'name') as \"Teams\",\
+        sql = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'Name') as \"Teams\",\
                 game.\"date_time_GMT\", DATE(\"game\".\"date_time_GMT\") as date \
                 , game.season, game_skater_stats.game_id, player_id, skater_val(player_id,'Name') as PlayerName, \
                 skater_val(player_id,'Position') as \"Position\", team_id, \"timeOnIce\", \"assists\", \"goals\", \"shots\",\"hits\",\"powerPlayGoals\",\"powerPlayAssists\",\"penaltyMinutes\", \
