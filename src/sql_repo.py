@@ -31,7 +31,7 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
                 \"powerPlayTimeOnIce\" \
                 FROM \"game_skater_stats\" \
                 left join \"game\" on \"game_skater_stats\".\"game_id\" = \"game\".\"game_id\" where \
-                \"season\"" + "::int=" + str(season) + " \
+                \"season\"::int=" + str(season) + " \
                 and \"team_id\" = " + str(team_id) + "  \
                 and \"player_id\" = " + str(player_id) + " \
                 order by \"game\".\"date_time_GMT\" desc;"
@@ -47,9 +47,9 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
     elif (queryname == "sql_teams"):
         sql = "select \"team_id\", \"shortName\" || ' ' || \"teamName\" as \"team\" from \"team_info\" order by \"shortName\";"
     elif (queryname == "seasonTeamPlayers") & (season != "") & (team_id != ""):        
-        sql = "select distinct player_id,skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + str(team_id) + " and game_id in (select game_id from game where \"season\"" + "::int=" + str(season) + ");"
+        sql = "select distinct player_id,skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + str(team_id) + " and game_id in (select game_id from game where \"season\"::int=" + str(season) + ");"
     elif (queryname == "seasonTeams") & (season != ""):        
-        sql = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\"" + "::int=" + str(season) + " order by \"teamName\";"
+        sql = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\"::int=" + str(season) + " order by \"teamName\";"
 
     return sql
 
