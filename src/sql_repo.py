@@ -6,27 +6,45 @@ season = '20142015'
 team_id = '4'
 player_id = '8468309'
 
-sql_data = "SELECT \"player_id\",\"goals\",\"timeOnIce\",\"penaltyMinutes\" FROM game_skater_stats LIMIT 100;"
-sql_seasons = "select distinct season from game order by season desc;"
-sql_daterequested = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'name') as \"Teams\",\
-    game.\"date_time_GMT\", DATE(\"game\".\"date_time_GMT\") as date \
-    , game.season, game_skater_stats.game_id, player_id, skater_val(player_id,'Name') as PlayerName, \
-    skater_val(player_id,'Position') as \"Position\", team_id, \"timeOnIce\", \"assists\", \"goals\", \"shots\",\"hits\",\"powerPlayGoals\",\"powerPlayAssists\",\"penaltyMinutes\", \
-    \"faceOffWins\",\"faceoffTaken\",\"takeaways\",\"giveaways\",\"shortHandedGoals\",\"shortHandedAssists\",\"blocked\",\"plusMinus\",\"evenTimeOnIce\",\"shortHandedTimeOnIce\",\
-    \"powerPlayTimeOnIce\" \
-    FROM \"game_skater_stats\" \
-    left join \"game\" on \"game_skater_stats\".\"game_id\" = \"game\".\"game_id\" where \
-    \"season\" = " + str(season) + " \
-    and \"team_id\" = " + str(team_id) + "  \
-    and \"player_id\" = " + str(player_id) + " \
-    order by \"game\".\"date_time_GMT\" desc;"
-sql_playerinfo = "SELECT \"player_id\", \"assists\", \"timeOnIce\", \"goals\", \"shots\", \"hits\", \
-    \"penaltyMinutes\" from \"game_skater_stats\" where \"player_id\" = " + str(player_id)
-sql_players = "select \"player_id\", \"firstName\" || ' ' || \"lastName\" || ' (' || \"primaryPosition\" ||')' as \"PlayerName\" from \"player_info\";"   
-sql_aggplayerstats = "select * from dbo.aggplayerstats;"
-sql_teams = "select \"team_id\", \"shortName\" || ' ' || \"teamName\" as \"team\" from \"team_info order\" by \"shortName\";"
-seasonTeamPlayers = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\" = " + str(season) + " order by \"teamName\";"
-seasonTeams = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\" = " + str(season) + " order by \"teamName\";"
+def MF_SQL_query(queryname, season = "", team_id = "", player_id = ""):
+    
+    sql = ""
+
+    if (queryname == "sql_data"):
+        sql = "SELECT \"player_id\",\"goals\",\"timeOnIce\",\"penaltyMinutes\" FROM game_skater_stats LIMIT 100;"    
+    elif (queryname == "sql_seasons"):
+        sql = "select distinct season from game order by season desc;"
+    elif (queryname == "sql_daterequested") & (season != "") & (team_id != "") & (player_id != ""):
+        sql = "SELECT distinct \"game\".\"outcome\", team_val(cast(\"game\".\"home_team_id\" as int),'Name') || ' vs ' || team_val(cast(\"away_team_id\" as int),'name') as \"Teams\",\
+                game.\"date_time_GMT\", DATE(\"game\".\"date_time_GMT\") as date \
+                , game.season, game_skater_stats.game_id, player_id, skater_val(player_id,'Name') as PlayerName, \
+                skater_val(player_id,'Position') as \"Position\", team_id, \"timeOnIce\", \"assists\", \"goals\", \"shots\",\"hits\",\"powerPlayGoals\",\"powerPlayAssists\",\"penaltyMinutes\", \
+                \"faceOffWins\",\"faceoffTaken\",\"takeaways\",\"giveaways\",\"shortHandedGoals\",\"shortHandedAssists\",\"blocked\",\"plusMinus\",\"evenTimeOnIce\",\"shortHandedTimeOnIce\",\
+                \"powerPlayTimeOnIce\" \
+                FROM \"game_skater_stats\" \
+                left join \"game\" on \"game_skater_stats\".\"game_id\" = \"game\".\"game_id\" where \
+                \"season\"" + "::int=" + str(season) + " \
+                and \"team_id\" = " + str(team_id) + "  \
+                and \"player_id\" = " + str(player_id) + " \
+                order by \"game\".\"date_time_GMT\" desc;"
+    elif (queryname == "sql_playerinfo") & (player_id != ""):
+        sql = "SELECT \"player_id\", \"assists\", \"timeOnIce\", \"goals\", \"shots\", \"hits\", \
+                \"penaltyMinutes\" from \"game_skater_stats\" where \"player_id\" = " + str(player_id)
+    elif (queryname == "sql_players"):
+        sql = "select \"player_id\", \"firstName\" || ' ' || \"lastName\" || ' (' || \"primaryPosition\" ||')' as \"PlayerName\" from \"player_info\";"   
+    elif (queryname == "sql_aggplayerstats"):
+        sql = "select * from aggplayerstats;"
+    elif (queryname == "sql_avgplayerstats"):
+        sql = "select * from avgplayerstats;"        
+    elif (queryname == "sql_teams"):
+        sql = "select \"team_id\", \"shortName\" || ' ' || \"teamName\" as \"team\" from \"team_info\" order by \"shortName\";"
+    elif (queryname == "seasonTeamPlayers") & (season != "") & (team_id != ""):        
+        sql = "select distinct player_id,skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + str(team_id) + " and game_id in (select game_id from game where \"season\"" + "::int=" + str(season) + ");"
+    elif (queryname == "seasonTeams") & (season != ""):        
+        sql = "select \"team_id\", \"teamName\" from \"season_team\" where \"season\"" + "::int=" + str(season) + " order by \"teamName\";"
+
+    return sql
+
 
 def MF_SQL_List(p_SQL):
     try:
@@ -43,7 +61,7 @@ def MF_SQL_List(p_SQL):
         print("PostgreSQL server information")
         print(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
-        cursor.execute(sql_data)
+        cursor.execute(p_SQL)
         # Fetch result
         data = cursor.fetchone()
         print("You are connected to - ", data, "\n")
@@ -83,7 +101,7 @@ def MF_SQL(p_SQL):
         print("PostgreSQL server information")
         print(connection.get_dsn_parameters(), "\n")
         # Executing a SQL query
-        cursor.execute(sql_data)
+        cursor.execute(p_SQL)
         # Fetch result
         data = cursor.fetchone()
         print("You are connected to - ", data, "\n")
@@ -106,8 +124,8 @@ def MF_SQL(p_SQL):
         return rows
     except (Exception, Error) as error:
         print("Error while connecting to PostgreSQL", error)
-    finally:
-        if (connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
+    # finally:
+    #     if (connection):
+    #         cursor.close()
+    #         connection.close()
+    #         print("PostgreSQL connection is closed")

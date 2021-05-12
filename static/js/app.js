@@ -447,7 +447,8 @@ function populateSeasonTeamPlayers(){
       var inputSelectPlayer = d3.select("#selPlayer").attr('class','select');
       
       seasonTeamPlayers.forEach(p => {
-        inputSelectPlayer.append('option').text(p.PlayerName).property('value', p.player_id);           
+        console.log(p);
+        inputSelectPlayer.append('option').text(p.playername).property('value', p.player_id);           
       });    
     });
     d3.select("#player_headshot").html("")  
