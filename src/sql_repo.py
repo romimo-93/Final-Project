@@ -95,7 +95,7 @@ def MF_SQL_List(p_SQL):
     except (Exception, Error) as error:
         print("Error while connecting to PostgreSQL", error)
     finally:
-        if (connection):
+        if (connection is not None):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
@@ -138,8 +138,8 @@ def MF_SQL(p_SQL):
         return rows
     except (Exception, Error) as error:
         print("Error while connecting to PostgreSQL", error)
-    # finally:
-    #     if (connection):
-    #         cursor.close()
-    #         connection.close()
-    #         print("PostgreSQL connection is closed")
+    finally:
+        if (connection is not None):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
