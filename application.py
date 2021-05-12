@@ -1,6 +1,6 @@
 # import necessary libraries
 from flask import (Flask, render_template, jsonify, request, redirect)
-from src import config, sql_repo
+from src import sql_repo
 import pyodbc as podbc
 from cluster import cluster
 
