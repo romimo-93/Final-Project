@@ -1,24 +1,28 @@
 import psycopg2
 from psycopg2 import Error
+import logging
 
 season = '20142015'
 team_id = '4'
 player_id = '8468309'
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 try:
     # Trying to find module in the parent package
     from . import config
-    print(config.debug)
+    logger.info(config.debug)
     del config
 except ImportError:
-    print('Relative import failed')
+    logger.info('Relative import failed')
 
 try:
     # Trying to find module on sys.path
     import config
-    print(config.debug)
+    logger.info(config.debug)
 except ModuleNotFoundError:
-    print('Absolute import failed')
+    logger.info('Absolute import failed')
 
 def sql_query(queryname, season = "", team_id = "", player_id = ""):
     
@@ -91,15 +95,15 @@ def sql_list(sql_stmt):
             data = cursor.fetchone()
 
         rows_dict = {}
-        dict["list"] = rows
-        return dict
+        rows_dict["list"] = rows
+        return rows_dict
     except (Exception, Error) as error:
-        print("Error while connecting to PostgreSQL", error)
+        logger.error("Error while connecting to PostgreSQL" + error)
     finally:
         if (connection is not None):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
+            logger.error("PostgreSQL connection is closed")
 
 def sql(sql_stmt):
     global connection
@@ -114,13 +118,13 @@ def sql(sql_stmt):
         # Create a cursor to perform database operations
         cursor = connection.cursor()
         # Print PostgreSQL details
-        print("PostgreSQL server information")
-        print(connection.get_dsn_parameters(), "\n")
+        logger.info("PostgreSQL server information")
+        logger.info(connection.get_dsn_parameters())
         # Executing a SQL query
         cursor.execute(sql_stmt)
         # Fetch result
         data = cursor.fetchone()
-        print("You are connected to - ", data, "\n")
+        logger.info("You are connected to - " + data)
         
         rows = []
         num_fields = len(cursor.description)
@@ -136,12 +140,12 @@ def sql(sql_stmt):
             rows.append(row_dict)
             data = cursor.fetchone()
 
-        print(rows)
+        # logger.info(rows)
         return rows
     except (Exception, Error) as error:
-        print("Error while connecting to PostgreSQL", error)
+        logger.error("Error while connecting to PostgreSQL" + error)
     finally:
         if (connection is not None):
             cursor.close()
             connection.close()
-            print("PostgreSQL connection is closed")
+            logger.info("PostgreSQL connection is closed")
