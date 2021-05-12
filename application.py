@@ -72,14 +72,14 @@ def home():
 
 @application.route("/api/data")
 def data():
-    results = sql_repo.MF_SQL("SELECT top 100 player_id,goals,timeOnIce,penaltyMinutes FROM game_skater_stats")
+    results = sql_repo.MF_SQL(sql_repo.sql_data)
     return jsonify(results)
 
 
-# @application.route("/api/seasons")
-# def seasons():
-#     results = MF_SQL_List("select distinct season from game order by season desc")
-#     return jsonify(results)
+@application.route("/api/seasons")
+def seasons():
+    results = sql_repo.MF_SQL_List(sql_repo.sql_seasons)
+    return jsonify(results)
 
 
 # @application.route("/api/playerstats/<season>!<player_id>!<team_id>")
@@ -90,7 +90,7 @@ def data():
 #         sql = "SELECT distinct game.outcome,dbo.team_val(home_team_id,'name') + ' vs '+ dbo.team_val(away_team_id,'name') as Teams, game.date_time_GMT, CONVERT(VARCHAR, DATEADD(hour,DATEDIFF (hour, GETUTCDATE(), GETDATE()),game.date_time_GMT),101) as date, game.season, game_skater_stats.game_id, player_id, dbo.skater_val(player_id,'Name') as PlayerName, dbo.skater_val(player_id,'Position') as Position, team_id, timeOnIce, assists, goals, shots,hits,powerPlayGoals,powerPlayAssists,penaltyMinutes, faceOffWins,faceoffTaken,takeaways,giveaways,shortHandedGoals,shortHandedAssists,blocked,plusMinus,evenTimeOnIce,shortHandedTimeOnIce,powerPlayTimeOnIce FROM game_skater_stats left join game on game_skater_stats.game_id = game.game_id where season = " + season + " and team_id = " + team_id + " and player_id = " + player_id + " order by game.date_time_GMT desc"        
 #         results = MF_SQL(sql)    
 
-#     return jsonify(results)
+#      return jsonify(results)
 
 # @application.route("/api/playerinfo/<player_id>")
 # def playerinfo(player_id):
