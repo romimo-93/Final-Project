@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 
 try:
     # Trying to find module in the parent package
-    from . import config
+    from src import config
     logger.info(config.debug)
     del config
 except ImportError:
