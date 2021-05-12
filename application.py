@@ -43,11 +43,11 @@ def seasons():
         sql = sql_repo.sql_query("sql_seasons")
         if (sql != ""):
             results = sql_repo.sql_list(sql)
-            seasons = results
+            results = seasons = jsonify(results)
     else:
         logger.error("[INFO] Setting seasons from cache")
         results = seasons
-    return jsonify(results)
+    return results
 
 
 @application.route("/api/playerstats/<season>!<player_id>!<team_id>")

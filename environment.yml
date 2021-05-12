@@ -5,7 +5,7 @@ dependencies:
   - python=3.8.5
   - flask
   - requests
-  - pyodbc
+  - psycopg2
   - matplotlib
   - numpy
   - scikit-learn

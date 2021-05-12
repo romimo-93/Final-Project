@@ -4,3 +4,7 @@ pip install mpld3
 pip list --format=freeze > requirements.txt
 remove un-needed pkgs
 eb init -p python-3.8 nhl-app --region us-west-1
+eb create nhl-app
+
+# To deploy after created
+eb deploy nhl-app
