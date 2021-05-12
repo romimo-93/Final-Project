@@ -6,23 +6,14 @@ season = '20142015'
 team_id = '4'
 player_id = '8468309'
 
+db_user="administrator"
+db_password="hd##WWWWRY77"
+db_host="nhl-data.chuct8n1xntr.us-west-1.rds.amazonaws.com"
+db_port="5432"
+db_name="nhl_db"
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
-try:
-    # Trying to find module in the parent package
-    from src import config
-    logger.info(config.debug)
-    del config
-except ImportError:
-    logger.info('Relative import failed')
-
-try:
-    # Trying to find module on sys.path
-    import config
-    logger.info(config.debug)
-except ModuleNotFoundError:
-    logger.info('Absolute import failed')
 
 def sql_query(queryname, season = "", team_id = "", player_id = ""):
     
@@ -68,11 +59,11 @@ def sql_list(sql_stmt):
     global connection
     try:
         # Connect to an existing database
-        connection = psycopg2.connect(user=config.db_user,
-                                    password=config.db_password,
-                                    host=config.db_host,
-                                    port=config.db_port,
-                                    database=config.db_name)
+        connection = psycopg2.connect(user=db_user,
+                                    password=db_password,
+                                    host=db_host,
+                                    port=db_port,
+                                    database=db_name)
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
@@ -109,11 +100,11 @@ def sql(sql_stmt):
     global connection
     try:
         # Connect to an existing database
-        connection = psycopg2.connect(user=config.db_user,
-                                    password=config.db_password,
-                                    host=config.db_host,
-                                    port=config.db_port,
-                                    database=config.db_name)
+        connection = psycopg2.connect(user=db_user,
+                                    password=db_password,
+                                    host=db_host,
+                                    port=db_port,
+                                    database=db_name)
 
         # Create a cursor to perform database operations
         cursor = connection.cursor()
