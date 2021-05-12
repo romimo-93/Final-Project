@@ -1,6 +1,6 @@
 # import necessary libraries
 from flask import (Flask, render_template, jsonify, request, redirect)
-from src import config
+from src import config, sql_repo
 import json
 import requests
 import pyodbc as podbc
@@ -72,79 +72,78 @@ def home():
 
 @application.route("/api/data")
 def data():
-    results = MF_SQL(
-    "SELECT top 100 player_id,goals,timeOnIce,penaltyMinutes FROM game_skater_stats")
+    results = sql_repo.MF_SQL("SELECT top 100 player_id,goals,timeOnIce,penaltyMinutes FROM game_skater_stats")
     return jsonify(results)
 
 
-@application.route("/api/seasons")
-def seasons():
-    results = MF_SQL_List("select distinct season from game order by season desc")
-    return jsonify(results)
+# @application.route("/api/seasons")
+# def seasons():
+#     results = MF_SQL_List("select distinct season from game order by season desc")
+#     return jsonify(results)
 
 
-@application.route("/api/playerstats/<season>!<player_id>!<team_id>")
-def daterequested(season, player_id, team_id):
-    results = {}    
+# @application.route("/api/playerstats/<season>!<player_id>!<team_id>")
+# def daterequested(season, player_id, team_id):
+#     results = {}    
 
-    if ((player_id.isnumeric() == True) and (season.isnumeric() == True) & (team_id.isnumeric() == True)):
-        sql = "SELECT distinct game.outcome,dbo.team_val(home_team_id,'name') + ' vs '+ dbo.team_val(away_team_id,'name') as Teams, game.date_time_GMT, CONVERT(VARCHAR, DATEADD(hour,DATEDIFF (hour, GETUTCDATE(), GETDATE()),game.date_time_GMT),101) as date, game.season, game_skater_stats.game_id, player_id, dbo.skater_val(player_id,'Name') as PlayerName, dbo.skater_val(player_id,'Position') as Position, team_id, timeOnIce, assists, goals, shots,hits,powerPlayGoals,powerPlayAssists,penaltyMinutes, faceOffWins,faceoffTaken,takeaways,giveaways,shortHandedGoals,shortHandedAssists,blocked,plusMinus,evenTimeOnIce,shortHandedTimeOnIce,powerPlayTimeOnIce FROM game_skater_stats left join game on game_skater_stats.game_id = game.game_id where season = " + season + " and team_id = " + team_id + " and player_id = " + player_id + " order by game.date_time_GMT desc"        
-        results = MF_SQL(sql)    
+#     if ((player_id.isnumeric() == True) and (season.isnumeric() == True) & (team_id.isnumeric() == True)):
+#         sql = "SELECT distinct game.outcome,dbo.team_val(home_team_id,'name') + ' vs '+ dbo.team_val(away_team_id,'name') as Teams, game.date_time_GMT, CONVERT(VARCHAR, DATEADD(hour,DATEDIFF (hour, GETUTCDATE(), GETDATE()),game.date_time_GMT),101) as date, game.season, game_skater_stats.game_id, player_id, dbo.skater_val(player_id,'Name') as PlayerName, dbo.skater_val(player_id,'Position') as Position, team_id, timeOnIce, assists, goals, shots,hits,powerPlayGoals,powerPlayAssists,penaltyMinutes, faceOffWins,faceoffTaken,takeaways,giveaways,shortHandedGoals,shortHandedAssists,blocked,plusMinus,evenTimeOnIce,shortHandedTimeOnIce,powerPlayTimeOnIce FROM game_skater_stats left join game on game_skater_stats.game_id = game.game_id where season = " + season + " and team_id = " + team_id + " and player_id = " + player_id + " order by game.date_time_GMT desc"        
+#         results = MF_SQL(sql)    
 
-    return jsonify(results)
+#     return jsonify(results)
 
-@application.route("/api/playerinfo/<player_id>")
-def playerinfo(player_id):
-    results = {}
-    results = MF_SQL(
-        "SELECT player_id, assists, timeOnIce, goals, shots, hits, penaltyMinutes from game_skater_stats where player_id = " + str(player_id))
-    return jsonify(results)
-
-
-@application.route("/api/players/")
-def players():
-    results = {}
-    results = MF_SQL(
-        "select player_id, firstName + ' ' + lastName + ' (' + primaryPosition +')' as PlayerName from player_info")
-    return jsonify(results)
+# @application.route("/api/playerinfo/<player_id>")
+# def playerinfo(player_id):
+#     results = {}
+#     results = MF_SQL(
+#         "SELECT player_id, assists, timeOnIce, goals, shots, hits, penaltyMinutes from game_skater_stats where player_id = " + str(player_id))
+#     return jsonify(results)
 
 
-@application.route("/api/aggplayerstats/<player_id>")
-def aggplayerstats(player_id):
-    sql = "select * from dbo.aggplayerstats"
-    if player_id.isnumeric() == True:  
-        sql += " where player_id = " + player_id
-    results = MF_SQL(sql)
-    return jsonify(results)
+# @application.route("/api/players/")
+# def players():
+#     results = {}
+#     results = MF_SQL(
+#         "select player_id, firstName + ' ' + lastName + ' (' + primaryPosition +')' as PlayerName from player_info")
+#     return jsonify(results)
 
-@application.route("/api/avgplayerstats/<player_id>")
-def avgplayerstats(player_id):
-    sql = "select * from dbo.avgplayerstats"
+
+# @application.route("/api/aggplayerstats/<player_id>")
+# def aggplayerstats(player_id):
+#     sql = "select * from dbo.aggplayerstats"
+#     if player_id.isnumeric() == True:  
+#         sql += " where player_id = " + player_id
+#     results = MF_SQL(sql)
+#     return jsonify(results)
+
+# @application.route("/api/avgplayerstats/<player_id>")
+# def avgplayerstats(player_id):
+#     sql = "select * from dbo.avgplayerstats"
     
-    if player_id.isnumeric() == True:  
-        sql += " where player_id = " + player_id
+#     if player_id.isnumeric() == True:  
+#         sql += " where player_id = " + player_id
         
-    results = MF_SQL(sql)
-    return jsonify(results)
+#     results = MF_SQL(sql)
+#     return jsonify(results)
 
 
-@application.route("/api/teams")
-def teams():
-    sql = "select team_id, shortName + ' ' + teamName as team from team_info order by shortName"
-    results = MF_SQL(sql)
-    return jsonify(results)
+# @application.route("/api/teams")
+# def teams():
+#     sql = "select team_id, shortName + ' ' + teamName as team from team_info order by shortName"
+#     results = MF_SQL(sql)
+#     return jsonify(results)
 
-@application.route("/api/seasonTeamPlayers/<season>/<team_id>")
-def seasonTeamPlayers(season, team_id):
-    sql = "select distinct player_id,dbo.skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
-    results = MF_SQL(sql)
-    return jsonify(results)
+# @application.route("/api/seasonTeamPlayers/<season>/<team_id>")
+# def seasonTeamPlayers(season, team_id):
+#     sql = "select distinct player_id,dbo.skater_Val(player_id, 'NameSort') AS PlayerName from game_skater_stats where team_id = " + team_id + " and game_id in (select game_id from game where season = " + season + ")"
+#     results = MF_SQL(sql)
+#     return jsonify(results)
 
-@application.route("/api/seasonTeams/<season>")
-def seasonTeams(season):
-    sql = "select team_id, teamName from season_team where season = " + season + " order by teamName"
-    results = MF_SQL(sql)
-    return jsonify(results)
+# @application.route("/api/seasonTeams/<season>")
+# def seasonTeams(season):
+#     sql = "select team_id, teamName from season_team where season = " + season + " order by teamName"
+#     results = MF_SQL(sql)
+#     return jsonify(results)
 
 #### This route was used to generate the clustering images 
 # @application.route("/get/cluster-images")
