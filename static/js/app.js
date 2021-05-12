@@ -42,8 +42,8 @@ var chartGroup = svg.append("g")
 var chosenXAxis = "shots";
 var chosenYAxis = "timeOnIce";
 
-xvalueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
-yvalueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
+var xvalueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
+var yvalueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
 
 d3.select("#x-axis-description").html("<b>X-axis Description - </b>" + xvalueDescription)
 d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + yvalueDescription)
@@ -69,7 +69,7 @@ function yScale(data, chosenYAxis) {
       .range([height, 0]);
 
   return yLinearScale;      
-  };  
+  }var  
 
 function renderXAxes(newXScale, xAxis) {
     var bottomAxis = d3.axisBottom(newXScale);
@@ -79,7 +79,8 @@ function renderXAxes(newXScale, xAxis) {
       .call(bottomAxis);
    
     return xAxis;
-  };
+}
+
 function renderYAxes(newYScale, yAxis) {
     var leftAxis = d3.axisLeft(newYScale);
 
@@ -88,7 +89,7 @@ function renderYAxes(newYScale, yAxis) {
       .call(leftAxis);
 
     return yAxis;
-  };      
+}     
 
   function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
 
@@ -142,8 +143,8 @@ function populateDabbler() {
   }
   dabblerData.then(function(data) {
 
-    xAxisLabels = ["shots","goals","assists","takeaways","giveaways","hits","blocked","penaltyMinutes"]
-    yAxisLabels = ["timeOnIce","evenTimeOnIce","shortHandedTimeOnIce","powerPlayTimeOnIce"]
+    var xAxisLabels = ["shots","goals","assists","takeaways","giveaways","hits","blocked","penaltyMinutes"]
+    var yAxisLabels = ["timeOnIce","evenTimeOnIce","shortHandedTimeOnIce","powerPlayTimeOnIce"]
 
     // parse data
     data.forEach(function(d) {
@@ -230,11 +231,11 @@ function populateDabbler() {
     
     var xLabelSpacer = 25;        
 
-    xLabels = []
-    xLabelIndex = 1
+    var xLabels = []
+    var xLabelIndex = 1
 
     xAxisLabels.forEach(x => {
-      cssclass = "inactive"
+      var cssclass = "inactive"
       if (xLabelIndex === 1) {
         cssclass = "active"
       }
@@ -255,10 +256,10 @@ function populateDabbler() {
 
     // append y axis
     var yLabelSpacer = 25;
-    yLabels = []
-    yLabelIndex = 1;
+    var yLabels = []
+    var yLabelIndex = 1;
     yAxisLabels.forEach(y => {
-      cssclass = "inactive"
+      var cssclass = "inactive"
       if (yLabelIndex === 1) {
         cssclass = "active"
       }
@@ -293,7 +294,7 @@ function populateDabbler() {
           circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
   
           // updates tooltips with new info
-          labelsGroup = updateText(circleLabels,xLinearScale,yLinearScale,chosenXAxis, chosenYAxis);
+          var labelsGroup = updateText(circleLabels,xLinearScale,yLinearScale,chosenXAxis, chosenYAxis);
           
           xLabels.forEach(x => {
             var selectedxLabel = x;
@@ -329,7 +330,7 @@ function populateDabbler() {
          circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
  
          // updates tooltips with new info
-         labelsGroup = updateText(circleLabels, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
+         var labelsGroup = updateText(circleLabels, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
  
          yLabels.forEach(x => {
           var selectedyLabel = x;
@@ -353,7 +354,7 @@ function populateDabbler() {
 
 function updateDabblerDescriptions(axis, value) {
 
-  valueDescription = "";
+  var valueDescription = "";
   
   if (axis === "x") {
     if (value === "shots") {
@@ -392,9 +393,10 @@ function updateDabblerDescriptions(axis, value) {
   }
 
 }
+
 function populateSeasons() {
   d3.select("#selSeason").html("");
-  url_seasons = "api/seasons";
+  var url_seasons = "api/seasons";
   d3.json(url_seasons).then(function(response) {
     var season = response.list
     // select inputs 
@@ -405,7 +407,8 @@ function populateSeasons() {
       inputSelectSeason.append('option').text(s);
     });
   });
-};
+}
+
 function populateSeasonTeams() {
   d3.select("#selTeam").html("");
   d3.select("#selTeam").append('option').text("Select Team").property('value', '');           
@@ -413,7 +416,7 @@ function populateSeasonTeams() {
   if (selectedSeason === "") {
     selectedSeason = "20192020"
   }
-  url_seasonTeams = "api/seasonTeams/" + selectedSeason;
+  var url_seasonTeams = "api/seasonTeams/" + selectedSeason;
   d3.json(url_seasonTeams).then(function(response) {
     var team = response
 
@@ -430,7 +433,7 @@ function populateSeasonTeams() {
   d3.select("#player_headshot").html("")  
   d3.select("#player_action").html("")  
   populateSeasonTeamPlayers();
-};
+}
 
 
 function populateSeasonTeamPlayers(){
@@ -439,7 +442,7 @@ function populateSeasonTeamPlayers(){
   var selectedTeam = d3.select("#selTeam").node().value;
   
   if ((selectedSeason) && (selectedTeam)) {
-    url_seasonTeamPlayers = "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
+    var url_seasonTeamPlayers = "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
     d3.json(url_seasonTeamPlayers).then(function(response) {
       var seasonTeamPlayers = response
 
@@ -471,16 +474,16 @@ function populatePlayerInfo() {
     var inputSelectPlayer = d3.select("#selPlayer");
     d3.select("#selPlayer").append('option').text("Select Player").property('value', '');           
 
-    player_id = inputSelectPlayer.node().value;
+    var player_id = inputSelectPlayer.node().value;
     if (player_id) {
 
-      img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg"
-      img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg"     
+      var img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg"
+      var img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg"     
 
       imageExists(img_url, function(exists) {
 
         if (exists) {
-          player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";        
+          var player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";        
           d3.select("#player_headshot").html(player_headshot_imageurl)  
         }
         else {
@@ -492,7 +495,7 @@ function populatePlayerInfo() {
 
         if (exists) {
           //player_action_html = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px;z-index:-1000000000;opacity:0.15; di' alt='Player Name'>";        
-          player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";        
+          var player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";        
           d3.select("#player-action").html(player_action_html)          
         }  
       });
@@ -523,7 +526,7 @@ function populatePlayerStatsTable(player_id) {
     //   console.log("playerAggStats " + playerAggStats);
     // });    
 
-    url_playerAllStats = "/api/playerstats/" + SeasoninputValue + "!"+ player_id +"!" + teaminputValue;
+    var url_playerAllStats = "/api/playerstats/" + SeasoninputValue + "!"+ player_id +"!" + teaminputValue;
     console.log(url_playerAllStats)
 
     d3.json(url_playerAllStats).then(function(response) {      
@@ -566,11 +569,7 @@ function populatePlayerStatsTable(player_id) {
           row.append("td").text(playerstat.penaltyMinutes);                                                          
       }
     );
-      
-
     });
-        
-
 }  
 
 
@@ -585,7 +584,7 @@ async function init() {
   }
   // From cluster.js
   clusterInit();
-};
+}
 
 // Initialize script
 init();
