@@ -1,6 +1,6 @@
 // await function
 function oneSecond() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve();
     }, 2000);
@@ -20,7 +20,7 @@ var margin = {
   top: 50,
   right: 50,
   bottom: 350,
-  left: 160,
+  left: 160
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -42,6 +42,12 @@ var chartGroup = svg
 // Initial Params
 var chosenXAxis = "shots";
 var chosenYAxis = "timeOnIce";
+
+var xvalueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
+var yvalueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
+
+d3.select("#x-axis-description").html("<b>X-axis Description - </b>" + xvalueDescription)
+d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + yvalueDescription)
 
 var xvalueDescription =
   "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net.";
@@ -97,13 +103,7 @@ function renderYAxes(newYScale, yAxis) {
   return yAxis;
 }
 
-function renderCircles(
-  circlesGroup,
-  newXScale,
-  newYScale,
-  chosenXAxis,
-  chosenYAxis
-) {
+function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
   circlesGroup
     .transition()
     .duration(1000)
@@ -149,35 +149,23 @@ function getDabblerData() {
 }
 
 function populateDabbler() {
-  console.log("Populating dabbler...");
+  console.log("Populating dabbler...")
 
   if (!dabblerData) {
-    getDabblerData();
+    getDabblerData()
   }
   dabblerData.then(function (data) {
-    var xAxisLabels = [
-      "shots",
-      "goals",
-      "assists",
-      "takeaways",
-      "giveaways",
-      "hits",
-      "blocked",
-      "penaltyMinutes",
-    ];
-    var yAxisLabels = [
-      "timeOnIce",
-      "evenTimeOnIce",
-      "shortHandedTimeOnIce",
-      "powerPlayTimeOnIce",
-    ];
+
+    var xAxisLabels = ["shots", "goals", "assists", "takeaways", "giveaways", "hits", "blocked", "penaltyMinutes"]
+    var yAxisLabels = ["timeOnIce", "evenTimeOnIce", "shortHandedTimeOnIce", "powerPlayTimeOnIce"]
 
     // parse data
     data.forEach(function (d) {
+
       // X-Axis Values
       data.shots = +d.shots;
       data.goals = +d.goals;
-      data.assists = +d.assists;
+      data.assists = +d.assists
       data.takeaways = +d.takeaways;
       data.giveaways = +d.takeaways;
       data.hits = +d.hits;
@@ -207,10 +195,11 @@ function populateDabbler() {
       .call(bottomAxis);
 
     // append y axis
-    var yAxis = chartGroup.append("g").classed("y-axis", true).call(leftAxis);
+    var yAxis = chartGroup.append("g")
+      .classed("y-axis", true)
+      .call(leftAxis);
 
-    var toolTip = d3
-      .tip()
+    var toolTip = d3.tip()
       .attr("class", "d3-tip")
       .offset(function (d) {
         return [75, -d.PlayerName.length - 60];
@@ -237,16 +226,15 @@ function populateDabbler() {
       .on("mouseover", toolTip.show)
       .on("mouseout", toolTip.hide);
 
-    var circleLabels = chartGroup
-      .selectAll("null")
+    var circleLabels = chartGroup.selectAll("null")
       .data(data)
       .enter()
       .append("text")
       .attr("fill", "white")
-      .attr("x", (d) => xLinearScale(d[chosenXAxis]))
-      .attr("y", (d) => yLinearScale(d[chosenYAxis]))
+      .attr("x", d => xLinearScale(d[chosenXAxis]))
+      .attr("y", d => yLinearScale(d[chosenYAxis]))
       .text(function (d) {
-        return d.abbr;
+        return d.abbr
       })
       .attr("text-anchor", "middle")
       .attr("font-size", 12);
@@ -259,16 +247,15 @@ function populateDabbler() {
 
     var xLabelSpacer = 25;
 
-    var xLabels = [];
-    var xLabelIndex = 1;
+    var xLabels = []
+    var xLabelIndex = 1
 
-    xAxisLabels.forEach((x) => {
-      var cssclass = "inactive";
+    xAxisLabels.forEach(x => {
+      var cssclass = "inactive"
       if (xLabelIndex === 1) {
-        cssclass = "active";
+        cssclass = "active"
       }
-      var xLabel = xLabelsGroup
-        .append("text")
+      var xLabel = xLabelsGroup.append("text")
         .attr("value", x) // value to grab for event listener
         .classed("axis-text", true)
         .classed(cssclass, true)
@@ -279,8 +266,7 @@ function populateDabbler() {
       xLabelIndex += 1;
     });
 
-    var yLabelsGroup = chartGroup
-      .append("g")
+    var yLabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(-15, ${height / 2}), rotate(-90)`)
       .attr("text-anchor", "middle");
 
@@ -397,144 +383,131 @@ function populateDabbler() {
 }
 
 function updateDabblerDescriptions(axis, value) {
+
   var valueDescription = "";
 
   if (axis === "x") {
     if (value === "shots") {
-      valueDescription =
-        "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net.";
+      valueDescription = "<b>Shots</b>: A shot in ice hockey is an attempt by a player to score a goal by striking or snapping the puck with their stick in the direction of the net."
     } else if (value === "goals") {
-      valueDescription =
-        "<b>Goals</b>: A goal is scored when the puck entirely crosses the goal line between the two goal posts and below the goal crossbar.";
+      valueDescription = "<b>Goals</b>: A goal is scored when the puck entirely crosses the goal line between the two goal posts and below the goal crossbar."
     } else if (value === "assists") {
-      valueDescription =
-        "<b>Assists</b>: An assist is attributed to up to two players of the scoring team who shot, passed or deflected the puck towards the scoring teammate, or touched it in any other way which enabled the goal";
+      valueDescription = "<b>Assists</b>: An assist is attributed to up to two players of the scoring team who shot, passed or deflected the puck towards the scoring teammate, or touched it in any other way which enabled the goal"
     } else if (value === "takeaways") {
-      valueDescription =
-        "<b>Takeaways</b>: A takeaway is a forced action taken by a defensive player to regain possession of the puck for his team.";
+      valueDescription = "<b>Takeaways</b>: A takeaway is a forced action taken by a defensive player to regain possession of the puck for his team."
     } else if (value === "giveaways") {
-      valueDescription =
-        "<b>Giveaways</b>: A giveaway is when a players own actions result in a loss of possession to the opposing team.";
+      valueDescription = "<b>Giveaways</b>: A giveaway is when a players own actions result in a loss of possession to the opposing team."
     } else if (value === "hits") {
-      valueDescription =
-        "<b>hits</b>: For a valid 'Hit' to be registered on the stat sheet, the player to be credited with the hit must a) intentionally initiate physical contact with the player possessing the puck, and b) the player sustaining the contact must lose possession of the puck as a result of the contact.";
+      valueDescription = "<b>hits</b>: For a valid 'Hit' to be registered on the stat sheet, the player to be credited with the hit must a) intentionally initiate physical contact with the player possessing the puck, and b) the player sustaining the contact must lose possession of the puck as a result of the contact."
     } else if (value === "blocked") {
-      valueDescription =
-        "<b>Blocked</b>: A shot that is deflected wide or blocked by an opponent does not count as a shot on goal; it is recorded as a blocked shot. The player who blocks the shot is credited with a 'blocked shot', and the player who shoots the puck is credited with an 'attempt blocked'.";
+      valueDescription = "<b>Blocked</b>: A shot that is deflected wide or blocked by an opponent does not count as a shot on goal; it is recorded as a blocked shot. The player who blocks the shot is credited with a 'blocked shot', and the player who shoots the puck is credited with an 'attempt blocked'."
     } else if (value === "penaltyMinutes") {
-      valueDescription =
-        "<b>Penalty Minutes</b>: The cumulative total of time that a player has spent in the penalty box due to on ice infractions and is calculated by game and by season. ";
+      valueDescription = "<b>Penalty Minutes</b>: The cumulative total of time that a player has spent in the penalty box due to on ice infractions and is calculated by game and by season. "
     }
 
-    d3.select("#x-axis-description").html(
-      "<b>X-axis Description - </b>" + valueDescription
-    );
+    d3.select("#x-axis-description").html("<b>X-axis Description - </b>" + valueDescription)
   }
 
   if (axis === "y") {
     if (value === "timeOnIce") {
-      valueDescription =
-        "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
+      valueDescription = "<b>Time on Ice</b>: The aggregation of the overall time a player is on the ice.";
     } else if (value === "evenTimeOnIce") {
-      valueDescription =
-        "<b>Even time on ice</b>: Total time on ice while both teams have even number of players (no penalties).";
+      valueDescription = "<b>Even time on ice</b>: Total time on ice while both teams have even number of players (no penalties).";
     } else if (value === "shortHandedTimeOnIce") {
-      valueDescription =
-        "<b>Short-handed time on ice</b>: Time on ice while at least on player on player's team is serving a pentalty and the opposing team has numerical advantage on the ice";
+      valueDescription = "<b>Short-handed time on ice</b>: Time on ice while at least on player on player's team is serving a penalty and the opposing team has numerical advantage on the ice";
     } else if (value === "powerPlayTimeOnIce") {
-      valueDescription =
-        "<b>Powerplay time on ice</b>: Time on ice while at least one opposing team's player is serving a penalty, and the team has a numerical advantage on the ice";
+      valueDescription = "<b>Powerplay time on ice</b>: Time on ice while at least one opposing team's player is serving a penalty, and the team has a numerical advantage on the ice";
     }
 
-    d3.select("#y-axis-description").html(
-      "<b>Y-axis Description - </b>" + valueDescription
-    );
+    d3.select("#y-axis-description").html("<b>Y-axis Description - </b>" + valueDescription)
   }
+
 }
 
 function populateSeasons() {
   d3.select("#selSeason").html("");
   var url_seasons = "api/seasons";
-  d3.json(url_seasons).then(function (response) {
-    var season = response.list;
-    // select inputs
-    var inputSelectSeason = d3.select("#selSeason").attr("class", "select");
+  d3.json(url_seasons).then(async function (response) {
+    let success = false;
+    let retry = 1;
+    while (!success && retry <= 10) {
+      try {
+        var season = response.list
+        // select inputs 
+        var inputSelectSeason = d3.select("#selSeason").attr('class', 'select');
 
-    // auto populate available filter days and add blank option to search without date filter
-    season.forEach((s) => {
-      inputSelectSeason.append("option").text(s);
-    });
+        // auto populate available filter days and add blank option to search without date filter
+        season.forEach(s => {
+          inputSelectSeason.append('option').text(s);
+        });
+        console.log("First Try!");
+        success = true;
+      } catch (TypeError) {
+        await oneSecond();
+        console.log("try again");
+        retry+=1;
+      }
+    }
+    !success ? console.log("I give up. I'm done trying") : 1;
   });
 }
 
 function populateSeasonTeams() {
   d3.select("#selTeam").html("");
-  d3.select("#selTeam")
-    .append("option")
-    .text("Select Team")
-    .property("value", "");
+  d3.select("#selTeam").append('option').text("Select Team").property('value', '');
   var selectedSeason = d3.select("#selSeason").node().value;
   if (selectedSeason === "") {
-    selectedSeason = "20192020";
+    selectedSeason = "20192020"
   }
   var url_seasonTeams = "api/seasonTeams/" + selectedSeason;
   d3.json(url_seasonTeams).then(function (response) {
-    var team = response;
+    var team = response
 
-    // select inputs
-    var inputSelectTeam = d3.select("#selTeam").attr("class", "select");
+    // select inputs 
+    var inputSelectTeam = d3.select("#selTeam").attr('class', 'select');
 
     var len = team.length;
     for (var i = 0; i < len; i++) {
       if (team[i].teamName) {
-        inputSelectTeam
-          .append("option")
-          .text(team[i].teamName)
-          .property("value", team[i].team_id);
+        inputSelectTeam.append('option').text(team[i].teamName).property('value', team[i].team_id);
       }
     }
   });
-  d3.select("#player_headshot").html("");
-  d3.select("#player_action").html("");
+  d3.select("#player_headshot").html("")
+  d3.select("#player_action").html("")
   populateSeasonTeamPlayers();
 }
+
 
 function populateSeasonTeamPlayers() {
   d3.select("#selPlayer").html("");
   var selectedSeason = d3.select("#selSeason").node().value;
   var selectedTeam = d3.select("#selTeam").node().value;
 
-  if (selectedSeason && selectedTeam) {
-    var url_seasonTeamPlayers =
-      "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
+  if ((selectedSeason) && (selectedTeam)) {
+    var url_seasonTeamPlayers = "api/seasonTeamPlayers/" + selectedSeason + "/" + selectedTeam;
     d3.json(url_seasonTeamPlayers).then(function (response) {
-      var seasonTeamPlayers = response;
+      var seasonTeamPlayers = response
 
-      // select inputs
-      var inputSelectPlayer = d3.select("#selPlayer").attr("class", "select");
+      // select inputs 
+      var inputSelectPlayer = d3.select("#selPlayer").attr('class', 'select');
 
-      seasonTeamPlayers.forEach((p) => {
+      seasonTeamPlayers.forEach(p => {
         console.log(p);
-        inputSelectPlayer
-          .append("option")
-          .text(p.playername)
-          .property("value", p.player_id);
+        inputSelectPlayer.append('option').text(p.playername).property('value', p.player_id);
       });
     });
-    d3.select("#player_headshot").html("");
-    d3.select("#player_action").html("");
+    d3.select("#player_headshot").html("")
+    d3.select("#player_action").html("")
     populatePlayerInfo();
   }
 }
 
+
 function imageExists(url, callback) {
   var img = new Image();
-  img.onload = function () {
-    callback(true);
-  };
-  img.onerror = function () {
-    callback(false);
-  };
+  img.onload = function () { callback(true); };
+  img.onerror = function () { callback(false); };
   img.src = url;
 }
 
@@ -641,16 +614,10 @@ function populatePlayerStatsTable(player_id) {
   // d3.json(url_playerAggStats).then(function(response) {
   //   var playerAggStats = response
   //   console.log("playerAggStats " + playerAggStats);
-  // });
+  // });    
 
-  var url_playerAllStats =
-    "/api/playerstats/" +
-    SeasoninputValue +
-    "!" +
-    player_id +
-    "!" +
-    teaminputValue;
-  console.log(url_playerAllStats);
+  var url_playerAllStats = "/api/playerstats/" + SeasoninputValue + "!" + player_id + "!" + teaminputValue;
+  console.log(url_playerAllStats)
 
   d3.json(url_playerAllStats).then(function (response) {
     console.log("playerAllStats " + response);
