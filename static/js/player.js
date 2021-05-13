@@ -1,7 +1,7 @@
 function populateSeasons() {
   d3.select("#selSeason").html("");
   var url_seasons = "api/seasons";
-  d3.json(url_seasons).then(async function (response) {
+  d3.json(url_seasons).then(function (response) {
     var season = response.list;
     // select inputs
     var inputSelectSeason = d3.select("#selSeason").attr("class", "select");
@@ -175,6 +175,7 @@ function populatePlayerInfo() {
     }
 
     populatePlayerStatsTable(player_id);
+    populateStatsInfo(player_id);
   }
 }
 
@@ -246,34 +247,20 @@ function populatePlayerStatsTable(player_id) {
 }
 
 function populateStatsInfo(player_id) {
-  var playerInput = d3.select("#selPlayer");
-  // Get the value property of the input element
-  var playerInputValue = playerInput.property("value");
-
-  var url_playerStats = "/api/aggplayerstats/" + playerInputValue + player_id;
+  var url_playerStats = "/api/aggplayerstats/" + player_id;
   console.log(url_playerStats);
 
   d3.json(url_playerStats).then(function (sumStats) {
     var summaryStats = sumStats;
-    var sumHead = d3.select("#player_summary_head");
+    var sumHead = d3.select("#player_sum_stats");
     sumHead.html("");
-    var Sumrow = sumHead.append("tr");
-    Sumrow.append("th").text("Total Goals");
-    Sumrow.append("th").text("Total Assists");
-    Sumrow.append("th").text("Total Shots");
-    Sumrow.append("th").text("Total Blocks");
-    Sumrow.append("th").text("Total Face Off Wins");
-
-    var Sumbody = d3.select("#player_summary_body");
-    Sumbody.html("");
     summaryStats.forEach((stat, i) => {
-      console.log(stat);
-      var Bodyrow = Sumbody.append("tr");
-      Bodyrow.append("td").text(stat.goals);
-      Bodyrow.append("td").text(stat.assists);
-      Bodyrow.append("td").text(stat.shots);
-      Bodyrow.append("td").text(stat.blocks);
-      Bodyrow.append("td").text(stat.faceOffWins);
+      var Sumrow = sumHead.append("ul");
+      Sumrow.append("li").text("Total Goals:" + " " + stat.goals);
+      Sumrow.append("li").text("Total Assists:" + " " + stat.assists);
+      Sumrow.append("li").text("Total Shots:" + stat.shots);
+      Sumrow.append("li").text("Total Blocks:" + stat.blocks);
+      Sumrow.append("li").text("Total Face Off Wins:" + stat.faceOffWins);
     });
   });
 }
