@@ -45,7 +45,7 @@ def seasons():
 
 @application.route("/api/playerstats/<season>!<player_id>!<team_id>")
 def daterequested(season, player_id, team_id):
-    results = {}    
+    results = {}
     if ((player_id.isnumeric() == True) and (season.isnumeric() == True) & (team_id.isnumeric() == True)):        
         sql = sql_repo.sql_query("sql_daterequested",season, team_id, player_id)        
         if (sql != ""):

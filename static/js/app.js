@@ -526,19 +526,12 @@ function populatePlayerInfo() {
 
   var player_id = inputSelectPlayer.node().value;
   if (player_id) {
-    var img_url =
-      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
-      player_id +
-      ".jpg";
-    var img_url_action =
-      "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg";
+    var img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg";
+    var img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg";
 
     imageExists(img_url, function (exists) {
       if (exists) {
-        var player_headshot_imageurl =
-          "<img src='" +
-          img_url +
-          "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";
+        var player_headshot_imageurl =  "<img src='" + img_url + "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";
         d3.select("#player_headshot").html(player_headshot_imageurl);
       } else {
         d3.select("#player_headshot").html(
@@ -550,10 +543,7 @@ function populatePlayerInfo() {
     imageExists(img_url_action, function (exists) {
       if (exists) {
         //player_action_html = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px;z-index:-1000000000;opacity:0.15; di' alt='Player Name'>";
-        var player_action_html =
-          "<img src='" +
-          img_url_action +
-          "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";
+        var player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";
         d3.select("#player-action").html(player_action_html);
       }
     });
@@ -569,28 +559,23 @@ function populatePlayerInfo() {
         console.log(playerInfo);
 
         //   // Then, select the unordered list element by class name
-        var list = d3.select(".player_info");
+        var list = d3.select("#player_info");
         list.html("");
         playerInfo.forEach((player, i) => {
           var item = list.append("ul");
-          item.append("li").text("Birth Date:" + " " + player.birthDate);
-          item.append("li").text("Birth City:" + " " + player.birthCity);
-          item.append("li").text("Height:" + " " + player.height);
-          item.append("li").text("Weight:" + " " + player.weight);
-          item
-            .append("li")
-            .text("Primary Position:" + " " + player.primaryPosition);
-          // item.append("li").text("Projected Position:" + " " + player.firstName);
+          item.append("li").text("Birth Date: " + player.birthDate.split(" ")[0]);
+          item.append("li").text("Birth City: " + player.birthCity);
+          item.append("li").text("Height: " + player.height + "\"");
+          item.append("li").text("Weight: " + player.weight + "lb.");
+          item.append("li").text("Primary Position: " + player.primaryPosition);
+          item.append("li").text("Projected GridSearchCV Position: " + player.predictedposition_grid);
+          item.append("li").text("Projected Neural Network Position: " + player.predictedposition_grid);
         });
         var player_name = d3.select("#player_name");
         player_name.html("");
         playerInfo.forEach((player, i) => {
           var name = player_name.append("h3");
-          name
-            .append("h3")
-            .text(
-              "Player Name:" + " " + player.firstName + " " + player.lastName
-            );
+          name.append("h3").text("Player Name:" + " " + player.firstName + " " + player.lastName);
         });
       });
     }
