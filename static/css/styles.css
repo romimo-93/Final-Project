@@ -10372,3 +10372,9 @@ body {
 .hidden {
   display: none;
 }
+
+@media (max-width: 1200px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}

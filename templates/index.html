@@ -96,30 +96,26 @@
 
     </section>
     <!-- Projects-->
-    <section class="projects-section bg-light" id="dabbler">
+    <section class="projects-section pb-0 bg-light" id="dabbler">
       <div class="container-fluid pl-5">
           <!-- Dabbler-->
           <div class="row align-items-center justify-content-center no-gutters mb-4 mb-lg-5">
 
             <div id="dabbler-container" class="h-100 project col-8">
                 <h3 style="text-align: center;width: 100%;">Total Aggregated Statistics grouped by Player</h3>
-                <p>Eight feature statistics on the X axis and four ice time parameters on the Y axis were used to visualize thirty-two different data interactions. Each point on the graph represents a player's total aggragated statistics for all seasons and all teams for the chosen X and Y. </p>
+                <p>Eight feature statistics on the X axis and four ice time parameters on the Y axis were used to visualize thirty-two different data interactions. Each point on the graph represents a player's total aggregated statistics for all seasons and all teams for the chosen X and Y. </p>
 
-                <p id="x-axis-description">
-                  shots: Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.
-                </p>
-                <p id="y-axis-description">
-                  goals: Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.
-                </p>
+                <p id="x-axis-description"></p>
+                <p id="y-axis-description"></p>
 
             </div>
           </div>
           <div class="row">
-            <div id="scatter" class="col-7">
-              <!-- We append our chart here. -->
+            <div id="scatter" class="col-xl-7 col-md-12">
+              <!-- We append our dabbler chart here. -->
             </div>        
-            <div class ="h-100 project mb-5 col-4">
-              <img class="cluster-img hidden" src="#" alt="cluster graph image">
+            <div class ="hidden-mobile mb-5 pr-2 col-5">
+              <img class="img-fluid float-right cluster-img hidden" src="#" alt="cluster graph image">
             </div>
           </div>
         </div>
@@ -132,19 +128,24 @@
 
         <!-- Cluster -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
-          <div class="col-xl-8 col-lg-7">
-            <h3>Clustering</h3>
+          <div class="col-xl-6 col-lg-4">
             <div id="cluster">
-              <img class="cluster-img hidden" src="#" alt="cluster graph image">
+              <img class="img-fluid cluster-img hidden" src="#" alt="cluster graph image">
             </div>
           </div>
-          <div class="bg-black text-center h-100 project col-xl-4 col-lg-5">
+          <div class="bg-black text-center h-100 project col-xl-6 col-lg-8">
               <div class="project-text w-100 my-auto text-center text-lg-left">
                 <h4 class="text-white">Cluster</h4>
-                <p class="mb-0 text-white-50">
-                  TEXT ABOUT CLUSTER
-                </p>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
+                <p class="mb-0 text-white-50">
+                  These cluster classifications will update based on the scatter plot axis selections above. Each chart is generated based on a <a href="https://en.wikipedia.org/wiki/K-means_clustering">KMeans Clustering</a> model with a k-value of four(4). The color of the cluster dictates the category into which each player may fall. The color-definition remains constant for each chart:
+                </p>
+                <ul class="text-white">
+                  <li>Gray - These players do not play enough on average to have an accurate understanding of their productivity for this metric</li>
+                  <li>Red - These players are performing <strong>under</strong> the league averages for this metric</li>
+                  <li>Yellow - These players are performing <strong>at or around</strong> the league averages for this metric</li>
+                  <li>Green - These players are performing <strong>above</strong> the league averages for this metric</li>
+                </ul>
               </div>
           </div>
         </div>
