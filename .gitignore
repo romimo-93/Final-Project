@@ -111,14 +111,13 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode/
 
 # Spyder project settings
 .spyderproject
 .spyproject
 
 # Rope project settings
-.ropeproject
-
 # mkdocs documentation
 /site
 
