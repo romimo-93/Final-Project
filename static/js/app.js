@@ -1,6 +1,6 @@
 // await function
 function oneSecond() {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
     }, 2000);
@@ -16,6 +16,7 @@ async function init() {
   populateDabbler();
   populateSeasons();
   populateSeasonTeams();
+  populateStatsInfo();
 
   // Wait for the dabbler to load before running clusterInit
   while (!d3.select(".axis-text")._groups[0][0]) {

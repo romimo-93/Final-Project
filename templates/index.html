@@ -167,7 +167,9 @@
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
           <div class="col-xl-8 col-lg-7">
             <h2>Player Details</h2>
-            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            <p>Use the filters to select a season, team, and player you would like to see game stats for. The table will populate with all the games that correlate to the filters you have chosen.
+            The players picture will populate along with some demogrpahic information about them. 
+             </p>
 
             <div class="player-filters">   
               <p>
@@ -190,64 +192,46 @@
             <h3 id="player_name"></h3>
       
             <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
             </p>
-            <div class="col-lg-12 pt-4 pt-lg-0 content" data-aos="fade-left">
-                
+            <div class="col-lg-12 pt-4 pt-lg-0 content" data-aos="fade-left"> 
               <div class="row">
                 <div class="col-lg-6">
                   <ul id="player_info"></ul>
                 </div>
               </div>
               <p>
-                Officiis eligendi itaque labore et dolorum mollitia officiis optioquam sunt adipisci omnis et ut. Nulla accusantium dolor incidunt officia tempore. Et eius omnis.
-                Cupiditate ut dicta maxime officiis quidem quia. Sed et consectetur qui quia repellendus itaque neque. Aliquid amet quidem ut quaerat cupiditate. Ab et eum qui repellendus omnis culpa magni laudantium dolores.
+                The areas of focus in the demogrpahic information above are the "Projected GridSearchCV" and "Projected Neural Network Position".
+                Two machine learning models are used to predict the players position being either Center (C), (W)?, or Defense (D). This may or may not match thier current Primary Position.
+                In some cases all 3 may be different.   
               </p>
-
-
-
             </div>
-          </div>          
-      
+          </div>              
           <div class="text-center h-100 project col-xl-4 col-lg-5">
               <div class="project-text w-100 my-auto text-center text-lg-left" style="position:relative">                
                 <p class="mb-0 text-white-50">
                   <div id="player_headshot" style="border-radius: 50%;max-width: 250px;"></div>
                 </p>
-              </div>
-
-
-
-
-              
+              </div>  
           </div>      
           <div class="col-12">
-            <h3>Filtered Data Summary</h3>
+            <h3>Filtered Data</h3>
             <div style="overflow: auto;height: 440px;">
               <table id="table" class="table table-striped" style="overflow:hidden;table-layout:fixed;" height="500px">
                 <thead></thead>
                 <tbody></tbody>
               </table>
             </div>
-          </div>    
+          </div> 
+            <div class="col-lg-6">
+                <thead id="player_summary_head"></thead>
+                <tbody id="player_summary_body"></tbody>
+            </div>   
         </div>
 
         </div>        
-        </div>
-        
+        </div>        
       </div>
     </section>
-    
-
-
-
-
-
-
-
-
-
     <section class="contact-section bg-black">
       <div class="container">
           <div class="row">
