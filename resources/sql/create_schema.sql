@@ -411,6 +411,22 @@ CREATE TABLE public.team_info (
     link character varying
 );
 
+-- Table: public.player_prediction
+
+-- DROP TABLE public.player_prediction;
+
+CREATE TABLE public.player_prediction
+(
+    player_id integer NOT NULL,
+    nn_prediction numeric,
+    grid_prediction numeric
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.player_prediction
+    OWNER to administrator;
+
 
 ALTER TABLE public.team_info OWNER TO administrator;
 
@@ -460,6 +476,8 @@ REVOKE ALL ON SCHEMA public FROM rdsadmin;
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO administrator;
 GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
 
 
 -- Completed on 2021-05-12 18:23:40

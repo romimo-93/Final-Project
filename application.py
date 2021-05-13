@@ -73,8 +73,10 @@ def players():
 def aggplayerstats(player_id):
     results = {}
     sql = sql_repo.sql_query("sql_aggplayerstats") 
-    if (player_id.isnumeric()) == True & (sql != ""):  
-        sql += " where player_id = " + player_id
+    if ((player_id.isnumeric() == True) & (sql != "")):  
+        sql += " where player_id = " + player_id + ";"
+    else:
+        sql += ";"
     if (sql != ""):
         results = sql_repo.sql(sql)                
     return jsonify(results)
@@ -82,8 +84,21 @@ def aggplayerstats(player_id):
 @application.route("/api/avgplayerstats/<player_id>")
 def avgplayerstats(player_id):
     sql = sql_repo.sql_query("sql_avgplayerstats")     
-    if player_id.isnumeric() == True & sql != "":  
-        sql += " where player_id = " + player_id
+    if ((player_id.isnumeric() == True) & (sql != "")):  
+        sql += " where player_id = " + player_id + ";"
+    else:
+        sql += ";"
+    if sql != "":
+        results = sql_repo.sql(sql)   
+    return jsonify(results)
+
+@application.route("/api/playerpred/<player_id>")
+def avgplayerpred(player_id):
+    sql = sql_repo.sql_query("sql_avgplayerpred")     
+    if ((player_id.isnumeric() == True) & (sql != "")):  
+        sql += " where player_id = " + player_id + ";"
+    else:
+        sql += ";"
     if sql != "":
         results = sql_repo.sql(sql)   
     return jsonify(results)

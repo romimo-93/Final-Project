@@ -46,9 +46,11 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
     elif (queryname == "sql_players"):
         sql = "select \"player_id\", \"firstName\" || ' ' || \"lastName\" || ' (' || \"primaryPosition\" ||')' as \"PlayerName\" from \"player_info\";"   
     elif (queryname == "sql_aggplayerstats"):
-        sql = "select * from aggplayerstats;"
+        sql = "select * from aggplayerstats "
     elif (queryname == "sql_avgplayerstats"):
-        sql = "select * from avgplayerstats;"        
+        sql = "select * from avgplayerstats " 
+    elif (queryname == "sql_avgplayerpred"):
+        sql = "select * from player_predictions "        
     elif (queryname == "sql_teams"):
         sql = "select \"team_id\", \"shortName\" || ' ' || \"teamName\" as \"team\" from \"team_info\" order by \"shortName\";"
     elif (queryname == "seasonTeamPlayers") & (season != "") & (team_id != ""):        
