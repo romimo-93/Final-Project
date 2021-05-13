@@ -212,6 +212,11 @@ function populateDabbler() {
       });
     chartGroup.call(toolTip);
 
+    var colorByPos = {
+      "D": "green",
+      "C": "blue",
+      "W": "blue"
+    }
     // append initial circles
     var circlesGroup = chartGroup
       .selectAll("circle")
@@ -221,7 +226,7 @@ function populateDabbler() {
       .attr("cx", (d) => xLinearScale(d[chosenXAxis]))
       .attr("cy", (d) => yLinearScale(d[chosenYAxis]))
       .attr("r", 5)
-      .attr("fill", "green")
+      .attr("fill", d => colorByPos[d.PlayerName.slice(-2,-1)])
       .attr("opacity", ".5")
       .on("mouseover", toolTip.show)
       .on("mouseout", toolTip.hide);

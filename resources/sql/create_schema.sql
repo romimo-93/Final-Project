@@ -1,499 +1,470 @@
-USE [nhl_db]
-GO
-/****** Object:  UserDefinedFunction [dbo].[skater_Val]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE FUNCTION [dbo].[skater_Val](@player_id numeric, @field varchar(50))
-RETURNS varchar(500)
-AS
-BEGIN
-	-- Declare the return variable here
-	DECLARE @RETURNVALUE varchar(500)
+--
+-- PostgreSQL database dump
+--
 
-	if (@field = 'Name')
-		select @RETURNVALUE = isnull(firstName,'') + ' ' + isnull(lastName,'') + ' (' + isnull(primaryPosition,'') + ')' from player_info where player_id = @player_id
-	else if (@field = 'Position')
-		select @RETURNVALUE = isnull(primaryPosition,'') from player_info where player_id = @player_id
+-- Dumped from database version 12.5
+-- Dumped by pg_dump version 13.1
 
-	RETURN @RETURNVALUE
+-- Started on 2021-05-12 18:23:36
 
-END
-GO
-/****** Object:  Table [dbo].[player_info]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[player_info](
-	[player_id] [int] NOT NULL,
-	[firstName] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
-	[nationality] [nvarchar](50) NULL,
-	[birthCity] [nvarchar](50) NULL,
-	[primaryPosition] [nchar](2) NULL,
-	[birthDate] [datetime] NULL,
-	[birthStateProvince] [nchar](2) NULL,
-	[height_cm] [float] NULL,
-	[weight] [int] NULL,
-	[shootsCatches] [nvarchar](2) NULL,
-    CONSTRAINT PK_player_info PRIMARY KEY CLUSTERED (player_id)
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[team_info]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[team_info](
-	[team_id] [int] NOT NULL,
-	[franchiseId] [int] NOT NULL,
-	[shortName] [nvarchar](50) NOT NULL,
-	[teamName] [nvarchar](50) NOT NULL,
-	[abbreviation] [nvarchar](3) NOT NULL,
-	[link] [nvarchar](50) NULL,
-    CONSTRAINT PK_team_info PRIMARY KEY CLUSTERED (team_id)
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_skater_stats]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_skater_stats](
-	[game_id] [int] NULL,
-	[player_id] [int] NULL,
-	[team_id] [int] NULL,
-	[timeOnIce] [int] NULL,
-	[assists] [int] NULL,
-	[goals] [int] NULL,
-	[shots] [int] NULL,
-	[hits] [int] NULL,
-	[powerPlayGoals] [int] NULL,
-	[powerPlayAssists] [int] NULL,
-	[penaltyMinutes] [int] NULL,
-	[faceOffWins] [int] NULL,
-	[faceoffTaken] [int] NULL,
-	[takeaways] [int] NULL,
-	[giveaways] [int] NULL,
-	[shortHandedGoals] [int] NULL,
-	[shortHandedAssists] [int] NULL,
-	[blocked] [int] NULL,
-	[plusMinus] [int] NULL,
-	[evenTimeOnIce] [int] NULL,
-	[shortHandedTimeOnIce] [int] NULL,
-	[powerPlayTimeOnIce] [int] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  View [dbo].[aggplayerstats]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE VIEW [dbo].[aggplayerstats]
-AS
-SELECT        player_id, dbo.skater_Val(player_id, 'Name') AS PlayerName, dbo.skater_Val(player_id, 'Position') AS Position, SUM(goals) AS goals, SUM(assists) AS assists, SUM(hits) AS hits, SUM(powerPlayGoals) AS powerplaygoals, 
-                         SUM(powerPlayAssists) AS powerPlayAssists, SUM(penaltyMinutes) AS penaltyMinutes, SUM(faceOffWins) AS faceOffWins, SUM(faceoffTaken) AS faceoffTaken, SUM(takeaways) AS takeaways, SUM(giveaways) AS giveaways, 
-                         SUM(shortHandedGoals) AS shortHandedGoals, SUM(shortHandedAssists) AS shortHandedAssists, SUM(blocked) AS blocked, SUM(plusMinus) AS plusMinus, SUM(evenTimeOnIce) / 60 AS evenTimeOnIce, 
-                         SUM(shortHandedTimeOnIce) / 60 AS shortHandedTimeOnIce, SUM(powerPlayTimeOnIce) / 60 AS powerPlayTimeOnIce, SUM(timeOnIce) / 60 AS timeOnIce, SUM(shots) AS shots
-FROM            dbo.game_skater_stats
-GROUP BY player_id
-GO
-/****** Object:  View [dbo].[avgplayerstats]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE VIEW [dbo].[avgplayerstats]
-AS
-SELECT        player_id, dbo.skater_Val(player_id, 'Name') AS PlayerName, dbo.skater_Val(player_id, 'Position') AS Position, AVG(CAST(goals AS float)) AS goals, AVG(CAST(assists AS float)) AS assists, AVG(CAST(hits AS float)) AS hits, 
-                         AVG(CAST(powerPlayGoals AS float)) AS powerplaygoals, AVG(CAST(powerPlayAssists AS float)) AS powerPlayAssists, AVG(CAST(penaltyMinutes AS float)) AS penaltyMinutes, AVG(CAST(faceOffWins AS float)) AS faceOffWins, 
-                         AVG(CAST(faceoffTaken AS float)) AS faceoffTaken, AVG(CAST(takeaways AS float)) AS takeaways, AVG(CAST(giveaways AS float)) AS giveaways, AVG(CAST(shortHandedGoals AS float)) AS shortHandedGoals, 
-                         AVG(CAST(shortHandedAssists AS float)) AS shortHandedAssists, AVG(CAST(blocked AS float)) AS blocked, AVG(CAST(plusMinus AS float)) AS plusMinus, AVG(CAST(evenTimeOnIce AS float)) / 60 AS evenTimeOnIce, 
-                         AVG(CAST(shortHandedTimeOnIce AS float)) / 60 AS shortHandedTimeOnIce, AVG(CAST(powerPlayTimeOnIce AS float)) / 60 AS powerPlayTimeOnIce, AVG(CAST(timeOnIce AS float)) / 60 AS timeOnIce, AVG(CAST(shots AS float)) 
-                         AS shots
-FROM            dbo.game_skater_stats
-GROUP BY player_id
-GO
-/****** Object:  Table [dbo].[game]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game](
-	[game_id] [int] NOT NULL,
-	[season] [int] NULL,
-	[type] [nvarchar](max) NULL,
-	[date_time_GMT] [nvarchar](max) NULL,
-	[away_team_id] [int] NULL,
-	[home_team_id] [int] NULL,
-	[away_goals] [int] NULL,
-	[home_goals] [int] NULL,
-	[outcome] [nvarchar](max) NULL,
-	[home_rink_side_start] [nvarchar](max) NULL,
-	[venue] [nvarchar](max) NULL,
-	[venue_link] [nvarchar](max) NULL,
-	[venue_time_zone_id] [nvarchar](max) NULL,
-	[venue_time_zone_offset] [int] NULL,
-	[venue_time_zone_tz] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_goalie_stats]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_goalie_stats](
-	[game_id] [int] NULL,
-	[player_id] [int] NULL,
-	[team_id] [int] NULL,
-	[timeOnIce] [int] NULL,
-	[assists] [int] NULL,
-	[goals] [int] NULL,
-	[pim] [int] NULL,
-	[shots] [int] NULL,
-	[saves] [int] NULL,
-	[powerPlaySaves] [int] NULL,
-	[shortHandedSaves] [int] NULL,
-	[evenSaves] [int] NULL,
-	[shortHandedShotsAgainst] [int] NULL,
-	[evenShotsAgainst] [int] NULL,
-	[powerPlayShotsAgainst] [int] NULL,
-	[decision] [nvarchar](max) NULL,
-	[savePercentage] [nvarchar](max) NULL,
-	[powerPlaySavePercentage] [nvarchar](max) NULL,
-	[evenStrengthSavePercentage] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_goals]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_goals](
-	[play_id] [nvarchar](max) NULL,
-	[strength] [nvarchar](max) NULL,
-	[gameWinningGoal] [nvarchar](max) NULL,
-	[emptyNet] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_officials]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_officials](
-	[game_id] [int] NULL,
-	[official_name] [nvarchar](max) NULL,
-	[official_type] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_penalties]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_penalties](
-	[play_id] [nvarchar](max) NULL,
-	[penaltySeverity] [nvarchar](max) NULL,
-	[penaltyMinutes] [int] NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_plays]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_plays](
-	[play_id] [nvarchar](max) NULL,
-	[game_id] [int] NULL,
-	[team_id_for] [nvarchar](max) NULL,
-	[team_id_against] [nvarchar](max) NULL,
-	[event] [nvarchar](max) NULL,
-	[secondaryType] [nvarchar](max) NULL,
-	[x] [nvarchar](max) NULL,
-	[y] [nvarchar](max) NULL,
-	[period] [int] NULL,
-	[periodType] [nvarchar](max) NULL,
-	[periodTime] [int] NULL,
-	[periodTimeRemaining] [int] NULL,
-	[dateTime] [nvarchar](max) NULL,
-	[goals_away] [int] NULL,
-	[goals_home] [int] NULL,
-	[description] [nvarchar](max) NULL,
-	[st_x] [nvarchar](max) NULL,
-	[st_y] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_plays_players]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_plays_players](
-	[play_id] [nvarchar](max) NULL,
-	[game_id] [int] NULL,
-	[player_id] [int] NULL,
-	[playerType] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_scratches]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_scratches](
-	[game_id] [int] NULL,
-	[team_id] [int] NULL,
-	[player_id] [int] NULL
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[game_teams_stats]    Script Date: 5/6/2021 8:43:02 PM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[game_teams_stats](
-	[game_id] [int] NULL,
-	[team_id] [int] NULL,
-	[HoA] [nvarchar](max) NULL,
-	[won] [bit] NULL,
-	[settled_in] [nvarchar](max) NULL,
-	[head_coach] [nvarchar](max) NULL,
-	[goals] [nvarchar](max) NULL,
-	[shots] [nvarchar](max) NULL,
-	[hits] [nvarchar](max) NULL,
-	[pim] [nvarchar](max) NULL,
-	[powerPlayOpportunities] [nvarchar](max) NULL,
-	[powerPlayGoals] [nvarchar](max) NULL,
-	[faceOffWinPercentage] [nvarchar](max) NULL,
-	[giveaways] [nvarchar](max) NULL,
-	[takeaways] [nvarchar](max) NULL,
-	[blocked] [nvarchar](max) NULL,
-	[startRinkSide] [nvarchar](max) NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
 
-EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
-Begin DesignProperties = 
-   Begin PaneConfigurations = 
-      Begin PaneConfiguration = 0
-         NumPanes = 4
-         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
-      End
-      Begin PaneConfiguration = 1
-         NumPanes = 3
-         Configuration = "(H (1 [50] 4 [25] 3))"
-      End
-      Begin PaneConfiguration = 2
-         NumPanes = 3
-         Configuration = "(H (1 [50] 2 [25] 3))"
-      End
-      Begin PaneConfiguration = 3
-         NumPanes = 3
-         Configuration = "(H (4 [30] 2 [40] 3))"
-      End
-      Begin PaneConfiguration = 4
-         NumPanes = 2
-         Configuration = "(H (1 [56] 3))"
-      End
-      Begin PaneConfiguration = 5
-         NumPanes = 2
-         Configuration = "(H (2 [66] 3))"
-      End
-      Begin PaneConfiguration = 6
-         NumPanes = 2
-         Configuration = "(H (4 [50] 3))"
-      End
-      Begin PaneConfiguration = 7
-         NumPanes = 1
-         Configuration = "(V (3))"
-      End
-      Begin PaneConfiguration = 8
-         NumPanes = 3
-         Configuration = "(H (1[56] 4[18] 2) )"
-      End
-      Begin PaneConfiguration = 9
-         NumPanes = 2
-         Configuration = "(H (1 [75] 4))"
-      End
-      Begin PaneConfiguration = 10
-         NumPanes = 2
-         Configuration = "(H (1[66] 2) )"
-      End
-      Begin PaneConfiguration = 11
-         NumPanes = 2
-         Configuration = "(H (4 [60] 2))"
-      End
-      Begin PaneConfiguration = 12
-         NumPanes = 1
-         Configuration = "(H (1) )"
-      End
-      Begin PaneConfiguration = 13
-         NumPanes = 1
-         Configuration = "(V (4))"
-      End
-      Begin PaneConfiguration = 14
-         NumPanes = 1
-         Configuration = "(V (2))"
-      End
-      ActivePaneConfig = 0
-   End
-   Begin DiagramPane = 
-      Begin Origin = 
-         Top = 0
-         Left = 0
-      End
-      Begin Tables = 
-         Begin Table = "game_skater_stats"
-            Begin Extent = 
-               Top = 6
-               Left = 38
-               Bottom = 193
-               Right = 269
-            End
-            DisplayFlags = 280
-            TopColumn = 0
-         End
-      End
-   End
-   Begin SQLPane = 
-   End
-   Begin DataPane = 
-      Begin ParameterDefaults = ""
-      End
-   End
-   Begin CriteriaPane = 
-      Begin ColumnWidths = 12
-         Column = 1440
-         Alias = 900
-         Table = 1170
-         Output = 720
-         Append = 1400
-         NewValue = 1170
-         SortType = 1350
-         SortOrder = 1410
-         GroupBy = 1350
-         Filter = 1350
-         Or = 1350
-         Or = 1350
-         Or = 1350
-      End
-   End
-End
-' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'aggplayerstats'
-GO
-EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'aggplayerstats'
-GO
-EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
-Begin DesignProperties = 
-   Begin PaneConfigurations = 
-      Begin PaneConfiguration = 0
-         NumPanes = 4
-         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
-      End
-      Begin PaneConfiguration = 1
-         NumPanes = 3
-         Configuration = "(H (1 [50] 4 [25] 3))"
-      End
-      Begin PaneConfiguration = 2
-         NumPanes = 3
-         Configuration = "(H (1 [50] 2 [25] 3))"
-      End
-      Begin PaneConfiguration = 3
-         NumPanes = 3
-         Configuration = "(H (4 [30] 2 [40] 3))"
-      End
-      Begin PaneConfiguration = 4
-         NumPanes = 2
-         Configuration = "(H (1 [56] 3))"
-      End
-      Begin PaneConfiguration = 5
-         NumPanes = 2
-         Configuration = "(H (2 [66] 3))"
-      End
-      Begin PaneConfiguration = 6
-         NumPanes = 2
-         Configuration = "(H (4 [50] 3))"
-      End
-      Begin PaneConfiguration = 7
-         NumPanes = 1
-         Configuration = "(V (3))"
-      End
-      Begin PaneConfiguration = 8
-         NumPanes = 3
-         Configuration = "(H (1[56] 4[18] 2) )"
-      End
-      Begin PaneConfiguration = 9
-         NumPanes = 2
-         Configuration = "(H (1 [75] 4))"
-      End
-      Begin PaneConfiguration = 10
-         NumPanes = 2
-         Configuration = "(H (1[66] 2) )"
-      End
-      Begin PaneConfiguration = 11
-         NumPanes = 2
-         Configuration = "(H (4 [60] 2))"
-      End
-      Begin PaneConfiguration = 12
-         NumPanes = 1
-         Configuration = "(H (1) )"
-      End
-      Begin PaneConfiguration = 13
-         NumPanes = 1
-         Configuration = "(V (4))"
-      End
-      Begin PaneConfiguration = 14
-         NumPanes = 1
-         Configuration = "(V (2))"
-      End
-      ActivePaneConfig = 0
-   End
-   Begin DiagramPane = 
-      Begin Origin = 
-         Top = 0
-         Left = 0
-      End
-      Begin Tables = 
-         Begin Table = "game_skater_stats"
-            Begin Extent = 
-               Top = 6
-               Left = 38
-               Bottom = 136
-               Right = 253
-            End
-            DisplayFlags = 280
-            TopColumn = 0
-         End
-      End
-   End
-   Begin SQLPane = 
-   End
-   Begin DataPane = 
-      Begin ParameterDefaults = ""
-      End
-   End
-   Begin CriteriaPane = 
-      Begin ColumnWidths = 12
-         Column = 1440
-         Alias = 900
-         Table = 1170
-         Output = 720
-         Append = 1400
-         NewValue = 1170
-         SortType = 1350
-         SortOrder = 1410
-         GroupBy = 1350
-         Filter = 1350
-         Or = 1350
-         Or = 1350
-         Or = 1350
-      End
-   End
-End
-' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'avgplayerstats'
-GO
-EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'avgplayerstats'
-GO
+--
+-- TOC entry 230 (class 1255 OID 16775)
+-- Name: skater_val(numeric, character varying); Type: FUNCTION; Schema: public; Owner: administrator
+--
+
+CREATE FUNCTION public.skater_val(v_player_id numeric, v_field character varying) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare
+   return_val varchar(500);
+begin
+	if (v_field = 'Name') then
+		select coalesce("player_info"."firstName",'') || ' ' || coalesce("player_info"."lastName",'') || ' (' || coalesce("player_info"."primaryPosition",'') || ')' into return_val from player_info where player_info.player_id = v_player_id;
+	elsif (v_field = 'NameSort') then
+		select coalesce("player_info"."lastName",'') || ', ' || coalesce("player_info"."firstName",'') || ' (' || coalesce("player_info"."primaryPosition",'') || ')' into return_val from player_info where player_info.player_id = v_player_id;
+	elsif (v_field = 'Position') then
+		select coalesce("player_info"."primaryPosition",'') into return_val from player_info where player_info.player_id = v_player_id;
+	else
+		return_val := 'ERROR';
+	end if;
+	
+	return return_val;
+end;
+$$;
+
+
+ALTER FUNCTION public.skater_val(v_player_id numeric, v_field character varying) OWNER TO administrator;
+
+--
+-- TOC entry 229 (class 1255 OID 16774)
+-- Name: team_val(numeric, character varying); Type: FUNCTION; Schema: public; Owner: administrator
+--
+
+CREATE FUNCTION public.team_val(v_team_id numeric, v_field character varying) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare
+   return_val varchar(500);
+begin
+	if (v_field = 'Name') then
+		select coalesce("team_info"."shortName",'') || ' ' || coalesce("team_info"."teamName",'') into return_val from team_info where team_info.team_id = v_team_id;
+	else 
+		return_val = 'ERROR';
+	end if;
+	
+	return return_val;
+end;
+$$;
+
+
+ALTER FUNCTION public.team_val(v_team_id numeric, v_field character varying) OWNER TO administrator;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 214 (class 1259 OID 16755)
+-- Name: game_skater_stats; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_skater_stats (
+    game_id integer,
+    player_id integer,
+    team_id integer,
+    "timeOnIce" integer,
+    assists integer,
+    goals integer,
+    shots integer,
+    hits integer,
+    "powerPlayGoals" integer,
+    "powerPlayAssists" integer,
+    "penaltyMinutes" integer,
+    "faceOffWins" integer,
+    "faceoffTaken" integer,
+    takeaways integer,
+    giveaways integer,
+    "shortHandedGoals" integer,
+    "shortHandedAssists" integer,
+    blocked integer,
+    "plusMinus" integer,
+    "evenTimeOnIce" integer,
+    "shortHandedTimeOnIce" integer,
+    "powerPlayTimeOnIce" integer
+);
+
+
+ALTER TABLE public.game_skater_stats OWNER TO administrator;
+
+--
+-- TOC entry 215 (class 1259 OID 16776)
+-- Name: aggplayerstats; Type: VIEW; Schema: public; Owner: administrator
+--
+
+CREATE VIEW public.aggplayerstats AS
+ SELECT game_skater_stats.player_id,
+    public.skater_val((game_skater_stats.player_id)::numeric, 'Name'::character varying) AS "PlayerName",
+    public.skater_val((game_skater_stats.player_id)::numeric, 'Position'::character varying) AS "position",
+    sum(game_skater_stats.goals) AS goals,
+    sum(game_skater_stats.assists) AS assists,
+    sum(game_skater_stats.hits) AS hits,
+    sum(game_skater_stats."powerPlayGoals") AS powerplaygoals,
+    sum(game_skater_stats."powerPlayAssists") AS "powerPlayAssists",
+    sum(game_skater_stats."penaltyMinutes") AS "penaltyMinutes",
+    sum(game_skater_stats."faceOffWins") AS faceoffwins,
+    sum(game_skater_stats."faceoffTaken") AS "faceoffTaken",
+    sum(game_skater_stats.takeaways) AS takeaways,
+    sum(game_skater_stats.giveaways) AS giveaways,
+    sum(game_skater_stats."shortHandedGoals") AS "shortHandedGoals",
+    sum(game_skater_stats."shortHandedAssists") AS "shortHandedAssists",
+    sum(game_skater_stats.blocked) AS blocked,
+    sum(game_skater_stats."plusMinus") AS "plusMinus",
+    (sum(game_skater_stats."evenTimeOnIce") / 60) AS "evenTimeOnIce",
+    (sum(game_skater_stats."shortHandedTimeOnIce") / 60) AS "shortHandedTimeOnIce",
+    (sum(game_skater_stats."powerPlayTimeOnIce") / 60) AS "powerPlayTimeOnIce",
+    (sum(game_skater_stats."timeOnIce") / 60) AS "timeOnIce",
+    sum(game_skater_stats.shots) AS shots
+   FROM public.game_skater_stats
+  GROUP BY game_skater_stats.player_id;
+
+
+ALTER TABLE public.aggplayerstats OWNER TO administrator;
+
+--
+-- TOC entry 216 (class 1259 OID 16781)
+-- Name: avgplayerstats; Type: VIEW; Schema: public; Owner: administrator
+--
+
+CREATE VIEW public.avgplayerstats AS
+ SELECT game_skater_stats.player_id,
+    public.skater_val((game_skater_stats.player_id)::numeric, 'Name'::character varying) AS "PlayerName",
+    public.skater_val((game_skater_stats.player_id)::numeric, 'Position'::character varying) AS "Position",
+    avg((game_skater_stats."timeOnIce")::double precision) AS "timeOnIce",
+    avg((game_skater_stats.assists)::double precision) AS assists,
+    avg((game_skater_stats.goals)::double precision) AS goals,
+    avg((game_skater_stats.shots)::double precision) AS shots,
+    avg((game_skater_stats.hits)::double precision) AS hits,
+    avg((game_skater_stats.goals)::double precision) AS "Expr1",
+    avg((game_skater_stats."powerPlayGoals")::double precision) AS "powerPlayGoals",
+    avg((game_skater_stats."powerPlayAssists")::double precision) AS "powerPlayAssists",
+    avg((game_skater_stats."penaltyMinutes")::double precision) AS "penaltyMinutes",
+    avg((game_skater_stats."faceOffWins")::double precision) AS "faceOffWins",
+    avg((game_skater_stats."faceoffTaken")::double precision) AS "faceoffTaken",
+    avg((game_skater_stats.takeaways)::double precision) AS takeaways,
+    avg((game_skater_stats."shortHandedGoals")::double precision) AS "shortHandedGoals",
+    avg((game_skater_stats."shortHandedAssists")::double precision) AS "shortHandedAssists",
+    avg((game_skater_stats.blocked)::double precision) AS blocked,
+    avg((game_skater_stats."plusMinus")::double precision) AS "plusMinus",
+    avg((game_skater_stats."evenTimeOnIce")::double precision) AS "evenTimeOnIce",
+    avg((game_skater_stats."shortHandedTimeOnIce")::double precision) AS "shortHandedTimeOnIce",
+    avg((game_skater_stats."powerPlayTimeOnIce")::double precision) AS "powerPlayTimeOnIce"
+   FROM public.game_skater_stats
+  GROUP BY game_skater_stats.player_id;
+
+
+ALTER TABLE public.avgplayerstats OWNER TO administrator;
+
+--
+-- TOC entry 212 (class 1259 OID 16718)
+-- Name: game; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game (
+    game_id integer NOT NULL,
+    season character varying,
+    type character varying,
+    "date_time_GMT" character varying,
+    away_team_id character varying,
+    home_team_id character varying,
+    away_goals character varying,
+    home_goals character varying,
+    outcome character varying,
+    home_rink_side_start character varying,
+    venue character varying,
+    venue_link character varying,
+    venue_time_zone_id character varying,
+    venue_time_zone_offset character varying,
+    venue_time_zone_tz character varying
+);
+
+
+ALTER TABLE public.game OWNER TO administrator;
+
+--
+-- TOC entry 206 (class 1259 OID 16671)
+-- Name: game_goalie_stats; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_goalie_stats (
+    game_id integer,
+    player_id integer,
+    team_id integer,
+    "timeOnIce" integer,
+    assists integer,
+    goals integer,
+    pim integer,
+    shots integer,
+    saves integer,
+    "powerPlaySaves" integer,
+    "shortHandedSaves" integer,
+    "evenSaves" integer,
+    "shortHandedShotsAgainst" integer,
+    "evenShotsAgainst" integer,
+    "powerPlayShotsAgainst" integer,
+    decision character varying,
+    "savePercentage" double precision,
+    "powerPlaySavePercentage" double precision,
+    "evenStrengthSavePercentage" double precision
+);
+
+
+ALTER TABLE public.game_goalie_stats OWNER TO administrator;
+
+--
+-- TOC entry 207 (class 1259 OID 16677)
+-- Name: game_goals; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_goals (
+    play_id character varying,
+    strength character varying,
+    "gameWinningGoal" character varying,
+    "emptyNet" character varying
+);
+
+
+ALTER TABLE public.game_goals OWNER TO administrator;
+
+--
+-- TOC entry 208 (class 1259 OID 16683)
+-- Name: game_officials; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_officials (
+    game_id integer,
+    official_name character varying,
+    official_type character varying
+);
+
+
+ALTER TABLE public.game_officials OWNER TO administrator;
+
+--
+-- TOC entry 209 (class 1259 OID 16689)
+-- Name: game_penalties; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_penalties (
+    play_id character varying,
+    "penaltySeverity" character varying,
+    "penaltyMinutes" integer
+);
+
+
+ALTER TABLE public.game_penalties OWNER TO administrator;
+
+--
+-- TOC entry 213 (class 1259 OID 16733)
+-- Name: game_plays; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_plays (
+    play_id character varying NOT NULL,
+    game_id integer,
+    team_id_for character varying,
+    team_id_against character varying,
+    event character varying,
+    "secondaryType" character varying,
+    x character varying,
+    y character varying,
+    period character varying,
+    "periodType" character varying,
+    "periodTime" character varying,
+    "periodTimeRemaining" character varying,
+    "dateTime" character varying,
+    goals_away character varying,
+    goals_home character varying,
+    description character varying,
+    st_x character varying,
+    st_y character varying
+);
+
+
+ALTER TABLE public.game_plays OWNER TO administrator;
+
+--
+-- TOC entry 210 (class 1259 OID 16703)
+-- Name: game_plays_players; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_plays_players (
+    play_id character varying,
+    game_id integer,
+    player_id integer,
+    "playerType" character varying
+);
+
+
+ALTER TABLE public.game_plays_players OWNER TO administrator;
+
+--
+-- TOC entry 211 (class 1259 OID 16709)
+-- Name: game_scratches; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_scratches (
+    game_id integer,
+    team_id integer,
+    player_id integer
+);
+
+
+ALTER TABLE public.game_scratches OWNER TO administrator;
+
+--
+-- TOC entry 204 (class 1259 OID 16654)
+-- Name: game_teams_stats; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.game_teams_stats (
+    game_id integer,
+    team_id integer,
+    "HoA" character varying,
+    won bit(1),
+    settled_in character varying,
+    head_coach character varying,
+    goals integer,
+    shots integer,
+    hits integer,
+    pim integer,
+    "powerPlayOpportunities" integer,
+    "powerPlayGoals" integer,
+    "faceOffWinPercentage" double precision,
+    giveaways integer,
+    takeaways integer,
+    blocked integer,
+    "startRinkSide" character varying
+);
+
+
+ALTER TABLE public.game_teams_stats OWNER TO administrator;
+
+--
+-- TOC entry 202 (class 1259 OID 16638)
+-- Name: player_info; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.player_info (
+    player_id integer NOT NULL,
+    "firstName" character varying,
+    "lastName" character varying,
+    nationality character varying,
+    "birthCity" character varying,
+    "primaryPosition" character varying,
+    "birthDate" character varying,
+    "birthStateProvince" character varying,
+    height character varying,
+    height_cm character varying,
+    weight character varying,
+    "shootsCatches" character varying
+);
+
+
+ALTER TABLE public.player_info OWNER TO administrator;
+
+--
+-- TOC entry 205 (class 1259 OID 16660)
+-- Name: season_team; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.season_team (
+    team_id integer,
+    season integer,
+    "teamName" character varying(100)
+);
+
+
+ALTER TABLE public.season_team OWNER TO administrator;
+
+--
+-- TOC entry 203 (class 1259 OID 16646)
+-- Name: team_info; Type: TABLE; Schema: public; Owner: administrator
+--
+
+CREATE TABLE public.team_info (
+    team_id integer NOT NULL,
+    "franchiseId" integer,
+    "shortName" character varying,
+    "teamName" character varying,
+    abbreviation character varying,
+    link character varying
+);
+
+
+ALTER TABLE public.team_info OWNER TO administrator;
+
+--
+-- TOC entry 3754 (class 2606 OID 16725)
+-- Name: game game_pkey; Type: CONSTRAINT; Schema: public; Owner: administrator
+--
+
+ALTER TABLE ONLY public.game
+    ADD CONSTRAINT game_pkey PRIMARY KEY (game_id);
+
+
+--
+-- TOC entry 3756 (class 2606 OID 16740)
+-- Name: game_plays game_plays_pkey; Type: CONSTRAINT; Schema: public; Owner: administrator
+--
+
+ALTER TABLE ONLY public.game_plays
+    ADD CONSTRAINT game_plays_pkey PRIMARY KEY (play_id);
+
+
+--
+-- TOC entry 3750 (class 2606 OID 16645)
+-- Name: player_info player_info_pkey; Type: CONSTRAINT; Schema: public; Owner: administrator
+--
+
+ALTER TABLE ONLY public.player_info
+    ADD CONSTRAINT player_info_pkey PRIMARY KEY (player_id);
+
+
+--
+-- TOC entry 3752 (class 2606 OID 16653)
+-- Name: team_info team_info_pkey; Type: CONSTRAINT; Schema: public; Owner: administrator
+--
+
+ALTER TABLE ONLY public.team_info
+    ADD CONSTRAINT team_info_pkey PRIMARY KEY (team_id);
+
+
+--
+-- TOC entry 3890 (class 0 OID 0)
+-- Dependencies: 3
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: administrator
+--
+
+REVOKE ALL ON SCHEMA public FROM rdsadmin;
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO administrator;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2021-05-12 18:23:40
+
+--
+-- PostgreSQL database dump complete
+--
+
