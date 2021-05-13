@@ -23,7 +23,7 @@
     cursor: pointer;
   }
   
-  /* font size dependent on radius, see app.js */
+  /* font size dependent on radius, see dabbler.js */
   .stateText {
     font-family: sans-serif;
     fill: #fff;
