@@ -111,11 +111,11 @@
             </div>
           </div>
           <div class="row">
-            <div id="scatter" class="col-xl-7 col-md-12">
+            <div id="scatter" class="col-xl-8 col-12">
               <!-- We append our dabbler chart here. -->
             </div>        
-            <div class ="hidden-mobile mb-5 pr-2 col-5">
-              <img class="img-fluid float-right cluster-img hidden" src="#" alt="cluster graph image">
+            <div class ="hidden-mobile mb-5 pr-2 col-4">
+              <img class="img-fluid cluster-img hidden" src="#" alt="cluster graph image">
             </div>
           </div>
         </div>
@@ -141,7 +141,7 @@
                   These cluster classifications will update based on the scatter plot axis selections above. Each chart is generated based on a <a href="https://en.wikipedia.org/wiki/K-means_clustering">KMeans Clustering</a> model with a k-value of four(4). The color of the cluster dictates the category into which each player may fall. The color-definition remains constant for each chart:
                 </p>
                 <ul class="text-white">
-                  <li>Gray - These players do not play enough on average to have an accurate understanding of their productivity for this metric</li>
+                  <li>Gray - These players do not play enough on average per game to have an accurate reading of their impact for this metric</li>
                   <li>Red - These players are performing <strong>under</strong> the league averages for this metric</li>
                   <li>Yellow - These players are performing <strong>at or around</strong> the league averages for this metric</li>
                   <li>Green - These players are performing <strong>above</strong> the league averages for this metric</li>
@@ -239,15 +239,85 @@
       </div>
     </section>
     
+    <!-- Analyses -->
+    <section class="projects-section bg-dark" style="overflow:hidden;position:relative;" id="Analyses">
+      <h2 class="text-center text-white">Analyses</h2>
+
+      <div id="analyses-containter" class="container-fluid" style="overflow:hidden;position:relative;padding-left:10%;padding-right:5%;">
+        
+        <!-- Analysis Item Odd -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-6 col-lg-4">
+            <div id="analysis-img-1" class="analysis-img">
+              <img class="img-fluid float-right p-2" src="static\img\dabbler\goals-toi.png" alt="chart image">
+              <img class="img-fluid float-right p-2" src="static\img\dabbler\shots-toi.png" alt="chart image">
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-8">
+            <div class="bg-black text-center h-100 project">
+              <div class="project-text w-100 my-auto text-center text-lg-left">
+                <h4 class="text-white">Dabbler Analysis</h4>
+                <hr class="d-none d-lg-block mb-0 ml-0" />
+                <p class="mb-0 text-white-50">
+                  There is a fairly significant distinction between forwards and defensemen when it comes to both the shots and goals recorded. Using all available game data since the 2000-2001 season, we can see that forwards outshoot (bottom-left) and outscore (top-left) defensemen. Inversely, we can see that defensemen block more shots than forwards (below).
+                </p>
+              </div>
+            </div>
+            <img class="img-fluid p-2" src="static\img\dabbler\blocked-toi.png" alt="chart image">
+          </div>
+        </div>
+
+        <hr class="d-none d-lg-block mb-2 ml-0" style="border-color: #64a19d;border-width: 0.25rem;width: 100%;"/>
+
+        <!-- Analysis Item Even -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="bg-black text-center h-100 project col-xl-6 col-lg-8">
+            <div class="project-text w-100 my-auto text-center text-lg-left">
+              <h4 class="text-white">Model Accuracy</h4>
+              <hr class="d-none d-lg-block mb-0 ml-0" />
+              <p class="mb-0 text-white-50">
+                The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both were about to predict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
+              </p>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-4">
+            <div id="analysis-img-2" class="analysis-img">
+              <img class="img-fluid" src="#" alt="chart image">
+            </div>
+          </div>
+        </div>
+
+        <hr class="d-none d-lg-block mb-2 ml-0" style="border-color: #64a19d;border-width: 0.25rem;width: 100%;"/>
+
+        <!-- Analysis Item Odd -->
+        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+          <div class="col-xl-6 col-lg-4">
+            <div id="analysis-img-1" class="analysis-img">
+              <img class="img-fluid float-right p-2" src="static\img\nothing-matches.png" alt="chart image">
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-8">
+            <div class="bg-black text-center h-100 project">
+              <div class="project-text w-100 my-auto text-center text-lg-left">
+                <h4 class="text-white">Where The Machines Failed</h4>
+                <hr class="d-none d-lg-block mb-0 ml-0" />
+                <p class="mb-0 text-white-50">
+                  Failure text
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
 
 
 
 
 
 
-
-
-
+    <!-- Our Team Info -->
     <section class="contact-section bg-black">
       <div class="container">
           <div class="row">
