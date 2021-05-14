@@ -240,6 +240,7 @@
     <!-- Analyses -->
     <section class="projects-section bg-dark" style="overflow:hidden;position:relative;" id="Analyses">
       <h2 class="text-center text-white">Analyses</h2>
+      <hr class="d-none d-lg-block mb-5 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 10%";/>
 
       <div id="analyses-containter" class="container-fluid" style="overflow:hidden;position:relative;padding-left:10%;padding-right:5%;">
         
@@ -265,7 +266,7 @@
           </div>
         </div>
 
-        <hr class="d-none d-lg-block mb-2 ml-0" style="border-color: #64a19d;border-width: 0.25rem;width: 100%;"/>
+        <hr class="d-none d-lg-block my-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
 
         <!-- Analysis Item Even -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
@@ -276,16 +277,20 @@
               <p class="mb-0 text-white-50">
                 The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both were about to predict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
               </p>
+              <br>
+              <p>
+                Please see our <a href="/tableau">Tableau dashboards</a> to dive deeper into how the accuracy changes based on the average amount of ice time a player gets per game.
+              </p>
             </div>
           </div>
           <div class="col-xl-6 col-lg-4">
             <div id="analysis-img-2" class="analysis-img">
-              <img class="img-fluid" src="#" alt="chart image">
+              <img class="img-fluid p-2" src="static\img\model-accuracy.png" alt="chart image">
             </div>
           </div>
         </div>
 
-        <hr class="d-none d-lg-block mb-2 ml-0" style="border-color: #64a19d;border-width: 0.25rem;width: 100%;"/>
+        <hr class="d-none d-lg-block my-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
 
         <!-- Analysis Item Odd -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
@@ -300,7 +305,7 @@
                 <h4 class="text-white">Where The Machines Failed</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
                 <p class="mb-0 text-white-50">
-                  Failure text
+                  Of the 3353 players tested by the two models, only 12 player positions were guessed incorrectly by both models <i>and</i> neither model matched the other. Interestingly, in all 12 of these instances the player is a Center. Although the occurrence of both models being incorrect is plausible given that neither model is perfect, it seems highly unlikely that all of the players in this instance would be of the same position. If it not completely by chance, then there is a hockey-related explanation. Depending on the team's play style, Centers are sometimes relied on to play two-way hockey (offense and defense). For this reason, there is a real-life factor that explains this perceived phenomena.
                 </p>
               </div>
             </div>
