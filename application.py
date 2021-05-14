@@ -126,7 +126,11 @@ def seasonTeams(season):
     print(sql)
     if (sql != ""):
         results = sql_repo.sql(sql)   
-    return jsonify(results)    
+    return jsonify(results)   
+
+@application.route("/tableau") 
+def tableau():
+    return render_template("tableau.html")
 
 #### This route was used to generate the clustering images 
 # @application.route("/get/cluster-images")
