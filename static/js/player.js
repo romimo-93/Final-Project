@@ -60,7 +60,6 @@ function populateSeasonTeamPlayers() {
       var inputSelectPlayer = d3.select("#selPlayer").attr("class", "select");
 
       seasonTeamPlayers.forEach((p) => {
-        console.log(p);
         inputSelectPlayer
           .append("option")
           .text(p.playername)
@@ -94,19 +93,12 @@ function populatePlayerInfo() {
 
   var player_id = inputSelectPlayer.node().value;
   if (player_id) {
-    var img_url =
-      "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" +
-      player_id +
-      ".jpg";
-    var img_url_action =
-      "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg";
+    var img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg";
+    var img_url_action = "https://cms.nhl.bamgrid.com/images/actionshots/" + player_id + ".jpg";
 
     imageExists(img_url, function (exists) {
       if (exists) {
-        var player_headshot_imageurl =
-          "<img src='" +
-          img_url +
-          "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";
+        var player_headshot_imageurl = "<img src='" + img_url + "' class='img-fluid'  style='width:100%;border-radius:100%;' alt='Player Name'>";
         d3.select("#player_headshot").html(player_headshot_imageurl);
       } else {
         d3.select("#player_headshot").html(
@@ -118,58 +110,36 @@ function populatePlayerInfo() {
     imageExists(img_url_action, function (exists) {
       if (exists) {
         //player_action_html = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px;z-index:-1000000000;opacity:0.15; di' alt='Player Name'>";
-        var player_action_html =
-          "<img src='" +
-          img_url_action +
-          "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";
+        var player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";
         d3.select("#player-action").html(player_action_html);
       }
     });
 
     var url_playerInfo = "/api/playerinfo/" + player_id;
-    console.log(url_playerInfo);
 
     if (player_id) {
       d3.json(url_playerInfo).then(function (player_details) {
-        // console.log("playerInfo " + response);
 
         var playerInfo = player_details;
-        console.log(playerInfo);
 
-        //   // Then, select the unordered list element by class name
+        // Then, select the unordered list element by class name
         var list = d3.select("#player_info");
         list.html("");
         playerInfo.forEach((player, i) => {
           var item = list.append("ul");
-          item
-            .append("li")
-            .text("Birth Date: " + player.birthDate.split(" ")[0]);
+          item.append("li").text("Birth Date: " + player.birthDate.split(" ")[0]);
           item.append("li").text("Birth City: " + player.birthCity);
           item.append("li").text("Height: " + player.height + '"');
           item.append("li").text("Weight: " + player.weight + "lb.");
           item.append("li").text("Primary Position: " + player.primaryPosition);
-          item
-            .append("li")
-            .text(
-              "Projected GridSearchCV Position: " +
-                player.predictedposition_grid
-            );
-          item
-            .append("li")
-            .text(
-              "Projected Neural Network Position: " +
-                player.predictedposition_grid
-            );
+          item.append("li").html("<strong>*Projected GridSearchCV Position: " + player.predictedposition_grid + "</strong>");
+          item.append("li").html("<strong>**Projected Neural Network Position: " + player.predictedposition_grid + "</strong>");
         });
         var player_name = d3.select("#player_name");
         player_name.html("");
         playerInfo.forEach((player, i) => {
           var name = player_name.append("h3");
-          name
-            .append("h3")
-            .text(
-              "Player Name:" + " " + player.firstName + " " + player.lastName
-            );
+          name.append("h3").text("Player Name:" + " " + player.firstName + " " + player.lastName);
         });
       });
     }
@@ -185,33 +155,22 @@ function populatePlayerStatsTable(player_id) {
   var SeasoninputElement = d3.select("#selSeason");
   // Get the value property of the input element
   var SeasoninputValue = SeasoninputElement.property("value");
-  // console.log(`This is ${inputValue} times easier!`);
-  // console.log(`This is input value ${SeasoninputValue}`);
 
   // Select the input element and get the raw HTML node for TEAMS
   var teaminputElement = d3.select("#selTeam");
   // Get the value property of the input element
   var teaminputValue = teaminputElement.property("value");
-  // console.log(`This is ${inputValue} times easier!`);
-  // console.log(`This is input value ${teaminputValue}`);
 
-  var url_playerAllStats =
-    "/api/playerstats/" +
-    SeasoninputValue +
-    "!" +
-    player_id +
-    "!" +
-    teaminputValue;
-  console.log(url_playerAllStats);
+  var url_playerAllStats = "/api/playerstats/" + SeasoninputValue + "!" + player_id + "!" + teaminputValue;
 
   d3.json(url_playerAllStats).then(function (response) {
-    //   console.log("playerAllStats " + response);
     var playerAllStats = response;
 
     // Then, select the unordered list element by class name
     var thead = d3.select("thead");
     thead.html("");
 
+    // Headers
     var row = thead.append("tr");
     row.append("th").text("Date");
     row.append("th").text("Home vs Away");
@@ -225,13 +184,39 @@ function populatePlayerStatsTable(player_id) {
     row.append("th").text("FaceOffWins");
     row.append("th").text("PenaltyMin");
 
+    // Stat Counters
+    let shot_counter = 0
+    let assist_counter = 0
+    let goals_counter = 0
+    let blocked_counter = 0
+    let pm_counter = 0
+    let take_counter = 0
+    let give_counter = 0
+    let foWin_counter = 0
+    let pim_counter = 0
+
     // First, clear out any existing data
     var tbody = d3.select("tbody");
     tbody.html("");
+    
+    // Reverse game stats so they are in chronological order, top to bottom
+    playerAllStats.reverse();
     playerAllStats.forEach((playerstat, i) => {
-      console.log(playerstat);
-      var row = tbody.append("tr");
-      row.append("td").text(playerstat.date);
+      
+      // Increment stat counters
+      shot_counter += playerstat.shots;
+      assist_counter += playerstat.assists;
+      goals_counter += playerstat.goals;
+      blocked_counter += playerstat.blocked;
+      pm_counter += playerstat.plusMinus;
+      take_counter += playerstat.takeaways;
+      give_counter += playerstat.giveaways;
+      foWin_counter += playerstat.faceOffWins;
+      pim_counter += playerstat.penaltyMinutes;
+
+      // Create Stat Table
+      let row = tbody.append("tr");
+      row.append("td").text(playerstat.date.split(" 00")[0]);
       row.append("td").text(playerstat.Teams);
       row.append("td").text(playerstat.shots);
       row.append("td").text(playerstat.assists);
@@ -243,49 +228,37 @@ function populatePlayerStatsTable(player_id) {
       row.append("td").text(playerstat.faceOffWins);
       row.append("td").text(playerstat.penaltyMinutes);
     });
+    let rowTotals = tbody.append("tr");
+    rowTotals.append("td");
+    rowTotals.append("td").html("<strong>Season Totals:</strong>").classed("text-right", true);
+    
+    // Create Totals Row
+    rowTotals.append("td").text(shot_counter);
+    rowTotals.append("td").text(assist_counter);
+    rowTotals.append("td").text(goals_counter);
+    rowTotals.append("td").text(blocked_counter);
+    rowTotals.append("td").text(pm_counter);
+    rowTotals.append("td").text(take_counter);
+    rowTotals.append("td").text(give_counter);
+    rowTotals.append("td").text(foWin_counter);
+    rowTotals.append("td").text(pim_counter);
   });
 }
 
 function populateStatsInfo(player_id) {
   var url_playerStats = "/api/aggplayerstats/" + player_id;
-  console.log(url_playerStats);
 
   d3.json(url_playerStats).then(function (sumStats) {
-    var summaryStats = sumStats;
     var sumHead = d3.select("#player_sum_stats");
     sumHead.html("");
-    summaryStats.forEach((stat, i) => {
-      var Sumrow = sumHead.append("ul");
-      Sumrow.append("li").text("Total Goals:" + " " + stat.goals);
-      Sumrow.append("li").text("Total Assists:" + " " + stat.assists);
-      Sumrow.append("li").text("Total Shots:" + stat.shots);
-      Sumrow.append("li").text("Total Blocks:" + stat.blocks);
-      Sumrow.append("li").text("Total Face Off Wins:" + stat.faceOffWins);
+    sumHead.append("h5").text("Totals from Available Seasons (2000-2020)")
+    sumStats.forEach((stat, i) => {
+      var sumRow = sumHead.append("ul");
+      stat.goals ? sumRow.append("li").text("Total Goals: " + stat.goals) : null;
+      stat.assists ? sumRow.append("li").text("Total Assists: " + stat.assists) : null;
+      stat.shots ? sumRow.append("li").text("Total Shots: " + stat.shots) : null;
+      stat.blocks ? sumRow.append("li").text("Total Blocks: " + stat.blocks) : null;
+      stat.faceOffWins ? sumRow.append("li").text("Total Face Off Wins: " + stat.faceOffWins) : null;
     });
   });
 }
-
-//     // Use D3 to select the dropdown menu
-//     var inputPlayer = d3.select("#selPlayer");
-//     d3.select("#selPlayer")
-//       .append("option")
-//       .text("Select Player")
-//       .property("value", "");
-
-//     var player_id = inputPlayer.node().value;
-//     if (player_id) {
-
-// var url_playerSummary = url_playerAllStats.map();
-// var url_playerSumStats = “/api/aggplayerstats/” + player_id;
-// if (player_id) {
-//   d3.json(url_playerSumStats).then(function (sumStats) {
-//     var summaryStats = sumStats;
-//     var stats = d3.select(“.summary_stats”);
-//     stats.html(“”);
-//     summaryStats.forEach((stat_item, i) => {
-//       var stat = stats.append(“ul”);
-//       stat.append(“li”).text(“Total Assists:” + ” ” + stat_item.assists);
-//       stat.append(“li”).text(“Total Goals:” + ” ” + stat_item.goals);
-//       stat.append(“li”).text(“Total Shots:” + ” ” + stat_item.shots);
-//       stat.append(“li”).text(“Total Blocks:” + ” ” + stat_item.blocks);
-//       stat.append(“li”).text(“Total Face Off Wins:” + ” ” + stat_item.faceOffWins);
