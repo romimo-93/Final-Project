@@ -1,0 +1,19 @@
+conda env create -f environment.yml
+conda activate nhl-app
+pip install mpld3
+pip list --format=freeze > requirements.txt
+# remove un-needed pkgs
+# Install EB CLI
+# https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html
+# Will need the key pair to use eb.
+eb init -p python-3.8 nhl-app --region us-west-1
+
+# Will only need to be run once by any user (which is done for production)
+eb create nhl-app
+
+# To deploy after created
+eb deploy nhl-app
+
+# To open the site
+eb open
+
