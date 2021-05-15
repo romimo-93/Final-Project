@@ -277,6 +277,8 @@ function populateStatsInfo(player_id) {
 }
 
 function clearStatsInfo() {
+  d3.select("#player-action").html("")
+  d3.select("#player_headshot").html("");
   d3.select("#player_name").html("")
   d3.select("thead").html("")
   d3.select("tbody").html("")
