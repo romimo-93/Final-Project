@@ -3,19 +3,6 @@
 * google Doc: https://docs.google.com/document/d/1yXzmSaR8Q2uJT9VKhv3R9BpfZTpPVWzggpWvTz5DTS4/edit
 * https://www.kaggle.com/martinellis/nhl-game-data?select=game.csv (Kaggle)
 * https://www.quanthockey.com/nhl/team-game-logs/chicago-blackhawks-2016-17-nhl-game-log.html (QuantHockey)
-## Time Line ##
-* **Saturday 5/1** --> Each add 1-2 possible datasets to file (All)
-*  **Monday 5/3** --> Load Data into Database using Amazon AWS, SQL Server (Ben)
-* **Monday 5/3** --> Define categories of players and features we are using to categorize them.
-* **Monday 5/3** --> Host AWS website with Flask (Ben)
-* **Wednesday 5/5** --> K-means clusters for x(time on ice) and multiple Y(Assists, shots, goals, +-, Block Shots). (Andrew)
-* **Wednesday 5/7** --> Categorize players based on K-means clusters. (Andrew)
-* **Wednesday 5/7** --> Create Bubble graph with similar x and y as K-means (similar to obesity demographic homework)(Melissa)
-* **Wednesday 5/7** --> Drop down for players that shows stats. (Romi)
-* **Saturday 5/8** --> Build website with bootstrap template (TBD)
-* **Wednesday 5/12** --> Have project complete for final run through
-* **Saturday 5/15** --> Final Project Due
-
 
 ## Questions to Answer ##
 1. Can a players position be determined based on previous time on how successful they are while on the ice, and what they are successful at?
@@ -43,10 +30,18 @@
 ## Training vs Test ##
 * Use CSV from Kaggle to train model. Use current Data for this year as Test data to determine what positions players would be most successful in.
 
+## Analysis ##
+1. **Dabbler** - There is a fairly significant distinction between forwards and defensemen when it comes to both the shots and goals recorded. Using all available game data since the 2000-2001 season, we can see that forwards outshoot (bottom-left) and outscore (top-left) defensemen. Inversely, we can see that defensemen block more shots than forwards (below).
+2. **Model Accuracy** - The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both pedict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
+3. **Where The Machines Failed** - Of the 3353 players tested by the two models, only 12 player positions were guessed incorrectly by both models and neither model matched the other. Interestingly, in all 12 of these instances the player is a Center. Although the occurrence of both models being incorrect is plausible given that neither model is perfect, it seems highly unlikely that all of the players in this instance would be of the same position. If it not completely by chance, then there is a hockey-related explanation. Depending on the team's play style, Centers are sometimes relied on to play two-way hockey (offense and defense). For this reason, there is a real-life factor that explains this perceived phenomena.
+
 ## Challenges ##
 
 * **AWS** - It is an amazing infrastructure, with a relatively steep learning curve. We first decided to go with Microsoft SQL Server as the database as several team members have used it in the past and the client side interface is more robust in our opinion. Trouble came from members that did not have a windows based platform. The decision was made to transfer over to PostgreSQL as an OS neutral platform. Figuring out how all the “Lego” blocks of AWS fit together and get working together was a challenge, but once working it made for easy deployment.
 
+
 ## Future Exploration ##
-1. Player category/performance over time, comparison year over year 
+1. Player category/performance over time, comparison year over year.
+2. Player positions over time compared to predicted model.
+3. Tableau exploration for deeper analysis utilizing different features. Ability to remove features to see if model accuracy changes.
 
