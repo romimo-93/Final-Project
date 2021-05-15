@@ -20,6 +20,26 @@ var svg = d3
   .attr("width", svgWidth)
   .attr("height", svgHeight);
 
+// Create Legend
+var legend = svg.append("rect").attrs({
+  "x": svgWidth-260,
+  "y": svgHeight-485,
+  "height": 110,
+  "width": 200,
+  "fill": "white",
+  "stroke": "black",
+  "stroke-width": "2px"
+});
+svg.append("text").attrs({
+  "fill": "black",
+  "x": svgWidth-165,
+  "y": svgHeight-458
+}).text("Legend").attr("text-anchor", "middle").attr("font-size", 24);
+svg.append("circle").attr("cx", svgWidth-230).attr("cy", svgHeight-430).attr("r", 6).style("fill", "#008000")
+svg.append("circle").attr("cx", svgWidth-230).attr("cy", svgHeight-400).attr("r", 6).style("fill", "#00F")
+svg.append("text").attr("x", svgWidth-210).attr("y", svgHeight-430).text("Defensemen").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", svgWidth-210).attr("y", svgHeight-400).text("Forwards").style("font-size", "15px").attr("alignment-baseline","middle")
+
 // Append an SVG group
 var chartGroup = svg
   .append("g")
