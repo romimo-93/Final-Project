@@ -120,7 +120,7 @@
               <div class="project-text w-100 my-auto text-center text-lg-left">
                 <h4 class="text-white">Cluster</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
-                <p class="mb-0 text-white-50">
+                <p class="mb-0 mt-4 text-white-50">
                   These cluster classifications will update based on the scatter plot axis selections above. Each chart is generated based on a <a href="https://en.wikipedia.org/wiki/K-means_clustering">KMeans Clustering</a> model with a k-value of four(4). The color of the cluster dictates the category into which each player may fall. The color-definition remains constant for each chart:
                 </p>
                 <ul class="text-white">
@@ -150,9 +150,9 @@
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
           <div class="col-xl-8 col-lg-7">
             <h2>Player Details</h2>
-            <p>Use the filters to select a season, team, and player you would like to see game stats for. The table will populate with all the games that correlate to the filters you have chosen.
-            The players picture will populate along with some demogrpahic information about them. 
-             </p>
+            <p>
+              Use the filters to select a season, team, and player. Player Game Statistics table will populate with related statistics based on the selected filters.            
+            </p>
 
             <div class="player-filters">   
               <p>
@@ -164,7 +164,7 @@
                   <option>Select Team</option>
                 </select>
             
-                <select id="selPlayer">
+                <select id="selPlayer">                  
                 </select>
               </p>
     
@@ -186,9 +186,10 @@
                 </div>
               </div>
               <p>
-                The areas of focus in the demographic information above are the "Projected GridSearchCV" and "Projected Neural Network Position".
-                Two machine learning models are used to predict the players position being either Center (C), (W)?, or Defense (D). This may or may not match thier current Primary Position.
-                In some cases all 3 may be different.   
+                The areas of focus in the player information above are the "Projected GridSearchCV" and "Projected Neural Network Position".
+                Grid search and neural network machine learning models were used to predict the player's primary position (Center (C), Winger (LW/RW), or Defenseman (D). 
+                The grid search and neural network models predict with about 80% accuracy the actual primary position of the player.
+                There were <a href="#analysis-3">twelve instances</a> where the actual primary postion, grid search predicted position and neural network predicted position were all different. 
               </p>
             </div>
           </div>              
@@ -199,9 +200,9 @@
                 </p>
               </div>  
           </div>      
-          <div class="col-12">
+          <div class="col-12" id="stats-table">
             <h3>Player Game Statistics</h3>
-            <div style="overflow: auto;height: 440px;">
+            <div id="table-container">
               <table id="table" class="table table-striped" style="overflow:hidden;table-layout:fixed;" height="500px">
                 <thead></thead>
                 <tbody></tbody>
@@ -285,7 +286,7 @@
           <div class="col-xl-6 col-lg-8">
             <div class="bg-black text-center h-100 project">
               <div class="project-text w-100 my-auto text-center text-lg-left">
-                <h4 class="text-white">Where The Machines Failed</h4>
+                <h4 class="text-white" id="analysis-3">Where The Machines Failed</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
                 <p class="mb-0 mt-4 text-white-50">
                   Of the 3353 players tested by the two models, only 12 player positions were guessed incorrectly by both models <i>and</i> neither model matched the other. Interestingly, in all 12 of these instances the player is a Center. Although the occurrence of both models being incorrect is plausible given that neither model is perfect, it seems highly unlikely that all of the players in this instance would be of the same position. If it not completely by chance, then there is a hockey-related explanation. Depending on the team's play style, Centers are sometimes relied on to play two-way hockey (offense and defense). For this reason, there is a real-life factor that explains this perceived phenomena.

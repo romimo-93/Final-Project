@@ -14,6 +14,7 @@ function populateSeasons() {
 }
 
 function populateSeasonTeams() {
+  clearStatsInfo();
   d3.select("#selTeam").html("");
   d3.select("#selTeam")
     .append("option")
@@ -46,6 +47,7 @@ function populateSeasonTeams() {
 }
 
 function populateSeasonTeamPlayers() {
+  clearStatsInfo();
   d3.select("#selPlayer").html("");
   var selectedSeason = d3.select("#selSeason").node().value;
   var selectedTeam = d3.select("#selTeam").node().value;
@@ -132,9 +134,10 @@ function populatePlayerInfo() {
         playerInfo.forEach((player, i) => {
           var item = list.append("ul");
           item.append("li").text("Birth Date: " + player.birthDate.split(" ")[0]);
-          item.append("li").text("Birth City: " + player.birthCity);
+          item.append("li").text("Birth City: " + player.birthCity);          
           item.append("li").text("Height: " + player.height + '"');
           item.append("li").text("Weight: " + player.weight + "lb.");
+          item.append("li").text("Age: " + player.age.split(' ')[0]);
           item.append("li").text("Primary Position: " + player.primaryPosition);
           item.append("li").html("<strong>*Projected GridSearchCV Position: " + player.predictedposition_grid + "</strong>");
           item.append("li").html("<strong>**Projected Neural Network Position: " + player.predictedposition_grid + "</strong>");
@@ -143,7 +146,7 @@ function populatePlayerInfo() {
         player_name.html("");
         playerInfo.forEach((player, i) => {
           var name = player_name.append("h3");
-          name.append("h3").text("Player Name:" + " " + player.firstName + " " + player.lastName);
+          name.append("h3").text(player.firstName + " " + player.lastName + " (" + player.primaryPosition + ")");
         });
       });
     }
@@ -155,6 +158,10 @@ function populatePlayerInfo() {
 
 // Complete the event handler function for the form
 function populatePlayerStatsTable(player_id) {
+  d3.select("#stats-table").style("visibility","visible")
+  d3.select("#table-container").style("height","440px")
+  d3.select("#table-container").style("overflow","auto")
+
   // Select the input element and get the raw HTML node for SEASONS
   var SeasoninputElement = d3.select("#selSeason");
   // Get the value property of the input element
@@ -235,7 +242,7 @@ function populatePlayerStatsTable(player_id) {
     let rowTotals = tbody.append("tr");
     rowTotals.append("td");
     rowTotals.append("td").html("<strong>Season Totals:</strong>").classed("text-right", true);
-    
+        
     // Create Totals Row
     rowTotals.append("td").text(shot_counter);
     rowTotals.append("td").text(assist_counter);
@@ -267,3 +274,14 @@ function populateStatsInfo(player_id) {
     });
   });
 }
+
+function clearStatsInfo() {
+  d3.select("#player_name").html("")
+  d3.select("thead").html("")
+  d3.select("tbody").html("")
+  d3.select("#player_info").html("")
+  d3.select("#player_sum_stats").html("")
+  d3.select("#stats-table").style("visibility","hidden")
+  d3.select("#table-container").style("height","0px")
+};
+
