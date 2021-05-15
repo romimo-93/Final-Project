@@ -132,12 +132,16 @@ def seasonTeams(season):
 def tableau():
     return render_template("tableau.html")
 
+@application.route("/routes") 
+def routes():
+    return render_template("routes.html")
+
 #### This route was used to generate the clustering images 
 # @application.route("/get/cluster-images")
 # def clusterimages():
 #     results = sql(f"SELECT * FROM dbo.avgplayerstats")
 #     xs = ["assists", "goals", "shots", "blocked", "hits", "penaltyMinutes", "takeaways", "giveaways"]
-#     ys = ["timeOnIce", "evenTimeOnIce", "shortHandedTimeOnIce",	"powerPlayTimeOnIce"]
+#     ys = ["timeOnIce", "evenTimeOnIce", "shortHandedTimeOnIce", "powerPlayTimeOnIce"]
 #     for x in xs:
 #         for y in ys:
 #             cluster_data = []
