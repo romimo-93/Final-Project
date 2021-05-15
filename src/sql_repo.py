@@ -41,7 +41,7 @@ def sql_query(queryname, season = "", team_id = "", player_id = ""):
                 and \"player_id\" = " + str(player_id) + " \
                 order by \"game\".\"date_time_GMT\" desc;"
     elif (queryname == "sql_playerinfo") & (player_id != ""):
-        sql = "SELECT *,skater_val(player_id,'PredictedPosition_nn') as PredictedPosition_nn, skater_val(player_id,'PredictedPosition_grid') as PredictedPosition_grid from \"player_info\" where \"player_id\" = " + str(player_id)
+        sql = "SELECT *,skater_val(player_id,'PredictedPosition_nn') as PredictedPosition_nn, skater_val(player_id,'PredictedPosition_grid') as PredictedPosition_grid, cast(age(cast(\"birthDate\" as timestamp)) as varchar(100)) as Age from \"player_info\" where \"player_id\" = " + str(player_id)
     elif (queryname == "sql_players"):
         sql = "select \"player_id\", \"firstName\" || ' ' || \"lastName\" || ' (' || \"primaryPosition\" ||')' as \"PlayerName\" from \"player_info\";"   
     elif (queryname == "sql_aggplayerstats"):
