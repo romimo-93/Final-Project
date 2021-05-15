@@ -45,6 +45,12 @@
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#player">Player</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#Analyses">Analysis</a>
+            </li>
+
+            
+
           </ul>
         </div>
       </div>
@@ -55,7 +61,7 @@
         <div class="mx-auto text-center">
           <h1 class="mx-auto my-0 text-uppercase">Machine Learning NHL</h1>
           <h2 class="text-white-50 mx-auto mt-2 mb-5">
-            INSERT TEXT HERE
+            
           </h2>
           <a class="btn btn-primary js-scroll-trigger" href="#about">Get Started</a>
         </div>
@@ -68,7 +74,7 @@
           <div class="col-lg-8 mx-auto">
             <h2 class="text-white mb-4">Project Overview</h2>
             <p class="text-white-50">
-              TEXT ABOUT THE PROJECT HERE
+              20 years of NHL data was used to determine player position based on machine learning models. Machine learning models were built using the average summary of statistics across multiple features (goals, assists, shots, etc.). The machine learning models predict the actual primary position of the player with an average accuracy of 85%.
             </p>
             <div class="route-list">
               Available Routes         
@@ -104,6 +110,8 @@
             <div id="dabbler-container" class="h-100 project col-8">
                 <h3 style="text-align: center;width: 100%;">Total Aggregated Statistics grouped by Player</h3>
                 <p>Eight feature statistics on the X axis and four ice time parameters on the Y axis were used to visualize thirty-two different data interactions. Each point on the graph represents a player's total aggregated statistics for all seasons and all teams for the chosen X and Y. </p>
+
+                <p>The cluster classification plot updates and displays the scatter plot based on the axis selection on the dabbler scatter plot. Each chart is generated based on a KMeans Clustering model with a k-value of four(4 clusters). The color of the cluster dictates the category into which each player may fall. The color-definition remains constant for each chart. See <a href="#cluster"> cluster section</a> below for more details. </p>
 
                 <p id="x-axis-description"></p>
                 <p id="y-axis-description"></p>
@@ -217,7 +225,7 @@
               </div>  
           </div>      
           <div class="col-12">
-            <h3>Filtered Data</h3>
+            <h3>Player Game Statistics</h3>
             <div style="overflow: auto;height: 440px;">
               <table id="table" class="table table-striped" style="overflow:hidden;table-layout:fixed;" height="500px">
                 <thead></thead>
@@ -239,7 +247,7 @@
     
     <!-- Analyses -->
     <section class="projects-section bg-dark" style="overflow:hidden;position:relative;" id="Analyses">
-      <h2 class="text-center text-white">Analyses</h2>
+      <h2 class="text-center text-white">Analysis</h2>
       <hr class="d-none d-lg-block mb-5 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 10%";/>
 
       <div id="analyses-containter" class="container-fluid" style="overflow:hidden;position:relative;padding-left:10%;padding-right:5%;">
@@ -257,7 +265,7 @@
               <div class="project-text w-100 my-auto text-center text-lg-left">
                 <h4 class="text-white">Dabbler Analysis</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
-                <p class="mb-0 text-white-50">
+                <p class="mb-0 mt-4 text-white-50">
                   There is a fairly significant distinction between forwards and defensemen when it comes to both the shots and goals recorded. Using all available game data since the 2000-2001 season, we can see that forwards outshoot (bottom-left) and outscore (top-left) defensemen. Inversely, we can see that defensemen block more shots than forwards (below).
                 </p>
               </div>
@@ -266,7 +274,7 @@
           </div>
         </div>
 
-        <hr class="d-none d-lg-block my-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
+        <hr class="d-none d-lg-block py-4 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
 
         <!-- Analysis Item Even -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
@@ -274,8 +282,8 @@
             <div class="project-text w-100 my-auto text-center text-lg-left">
               <h4 class="text-white">Model Accuracy</h4>
               <hr class="d-none d-lg-block mb-0 ml-0" />
-              <p class="mb-0 text-white-50">
-                The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both were about to predict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
+              <p class="mb-0 mt-4 text-white-50">
+                The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both pedict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
               </p>
               <br>
               <p>
@@ -290,7 +298,7 @@
           </div>
         </div>
 
-        <hr class="d-none d-lg-block my-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
+        <hr class="d-none d-lg-block py-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
 
         <!-- Analysis Item Odd -->
         <div class="row align-items-center no-gutters mb-4 mb-lg-5">
@@ -304,7 +312,7 @@
               <div class="project-text w-100 my-auto text-center text-lg-left">
                 <h4 class="text-white">Where The Machines Failed</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
-                <p class="mb-0 text-white-50">
+                <p class="mb-0 mt-4 text-white-50">
                   Of the 3353 players tested by the two models, only 12 player positions were guessed incorrectly by both models <i>and</i> neither model matched the other. Interestingly, in all 12 of these instances the player is a Center. Although the occurrence of both models being incorrect is plausible given that neither model is perfect, it seems highly unlikely that all of the players in this instance would be of the same position. If it not completely by chance, then there is a hockey-related explanation. Depending on the team's play style, Centers are sometimes relied on to play two-way hockey (offense and defense). For this reason, there is a real-life factor that explains this perceived phenomena.
                 </p>
               </div>

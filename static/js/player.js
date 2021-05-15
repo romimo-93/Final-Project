@@ -90,7 +90,11 @@ function populatePlayerInfo() {
     .append("option")
     .text("Select Player")
     .property("value", "");
-
+  
+  // clear player headshot and player action image
+  d3.select("#player-action").html("")
+  d3.select("#player_headshot").html("");
+  
   var player_id = inputSelectPlayer.node().value;
   if (player_id) {
     var img_url = "https://cms.nhl.bamgrid.com/images/headshots/current/168x168/" + player_id + ".jpg";
@@ -112,7 +116,7 @@ function populatePlayerInfo() {
         //player_action_html = "<img src='" + img_url_action + "' class='img-fluid' style='width:100%;height:300px;z-index:-1000000000;opacity:0.15; di' alt='Player Name'>";
         var player_action_html = "<img src='" + img_url_action + "' style='  opacity: 0.08;position: absolute;left: 0;top: 0;width: 100%;height: auto;' alt='Player Name'>";
         d3.select("#player-action").html(player_action_html);
-      }
+      }      
     });
 
     var url_playerInfo = "/api/playerinfo/" + player_id;
@@ -252,6 +256,7 @@ function populateStatsInfo(player_id) {
     var sumHead = d3.select("#player_sum_stats");
     sumHead.html("");
     sumHead.append("h5").text("Totals from Available Seasons (2000-2020)")
+    sumHead.append("p").text("*including regulation, playoff and championship game statistics")
     sumStats.forEach((stat, i) => {
       var sumRow = sumHead.append("ul");
       stat.goals ? sumRow.append("li").text("Total Goals: " + stat.goals) : null;
