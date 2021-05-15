@@ -133,11 +133,12 @@ function populatePlayerInfo() {
         list.html("");
         playerInfo.forEach((player, i) => {
           var item = list.append("ul");
-          item.append("li").text("Birth Date: " + player.birthDate.split(" ")[0]);
-          item.append("li").text("Birth City: " + player.birthCity);          
+          item.append("li").text("Age: " + player.age.split(" ")[0]);
+          //item.append("li").text("Birth Date: " + player.birthDate.split(" ")[0]);
+          item.append("li").text("Birthplace: " + player.birthCity + ", " + player.nationality);          
           item.append("li").text("Height: " + player.height + '"');
           item.append("li").text("Weight: " + player.weight + "lb.");
-          item.append("li").text("Age: " + player.age.split(" ")[0]);
+          
           item.append("li").text("Primary Position: " + player.primaryPosition);
           item.append("li").html("<strong>*Projected GridSearchCV Position: " + player.predictedposition_grid + "</strong>");
           item.append("li").html("<strong>**Projected Neural Network Position: " + player.predictedposition_grid + "</strong>");
