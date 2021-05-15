@@ -99,6 +99,8 @@
             </div>        
             <div class ="hidden-mobile mb-5 pr-2 col-4">
               <img class="img-fluid cluster-img hidden" src="#" alt="cluster graph image">
+              <br>
+              <caption>Cluster Chart<br><a class="js-scroll-trigger" href="#cluster"><strong>More information about Clustering</strong></a></caption>
             </div>
           </div>
         </div>
@@ -189,7 +191,7 @@
                 The areas of focus in the player information above are the "Projected GridSearchCV" and "Projected Neural Network Position".
                 Grid search and neural network machine learning models were used to predict the player's primary position (Center (C), Winger (LW/RW), or Defenseman (D). 
                 The grid search and neural network models predict, with about 85% accuracy, the actual primary position of the player.
-                There were <a href="#analysis-3">twelve instances</a> where the actual primary position, grid search predicted position and neural network predicted position were all different. 
+                There were <a class="js-scroll-trigger" href="#analysis-3">twelve instances</a> where the actual primary position, grid search predicted position and neural network predicted position were all different. 
               </p>
             </div>
           </div>              
@@ -277,7 +279,7 @@
         <hr class="d-none d-lg-block py-3 ml-auto" style="border-color: #64a19d;border-width: 0.25rem;width: 95%;"/>
 
         <!-- Analysis Item Odd -->
-        <div class="row align-items-center no-gutters mb-4 mb-lg-5">
+        <div  id="analysis-3" class="row align-items-center no-gutters mb-4 mb-lg-5">
           <div class="col-xl-6 col-lg-4">
             <div id="analysis-img-1" class="analysis-img">
               <img class="img-fluid float-right p-2" src="static\img\nothing-matches.png" alt="chart image">
@@ -286,7 +288,7 @@
           <div class="col-xl-6 col-lg-8">
             <div class="bg-black text-center h-100 project">
               <div class="project-text w-100 my-auto text-center text-lg-left">
-                <h4 class="text-white" id="analysis-3">Where The Machines Failed</h4>
+                <h4 class="text-white">Where The Machines Failed</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
                 <p class="mb-0 mt-4 text-white-50">
                   Of the 3353 players tested by the two models, only 12 player positions were guessed incorrectly by both models <i>and</i> neither model matched the other. Interestingly, in all 12 of these instances the player is a Center. Although the occurrence of both models being incorrect is plausible given that neither model is perfect, it seems highly unlikely that all of the players in this instance would be of the same position. If it not completely by chance, then there is a hockey-related explanation. Depending on the team's play style, Centers are sometimes relied on to play two-way hockey (offense and defense). For this reason, there is a real-life factor that explains this perceived phenomena.
