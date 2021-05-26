@@ -140,8 +140,8 @@ function populatePlayerInfo() {
           item.append("li").text("Weight: " + player.weight + "lb.");
           
           item.append("li").text("Primary Position: " + player.primaryPosition);
-          item.append("li").html("<strong>*Projected GridSearchCV Position: " + player.predictedposition_grid + "</strong>");
-          item.append("li").html("<strong>**Projected Neural Network Position: " + player.predictedposition_grid + "</strong>");
+          item.append("li").html("<strong>Support Vector Classification Position: " + player.predictedposition_grid + "</strong>");
+          item.append("li").html("<strong>Neural Network Position: " + player.predictedposition_nn + "</strong>");
         });
         var player_name = d3.select("#player_name");
         player_name.html("");

@@ -69,7 +69,8 @@
           <div class="col-lg-8 mx-auto">
             <h2 class="text-white mb-4">Project Overview</h2>
             <p class="text-white-50">
-              20 years of NHL data was used to determine player position based on machine learning models. Machine learning models were built using the average summary of statistics across multiple features (goals, assists, shots, etc.). The machine learning models predict the actual primary position of the player with an average accuracy of 85%.
+              20 years of NHL data was used to explore correlations between performance stats and the position (Center, Winger, Defenseman). First, we compare all players' total stats against their time on ice and illustrated by their position in an effort to find strong correlations. With this information we built three machine learning models: two supervised classification models (Neural Network and Support Vector Machine) to determine a player's position based on their statistical averages per game and an unsupervised clustering model to categorize players based on their efficiency of ice time in a given stat.
+              The supervised classification models were built using the average summary of statistics across multiple features (goals, assists, shots, etc.) partitioned into Train/Test Splits. Both models predict the actual primary position of the player with an accuracy of about 85%.
             </p>
           </div>
         </div>
@@ -157,18 +158,14 @@
             </p>
 
             <div class="player-filters">   
-              <p>
-                <select id="selSeason">
-                  <option>Select Season</option>
-                </select>
+                <label for="selSeason">Season: </label>
+                <select id="selSeason"></select>
+
+                <label for="selSeason">Team: </label>
+                <select id="selTeam"></select>
             
-                <select id="selTeam">
-                  <option>Select Team</option>
-                </select>
-            
-                <select id="selPlayer">                  
-                </select>
-              </p>
+                <label for="selSeason">Player: </label>
+                <select id="selPlayer"></select>
     
             </div>
 
@@ -188,10 +185,10 @@
                 </div>
               </div>
               <p>
-                The areas of focus in the player information above are the "Projected GridSearchCV" and "Projected Neural Network Position".
-                Grid search and neural network machine learning models were used to predict the player's primary position (Center (C), Winger (LW/RW), or Defenseman (D). 
-                The grid search and neural network models predict, with about 85% accuracy, the actual primary position of the player.
-                There were <a class="js-scroll-trigger" href="#analysis-3">twelve instances</a> where the actual primary position, grid search predicted position and neural network predicted position were all different. 
+                The areas of focus in the player information above are the "Support Vector Machine (SVM) Position" and "Neural Network (NN) Position".
+                SVM and NN machine learning models were used to predict the player's primary position (Center (C), Winger (LW/RW), or Defenseman (D). 
+                The SVM and NN models predict, with about 85% accuracy, the actual primary position of the player.
+                There were only <a class="js-scroll-trigger" href="#analysis-3">12 instances</a> out of 3353 where the actual primary position, SVM predicted position and NN predicted position were all different. 
               </p>
             </div>
           </div>              
@@ -236,6 +233,7 @@
             <div id="analysis-img-1" class="analysis-img">
               <img class="img-fluid float-right p-2" src="static\img\dabbler\goals-toi.png" alt="chart image">
               <img class="img-fluid float-right p-2" src="static\img\dabbler\shots-toi.png" alt="chart image">
+              <img class="img-fluid float-right p-2" src="static\img\dabbler\blocked-toi.png" alt="chart image">
             </div>
           </div>
           <div class="col-xl-6 col-lg-8">
@@ -244,11 +242,11 @@
                 <h4 class="text-white">Dabbler Analysis</h4>
                 <hr class="d-none d-lg-block mb-0 ml-0" />
                 <p class="mb-0 mt-4 text-white-50">
-                  There is a fairly significant distinction between forwards and defensemen when it comes to both the shots and goals recorded. Using all available game data since the 2000-2001 season, we can see that forwards outshoot (bottom-left) and outscore (top-left) defensemen. Inversely, we can see that defensemen block more shots than forwards (below).
+                  There is a fairly significant distinction between forwards and defensemen when it comes to both the shots and goals recorded. Using all available game data since the 2000-2001 season, we can see that forwards outshoot (left-middle) and outscore (left-top) defensemen. Inversely, we can see that defensemen block more shots than forwards (left-bottom).
                 </p>
               </div>
             </div>
-            <img class="img-fluid p-2" src="static\img\dabbler\blocked-toi.png" alt="chart image">
+
           </div>
         </div>
 
@@ -261,7 +259,7 @@
               <h4 class="text-white">Model Accuracy</h4>
               <hr class="d-none d-lg-block mb-0 ml-0" />
               <p class="mb-0 mt-4 text-white-50">
-                The two models created use all available player stats to predict the player’s position. The Neural Network and the Grid Search CV both predict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the Neural Network was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- Grid Search model is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both the Neural Network and Grid Search operate at about 82% accuracy.
+                The two models created use all available player stats to predict the player’s position. The Neural Network (NN) and the Support Vector Machine (SVM) both predict a player’s position at about 85% accuracy. When diving into the accuracy more, we found that the NN was able to predict with an accuracy of 97.5% whether a player was a Defenseman or not -- SVM is 94% accurate for Defensemen. On the other side of the ice, we categorized Forwards into Centers and Wingers. Since these positions are typically more offense-oriented, it was a little more difficult to train the model, however, both models operate at about 82% accuracy.
               </p>
               <br>
               <p class="mb-0 mt-4 text-white-50">
